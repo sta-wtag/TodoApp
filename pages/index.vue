@@ -1,25 +1,22 @@
 <template>
   <div class="mainDiv">
-    <!-- <div class="card"></div> -->
+    <TaskCard />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'IndexPage'
+  name: 'IndexPage',
+  layout: 'default'
 }
 </script>
 <style lang="scss">
   .mainDiv{
     width: 100%;
     height: 100vh;
+    padding: 62px 149px;
     overflow:hidden;
     background-color: $base-color;
   }
-   .card{
-      width: 100px;
-      height: 100px;
-      @include borderPrimary 
-      
-   }
+  
 </style>

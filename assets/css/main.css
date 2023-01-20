@@ -1,0 +1,30 @@
+.titletext{
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 35px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+.cardDescription{
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 28px;
+    letter-spacing: 0em;
+    text-align: left;
+
+}
+.caption {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 16px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #BBBDD0;
+}
+.card {
+    width: 100%;
+    padding:16px;
+    border-radius: 5px;
+    border: 1px solid #DDE2FF;
+    background-color: white;
+}

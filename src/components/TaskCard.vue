@@ -1,24 +1,38 @@
 <template>
     <div class="card">
-      {{ msg }}
+       {{ $t('welcome') }}
     </div>
 </template>
 
-<script>
+ <script>
 export default {
-    // data() {
-    //     return {
-    //       singleTask: null
-    //     }
-    // },
+    name:'TaskCard',
+    computed: {
+      singleTask(){
+        return this.$store.state.todo.states.task
+      }
+    },
+    data() {
+        return {
+          
+        }
+    },
      props: {
      msg: String
     },
-    // mounted(){
-    //     console.log('hey')
-    //     console.log(this.$store.state.todo.states.task.title)
-    //     this.singleTask = this.$store.state.todo.states.task
-    // },
+    
+    mounted(){
+        console.log('hey')
+        console.log(this.$store.state.todo.states.task.title)
+        // this.singleTask = 
+    },
 }
 </script>
+<style lang="scss">
+   .card{
+    height:150px;
+    width:250px;
+    background-color: white;
+   }
+</style>
 

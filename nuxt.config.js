@@ -42,23 +42,23 @@ export default {
     '@nuxtjs/i18n',
   ],
   i18n: {
-    /* module options */
-    locales: ['en', 'fr', 'bn'],
-    defaultLocale: 'en',
-    vueI18: {
-      fallbackLocale: 'en',
-      messages: {
-        bn: {
-          welcome: 'স্বাগত'
-        },
-        en: {
-          welcome: 'Welcome',
-        },
-        fr: {
-          welcome: 'Bienvenue',
-        },
+    locales: [
+      {
+        code: 'en',
+        file: 'en-US.js'
+      },
+      {
+        code: 'es',
+        file: 'es-ES.js'
+      },
+      {
+        code: 'fr',
+        file: 'fr-FR.js'
       }
-    }
+    ],
+    lazy: true,
+    langDir: 'lang/',
+    defaultLocale: 'en'
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

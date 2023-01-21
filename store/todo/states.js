@@ -1,3 +1,4 @@
 export const state =()=>({
-    taskList:[]
+    taskList:[],
+    filteredList:[]
 })

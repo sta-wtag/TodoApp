@@ -3,7 +3,7 @@
     <div class="titletext">Add Tasks</div>
       <div style="display:flex; justify-content:space-between; margin-top:28px; margin-bottom:34px;">
         <div>
-          <button>Create</button>
+          <button @click="createTask()">Create</button>
         </div>
         <div>
           <button style="margin-left:19px;">All</button>
@@ -11,11 +11,11 @@
           <button style="margin-left:19px;">Complete</button>
         </div>
     </div>
-    <div class="card">
+    <div class="card" v-if="showAddCard">
         <textarea v-model="task.description" style="height:80px;width:100%;border:3px solid #D1D8FF; border-radius:5px;"></textarea>
         <div style="display:flex;">
           <button style="margin-right:19px; margin-top:13px;"  @click="addTask">Add Task</button>
-          <div style=" margin-top:13px;">
+          <div style=" margin-top:13px;cursor: pointer;" @click="clearField()">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 20 24" fill="none">
               <path fill-rule="evenodd" clip-rule="evenodd" d="M17 24H3C1.896 24 1 23.104 1 22V6H19V22C19 23.104 18.104 24 17 24ZM8 10C8 9.448 7.552 9 7 9C6.448 9 6 9.448 6 10V19C6 19.552 6.448 20 7 20C7.552 20 8 19.552 8 19V10ZM14 10C14 9.448 13.552 9 13 9C12.448 9 12 9.448 12 10V19C12 19.552 12.448 20 13 20C13.552 20 14 19.552 14 19V10ZM20 5H0V3H6V1.5C6 0.673 6.673 0 7.5 0H12.5C13.325 0 14 0.671 14 1.5V3H20V5ZM8 3H12V2H8V3Z" fill="#BBBDD0"/>
             </svg>
@@ -27,7 +27,9 @@
         <TaskCard :card-data="task" />
       </div>
     </div>
-    <div v-else class="testMe">
+    <div v-else class="wrapper">
+      <div class="content">
+        <div class="centerItem">
       <svg xmlns="http://www.w3.org/2000/svg" width="237" height="213" viewBox="0 0 237 213" fill="none">
         <g clip-path="url(#clip0_7_158)">
         <path d="M121.375 0.464377L113.664 2.45578L18.6557 26.9903L10.9442 28.9817C7.20107 29.9528 3.99549 32.3711 2.0307 35.706C0.0659177 39.0409 -0.497619 43.0201 0.463728 46.7705L33.9028 176.619C34.8725 180.367 37.2875 183.577 40.6178 185.545C43.9481 187.512 47.9217 188.076 51.667 187.114L51.6869 187.109L162.078 158.602L162.098 158.596C165.841 157.625 169.047 155.207 171.012 151.872C172.976 148.537 173.54 144.558 172.579 140.808L139.14 10.9594C138.17 7.21109 135.755 4.00107 132.425 2.03355C129.094 0.0660356 125.121 -0.498292 121.375 0.464377Z" fill="#D1D8FF"/>
@@ -61,7 +63,9 @@
         </clipPath>
         </defs>
       </svg>
-      <span class="infoText">You didn’t add any task. Please, add one.</span>
+      </div>
+      <div class="infoText">You didn’t add any task. Please, add one.</div>
+      </div>
     </div>
     
   </div>
@@ -76,13 +80,23 @@ export default {
       description:'',
       createdAt: null
     },
-    taskData: []
+    taskData: [],
+    showAddCard: false
   }),
+  created() {
+   this.$nuxt.$on('searchOn', () => {
+    console.log(this.$store.state.todo.states.filteredList)
+    this.taskData = this.$store.state.todo.states.filteredList
+   })
+  },
   mounted () {
     console.log(this.$store.state.todo)
     this.taskData = this.$store.state.todo.states.taskList
   },
   methods:{
+    createTask() {
+      this.showAddCard = true;
+    },
     addTask () {
       console.log( this.$store)
       if(this.task.description.length>0)
@@ -93,6 +107,10 @@ export default {
         this.task = {}
       }
       
+    },
+    clearField() {
+      this.showAddCard = false;
+      this.task={}
     }
   }
 }
@@ -121,13 +139,12 @@ export default {
     font-weight: 700;
     line-height: 28px;
     letter-spacing: 0em;
-    text-align: left;
+    text-align: center;
+    margin-top:32px;
   }
-  .testMe {
-    background-color: red;
+  .centerItem {
     display: flex;
-    justify-items: center;
-    justify-self: center;
+    justify-content: center;
   }
   .listDiv{
     display: grid;
@@ -136,4 +153,14 @@ export default {
     grid-template-columns: auto auto auto;
     padding: 10px;
   }
+.wrapper {
+    align-items:center;
+    display:flex;
+    height:calc(100% - (70px + 70px));
+}
+
+.content {
+    margin:auto;
+    width:500px;
+}
 </style>

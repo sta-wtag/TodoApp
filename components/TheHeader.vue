@@ -18,7 +18,7 @@
                 <svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                     <path d="M23.111 20.058L18.134 15.081C19.099 13.561 19.657 11.759 19.657 9.83C19.657 4.41 15.248 0 9.828 0C4.408 0 0 4.41 0 9.83C0 15.25 4.408 19.66 9.829 19.66C11.663 19.66 13.381 19.155 14.851 18.277L19.872 23.298C22.016 25.439 25.256 22.202 23.111 20.058ZM3.047 9.83C3.047 6.091 6.09 3.048 9.829 3.048C13.568 3.048 16.611 6.09 16.611 9.83C16.611 13.57 13.568 16.612 9.829 16.612C6.09 16.612 3.047 13.569 3.047 9.83ZM5.057 8.066C7.041 3.467 13.721 4 14.979 8.815C12.445 5.841 7.986 5.521 5.057 8.066Z" fill="#BBBDD0"/>
                 </svg>
-                <input v-if="showInput" class="inputField" placeholder="enter todo name" />
+                <input v-if="showInput" v-model="searchInput" class="inputField" placeholder="enter todo name" @change="handleChange" />
             </div>
         <select class="" @change="localePathAbout">
             <option v-for="locale in $i18n.locales" :key="locale.code">
@@ -33,14 +33,11 @@
 <script>
 export default {
     name:'TheHeader',
-    // computed: {
-    //     availableLocales () {
-    //       return this.$i18n.locales.filter(i => i.code !== this.$i18n.locale)
-    //     }
-    // },
     data() {
         return {
+            searchInput: '',
             showInput: false,
+            setTime: ''
         }
     },
     methods: {
@@ -55,7 +52,28 @@ export default {
     startAnim() {
         this.showInput = true;
         // document.getElementById('searchIcon').className='searchIcon'
-    }
+    },
+    handleChange() {
+    },
+    
+  },
+  watch:{
+        searchInput: {
+            handler(val)
+                {
+                 this.setTime= setTimeout(() => { 
+                    let list = this.$store.state.todo.states.taskList;
+                    let test = list.filter(elm => elm.description.includes(val))
+                    this.$store.commit('todo/setFilteredList',test)
+                    $nuxt.$emit('searchOn')
+                   }, 2000)  
+                   //clearTimeout(this.setTime);
+                },
+                deep: true
+        }
+    },
+     beforeDestroy() {
+     clearTimeout(this.setTime);
   }
 }
 </script>

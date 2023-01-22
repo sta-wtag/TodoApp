@@ -11,8 +11,10 @@
           <button style="margin-left:19px;">Complete</button>
         </div>
     </div>
-    <div class="card" v-if="showAddCard">
-        <textarea v-model="task.description" style="height:80px;width:100%;border:3px solid #D1D8FF; border-radius:5px;"></textarea>
+    
+    <div class="listDiv">
+      <div class="card" v-if="showAddCard">
+        <textarea v-model="task.description" style="width:100%;border:3px solid #D1D8FF; border-radius:5px;"></textarea>
         <div style="display:flex;">
           <button style="margin-right:19px; margin-top:13px;"  @click="addTask">Add Task</button>
           <div style=" margin-top:13px;cursor: pointer;" @click="clearField()">
@@ -22,12 +24,11 @@
           </div>
         </div>
     </div>
-    <div v-if="taskData.length>0"   class="listDiv">
       <div v-for="task,index in taskData" :key="index">
         <TaskCard :card-data="task" />
       </div>
     </div>
-    <div v-else class="wrapper">
+    <div class="wrapper">
       <div class="content">
         <div class="centerItem">
       <svg xmlns="http://www.w3.org/2000/svg" width="237" height="213" viewBox="0 0 237 213" fill="none">
@@ -149,7 +150,7 @@ export default {
   .listDiv{
     display: grid;
     row-gap: 34px;
-    column-gap: 34px;
+    column-gap: 54px;
     grid-template-columns: auto auto auto;
     padding: 10px;
   }

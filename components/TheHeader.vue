@@ -66,7 +66,7 @@ export default {
                     let test = list.filter(elm => elm.description.includes(val))
                     this.$store.commit('todo/setFilteredList',test)
                     $nuxt.$emit('searchOn')
-                   }, 2000)  
+                   }, 1000)  
                    //clearTimeout(this.setTime);
                 },
                 deep: true

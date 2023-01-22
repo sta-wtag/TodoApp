@@ -11,8 +11,8 @@
           <button style="margin-left:19px;">Complete</button>
         </div>
     </div>
-    
-    <div class="listDiv">
+
+    <div class="listDiv"  >
       <div class="card" v-if="showAddCard">
         <textarea v-model="task.description" style="width:100%;border:3px solid #D1D8FF; border-radius:5px;"></textarea>
         <div style="display:flex;">
@@ -24,11 +24,13 @@
           </div>
         </div>
     </div>
-      <div v-for="task,index in taskData" :key="index">
-        <TaskCard :card-data="task" @deleteTask="deleteTask(task)" />
+    <!-- <div v-if="!loading"> -->
+      <div  v-for="task,index in taskData" :key="index">
+        <TaskCard v-if="!loading" :card-data="task" @deleteTask="deleteTask(task)" @markDone="markDone(task)" />
       </div>
+    <!-- </div> -->
     </div>
-    <div class="wrapper">
+    <div v-if="taskData.length<=0" class="wrapper">
       <div class="content">
         <div class="centerItem">
       <svg xmlns="http://www.w3.org/2000/svg" width="237" height="213" viewBox="0 0 237 213" fill="none">
@@ -79,21 +81,24 @@ export default {
   data:()=>({
     task:{
       id:0,
+      done:false,
       description:'',
       createdAt: null
     },
     taskData: [],
-    showAddCard: false
+    showAddCard: false,
+    loading: true
   }),
   created() {
    this.$nuxt.$on('searchOn', () => {
-    console.log(this.$store.state.todo.states.filteredList)
-    this.taskData = this.$store.state.todo.states.filteredList
+    console.log(this.$store.state.states.filteredList)
+    this.taskData = this.$store.state.states.filteredList
    })
   },
   mounted () {
-    console.log(this.$store.state.todo)
-    this.taskData = this.$store.state.todo.states.taskList
+    console.log(this.$store.state)
+    this.taskData = this.$store.state.states.taskList
+    this.loading = false
   },
   methods:{
     createTask() {
@@ -102,21 +107,33 @@ export default {
     addTask () {
       if(this.task.description.length>0)
       {
+        this.loading = true
         this.task.id = Math.floor(Math.random() * 10);
         this.task.createdAt= new Date()
-        this.$store.commit('todo/setTask',JSON.parse(JSON.stringify(this.task)))
-        this.taskData = this.$store.state.todo.states.taskList
+        this.$store.commit('addTask',JSON.parse(JSON.stringify(this.task)))
+        this.taskData = this.$store.getters.getTodoList
+        this.loading = false
+        this.taskData = this.$store.getters.getTodoList
         this.task = {}
         // console.log(this.$store.getters.todo.getTaskById(0))
       }
       
     },
     clearField() {
-      this.showAddCard = false;
+      //this.showAddCard = false;
       this.task={}
     },
     deleteTask(item){
-      this.$store.commit('todo/deleteTask',item)
+      this.$store.commit('deleteTask',item)
+    },
+    markDone(item) {
+      this.loading = true
+      this.$store.commit('changeTaskState',item)
+     setTimeout(()=>{
+      this.taskData = this.$store.getters.getTodoList
+      this.loading = false
+     },0) 
+      console.log(this.taskData)
     }
   }
 }

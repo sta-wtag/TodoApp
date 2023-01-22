@@ -1,11 +1,17 @@
 export default {
-  addTask({ state, commit }) {
+  setTask({ state, commit }) {
     commit('setTask', val)
+  },
+  addTask({ state, commit }) {
+    commit('addTask', val)
   },
   addFilteredList({ state, commit }) {
     commit('setFilteredList', val)
   },
   deleteTask({ state, commit }) {
     commit('deleteTask', val)
-  }
+  },
+  changeTaskState({ state, commit }) {
+    commit('changeTaskState', val)
+  },
 }

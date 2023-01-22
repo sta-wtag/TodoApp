@@ -1,0 +1,10 @@
+export const state = () => ({
+    task: {
+        id: 0,
+        done: false,
+        description: '',
+        createdAt: null
+    },
+    taskList: [],
+    filteredList: []
+})

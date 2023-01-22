@@ -62,9 +62,9 @@ export default {
             handler(val)
                 {
                  this.setTime= setTimeout(() => { 
-                    let list = this.$store.state.todo.states.taskList;
+                    let list = this.$store.state.states.taskList;
                     let test = list.filter(elm => elm.description.includes(val))
-                    this.$store.commit('todo/setFilteredList',test)
+                    this.$store.commit('setFilteredList',test)
                     $nuxt.$emit('searchOn')
                    }, 1000)  
                    //clearTimeout(this.setTime);

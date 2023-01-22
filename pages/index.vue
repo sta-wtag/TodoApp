@@ -25,7 +25,7 @@
         </div>
     </div>
       <div v-for="task,index in taskData" :key="index">
-        <TaskCard :card-data="task" />
+        <TaskCard :card-data="task" @deleteTask="deleteTask(task)" />
       </div>
     </div>
     <div class="wrapper">
@@ -78,6 +78,7 @@ export default {
   layout: 'default',
   data:()=>({
     task:{
+      id:0,
       description:'',
       createdAt: null
     },
@@ -99,19 +100,23 @@ export default {
       this.showAddCard = true;
     },
     addTask () {
-      console.log( this.$store)
       if(this.task.description.length>0)
       {
+        this.task.id = Math.floor(Math.random() * 10);
         this.task.createdAt= new Date()
         this.$store.commit('todo/setTask',JSON.parse(JSON.stringify(this.task)))
         this.taskData = this.$store.state.todo.states.taskList
         this.task = {}
+        // console.log(this.$store.getters.todo.getTaskById(0))
       }
       
     },
     clearField() {
       this.showAddCard = false;
       this.task={}
+    },
+    deleteTask(item){
+      this.$store.commit('todo/deleteTask',item)
     }
   }
 }

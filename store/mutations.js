@@ -19,6 +19,7 @@ export default {
         for (let k = 0; k < list.length; k++) {
             if (k === index) {
                 list[k].done = !list[k].done
+                list[k].completedAt = new Date()
             }
         }
     }

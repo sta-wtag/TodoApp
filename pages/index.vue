@@ -1,12 +1,12 @@
 <template>
   <div class="mainDiv">
     <div class="titletext">Add Tasks</div>
-      <div style="display:flex; justify-content:space-between; margin-top:28px; margin-bottom:34px;">
+      <div class="textButton" style="display:flex; justify-content:space-between; margin-top:28px; margin-bottom:34px;">
         <div>
           <button @click="createTask()">Create</button>
         </div>
         <div>
-          <button style="margin-left:19px;">All</button>
+          <button  style="margin-left:19px;">All</button>
           <button style="margin-left:19px;">Incomplete</button>
           <button style="margin-left:19px;">Complete</button>
         </div>
@@ -83,6 +83,7 @@ export default {
       id:0,
       done:false,
       description:'',
+      completedAt:null,
       createdAt: null
     },
     taskData: [],

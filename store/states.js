@@ -3,7 +3,8 @@ export const state = () => ({
         id: 0,
         done: false,
         description: '',
-        createdAt: null
+        createdAt: null,
+        completedAt: null
     },
     taskList: [],
     filteredList: []

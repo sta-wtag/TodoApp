@@ -12,7 +12,10 @@
       </div>
       <select class="" @change="switchLanguage">
         <option 
-          v-for="locale in $i18n.locales" :value="locale.code" :key="locale.code">
+          v-for="locale in $i18n.locales" 
+          :key="locale.code" 
+          :value="locale.code"
+        >
            {{ locale.code }}
         </option>
       </select>

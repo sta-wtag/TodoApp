@@ -3,7 +3,6 @@
     <div>
       <img :src="navLogo" />
       <span class="headerText">Todos</span>
-      <span class="headerText">{{ $t('welcome')}}</span>
     </div>
 
     <div class="flexBox">

@@ -3,7 +3,7 @@
     <div class="titletext">Add Tasks</div>
     <div class="spaceBetween marginTop28 marginBottom34">
       <div>
-        <button @click="createTask()">Create</button>
+        <button @click="createTask()">{{ $t('create') }}</button>
       </div>
       <div>
         <button class="marginLeft19">All</button>

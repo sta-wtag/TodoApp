@@ -3,7 +3,7 @@
     <div class="card">
       <div v-if="!task.done" class="textDescription">{{ task.description }}</div>
       <div v-else class="textDescription textDone">{{ task.description }}</div>
-      <div style="margin-top:9px; margin-bottom:26px;" class="textCaption">{{ task.createdAt }}</div>
+      <div style="margin-top:9px; margin-bottom:26px;" class="textCaption">Created At: {{ $helper.formatDate(task.createdAt) }}</div>
       <div style="display:flex; justify-content: space-between;">
         <div style="display:flex; gap:8px;">
           <div  v-if="!task.done" @click="markDone()">

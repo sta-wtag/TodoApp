@@ -4,7 +4,7 @@
             <img :src="navLogo" />
             <span class="headerText">Todos</span>
         </div>
-        <div style="display:flex;">
+        <div class="flexBox">
             <div @click="startAnim" id="searchIcon">
                 <img :src="seachIcon" />
                 <input v-if="showInput" v-model="searchInput" class="inputField" placeholder="enter todo name" @change="handleChange" />

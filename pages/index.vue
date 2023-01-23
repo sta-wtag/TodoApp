@@ -1,22 +1,22 @@
 <template>
   <div class="mainDiv">
     <div class="titletext">Add Tasks</div>
-      <div style="display:flex; justify-content:space-between; margin-top:28px; margin-bottom:34px;">
+      <div class="spaceBetween marginTop28 marginBottom34">
         <div>
           <button @click="createTask()">Create</button>
         </div>
         <div>
-          <button style="margin-left:19px;">All</button>
-          <button style="margin-left:19px;">Incomplete</button>
-          <button style="margin-left:19px;">Complete</button>
+          <button class="marginLeft19">All</button>
+          <button class="marginLeft19">Incomplete</button>
+          <button class="marginLeft19">Complete</button>
         </div>
     </div>
     <div class="listDiv">
       <div class="card" v-if="showAddCard">
-        <textarea v-model="task.description" style="width:100%;border:3px solid #D1D8FF; border-radius:5px;"></textarea>
-        <div style="display:flex;">
-          <button style="margin-right:19px; margin-top:13px;"  @click="addTask">Add Task</button>
-          <div style=" margin-top:13px;cursor: pointer;" @click="clearField()">
+        <textarea v-model="task.description"></textarea>
+        <div class="flexBox">
+          <button class="addButton"  @click="addTask">Add Task</button>
+          <div class="marginTop13" @click="clearField()">
             <DeleteButton />
           </div>
         </div>
@@ -30,7 +30,7 @@
         <div class="centerItem">
           <img :src="noTaskLogo" />
         </div>
-      <div class="infoText">You didn’t add any task. Please, add one.</div>
+        <div class="infoText marginTop32">You didn’t add any task. Please, add one.</div>
       </div>
     </div>
   </div>
@@ -83,31 +83,20 @@ export default {
 }
 </script>
 <style lang="scss">
-  @font-face {
-  font-family: 'Roboto';
-  src: url('../assets/fonts/Roboto-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
- } 
  html, body {
     margin:0px;
     width:100%;
     height: 100%;
   }
   .mainDiv{
-    // width:100vh;
     height: 100vh;
     background-color:red;
     padding: 62px 149px;
     background-color: $base-color;
   }
-  .infoText{
-    font-size: 24px;
-    font-weight: 700;
-    line-height: 28px;
-    letter-spacing: 0em;
-    text-align: center;
-    margin-top:32px;
+  .addButton{
+    margin-right:19px; 
+    margin-top:13px;
   }
   .centerItem {
     display: flex;
@@ -120,14 +109,16 @@ export default {
     grid-template-columns: auto auto auto;
     padding: 10px;
   }
-.wrapper {
-    align-items:center;
+  .wrapper {
+      align-items:center;
+      display:flex;
+      height:calc(100% - (70px + 70px));
+  }
+  .content {
+      margin:auto;
+      width:500px;
+  }
+  .flexBox{
     display:flex;
-    height:calc(100% - (70px + 70px));
-}
-
-.content {
-    margin:auto;
-    width:500px;
-}
+  }
 </style>

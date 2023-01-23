@@ -1,8 +1,8 @@
 <template>
     <div class="card">
       <div class="cardDescription">{{ cardData.description }}</div>
-      <div class="caption textMargin">{{ cardData.createdAt }}</div>
-      <div class="box">
+      <div class="caption marginTop9">{{ cardData.createdAt }}</div>
+      <div class="flexGap8">
         <div>
           <TickButton />
         </div>
@@ -31,10 +31,7 @@ export default {
 }
 </script>
 <style scoped>
-.textMargin {
-  margin-top:9px; 
-}
-.box{
+.flexGap8{
   display:flex; 
   gap:8px;
 }

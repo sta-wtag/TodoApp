@@ -12,8 +12,8 @@
       </div>
       <select class="" @change="switchLanguage">
         <option 
-          v-for="locale in $i18n.locale" :key="locale">
-           {{ locale }}
+          v-for="locale in $i18n.locales" :value="locale.code" :key="locale.code">
+           {{ locale.code }}
         </option>
       </select>
     </div>
@@ -36,14 +36,7 @@ export default {
   },
   methods: {
     switchLanguage(event) {
-      console.log(event.target.value)
-      //  Update the locale cookie
-      window.$nuxt.$cookies.set('locale', event.target.value, {
-        path: '/',
-      });
-
-      // //  Refresh page to reload components
-      window.location.reload(true);
+      this.$i18n.setLocale(event.target.value)
     }
     // localePathAbout(event) {
     //   if (event.target.value === 'en') {

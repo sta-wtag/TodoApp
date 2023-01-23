@@ -22,7 +22,7 @@
             </svg>
           </div>
         </div>
-        <div class="chip textSmall"><p>Completed in {{ $helper.getDuration(task.createdAt, task.completedAt) }} days</p></div>
+        <div class="chip textSmall" v-if="task.done"><p>Completed  {{ $helper.getDuration(task.createdAt, task.completedAt) }} </p></div>
       </div>
     </div>
     <div class="loadOverlay" v-if="loading">

@@ -3,66 +3,53 @@ export default {
   head: {
     title: 'TodoApp',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'en',
     },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      { name: 'format-detection', content: 'telephone=no' },
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-    '~assets/css/main.css',
-  ],
+  css: ['~assets/css/main.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-  ],
+  plugins: [],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [
-    '@nuxtjs/style-resources'
-  ],
+  buildModules: ['@nuxtjs/style-resources'],
   styleResources: {
-    scss: [
-      '~assets/scss/variables.scss',
-      '~assets/scss/mixins.scss'
-    ]
+    scss: ['~assets/scss/variables.scss', '~assets/scss/mixins.scss'],
   },
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [
-    '@nuxtjs/i18n',
-  ],
+  modules: ['@nuxtjs/i18n'],
   i18n: {
     locales: [
       {
         code: 'en',
-        file: 'en-US.js'
+        file: 'en-Us.json',
       },
       {
         code: 'es',
-        file: 'es-ES.js'
+        file: 'es-ES.json',
       },
       {
         code: 'fr',
-        file: 'fr-FR.js'
-      }
+        file: 'fr-FR.json',
+      },
     ],
     lazy: true,
     langDir: 'lang/',
-    defaultLocale: 'en'
+    defaultLocale: 'en',
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {
-  }
-}
+  build: {},
+};

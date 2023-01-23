@@ -1,4 +1,4 @@
-export const state =()=>({
-    taskList:[],
-    filteredList:[]
-})
+export const state = () => ({
+  taskList: [],
+  filteredList: [],
+});

@@ -18,7 +18,7 @@ export default {
   css: ['~assets/css/main.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: ['~/plugins/i18n.js'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -29,27 +29,10 @@ export default {
     scss: ['~assets/scss/variables.scss', '~assets/scss/mixins.scss'],
   },
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ['@nuxtjs/i18n'],
-  i18n: {
-    locales: [
-      {
-        code: 'en',
-        file: 'en-Us.json',
-      },
-      {
-        code: 'es',
-        file: 'es-ES.json',
-      },
-      {
-        code: 'fr',
-        file: 'fr-FR.json',
-      },
-    ],
-    lazy: true,
-    langDir: 'lang/',
-    defaultLocale: 'en',
+  modules: ['cookie-universal-nuxt'],
+  router: {
+    middleware: 'i18n',
   },
-
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
 };

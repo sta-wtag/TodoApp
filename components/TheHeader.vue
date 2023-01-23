@@ -3,14 +3,17 @@
     <div>
       <img :src="navLogo" />
       <span class="headerText">Todos</span>
+      <span class="headerText">{{ $t('welcome')}}</span>
     </div>
+
     <div class="flexBox">
-      <div id="searchIcon" @click="startAnim">
+      <div id="searchIcon">
         <img :src="seachIcon" />
       </div>
-      <select class="" @change="localePathAbout">
-        <option v-for="locale in $i18n.locales" :key="locale.code">
-          {{ locale.code }}
+      <select class="" @change="switchLanguage">
+        <option 
+          v-for="locale in $i18n.locale" :key="locale">
+           {{ locale }}
         </option>
       </select>
     </div>
@@ -28,20 +31,33 @@ export default {
       seachIcon,
     };
   },
+  mounted(){
+    console.log(window.$nuxt.$cookies)
+  },
   methods: {
-    localePathAbout(event) {
-      if (event.target.value === 'en') {
-        return this.$router.replace(this.switchLocalePath('en'));
-      }
+    switchLanguage(event) {
+      console.log(event.target.value)
+      //  Update the locale cookie
+      window.$nuxt.$cookies.set('locale', event.target.value, {
+        path: '/',
+      });
 
-      if (event.target.value === 'fr') {
-        return this.$router.replace(this.switchLocalePath('fr'));
-      }
+      // //  Refresh page to reload components
+      window.location.reload(true);
+    }
+    // localePathAbout(event) {
+    //   if (event.target.value === 'en') {
+    //     return this.$router.replace(this.switchLocalePath('en'));
+    //   }
 
-      if (event.target.value === 'es') {
-        return this.$router.replace(this.switchLocalePath('es'));
-      }
-    },
+    //   if (event.target.value === 'fr') {
+    //     return this.$router.replace(this.switchLocalePath('fr'));
+    //   }
+
+    //   if (event.target.value === 'es') {
+    //     return this.$router.replace(this.switchLocalePath('es'));
+    //   }
+    // },
   },
 };
 </script>

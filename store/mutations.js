@@ -6,4 +6,9 @@ export default {
   setFilteredList(state, val) {
     state.states.filteredList = val;
   },
+  SET_LANG(state, locale) {
+    if (state.states.locales.includes(locale)) {
+      state.states.locale = locale;
+    }
+  },
 };

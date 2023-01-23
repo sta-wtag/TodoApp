@@ -56,13 +56,12 @@ export default {
   }),
   created() {
     this.$nuxt.$on('searchOn', () => {
-      console.log(this.$store.state.todo.states.filteredList);
-      this.taskData = this.$store.state.todo.states.filteredList;
+      console.log(this.$store.state.states.filteredList);
+      this.taskData = this.$store.state.states.filteredList;
     });
   },
   mounted() {
-    console.log(this.$store.state.todo);
-    this.taskData = this.$store.state.todo.states.taskList;
+    this.taskData = this.$store.state.states.taskList;
   },
   methods: {
     createTask() {
@@ -77,7 +76,7 @@ export default {
           'todo/setTask',
           JSON.parse(JSON.stringify(this.task))
         );
-        this.taskData = this.$store.state.todo.states.taskList;
+        this.taskData = this.$store.state.states.taskList;
         this.task = {};
       }
     },

@@ -7,19 +7,10 @@
     <div class="flexBox">
       <div id="searchIcon" @click="startAnim">
         <img :src="seachIcon" />
-        <input
-          v-if="showInput"
-          v-model="searchInput"
-          class="inputField"
-          placeholder="enter todo name"
-          @change="handleChange"
-        />
       </div>
       <select class="" @change="localePathAbout">
         <option v-for="locale in $i18n.locales" :key="locale.code">
-          <!-- <nuxt-link :to="localePathAbout(locale.code)"> -->
           {{ locale.code }}
-          <!-- </nuxt-link> -->
         </option>
       </select>
     </div>
@@ -32,31 +23,10 @@ export default {
   name: 'TheHeader',
   data() {
     return {
-      searchInput: '',
-      showInput: false,
-      setTime: '',
+      searchTask: '',
       navLogo,
       seachIcon,
     };
-  },
-  watch: {
-    searchInput: {
-      handler(val) {
-        this.setTime = setTimeout(() => {
-          const list = this.$store.state.todo.states.taskList;
-          const test = list.filter((elm) => elm.description.includes(val));
-
-          this.$store.commit('todo/setFilteredList', test);
-          // eslint-disable-next-line no-undef
-          $nuxt.$emit('searchOn');
-        }, 1000);
-        // clearTimeout(this.setTime);
-      },
-      deep: true,
-    },
-  },
-  beforeDestroy() {
-    clearTimeout(this.setTime);
   },
   methods: {
     localePathAbout(event) {
@@ -71,10 +41,6 @@ export default {
       if (event.target.value === 'es') {
         return this.$router.replace(this.switchLocalePath('es'));
       }
-    },
-    startAnim() {
-      this.showInput = true;
-      // document.getElementById('searchIcon').className='searchIcon'
     },
   },
 };

@@ -1,7 +1,9 @@
 <template>
   <div class="card">
-    <div class="cardDescription">{{ cardData.description }}</div>
-    <div class="caption marginTop9">{{ cardData.createdAt }}</div>
+    <div class="text-description">{{ cardData.description }}</div>
+    <div class="text-caption margin-top-9 margin-bottom-28">
+      {{ cardData.createdAt }}
+    </div>
     <div class="flexGap8">
       <div>
         <TickButton />
@@ -16,9 +18,9 @@
   </div>
 </template>
 <script>
-import DeleteButton from './buttons/DeleteButton.vue';
-import EditButton from './buttons/EditButton.vue';
-import TickButton from './buttons/TickButton.vue';
+import EditButton from '@/components/buttons/EditButton.vue';
+import TickButton from '@/components/buttons/TickButton.vue';
+import DeleteButton from '@/components/buttons/DeleteButton.vue';
 export default {
   name: 'TaskCard',
   components: { EditButton, TickButton, DeleteButton },

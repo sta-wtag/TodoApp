@@ -1,14 +1,14 @@
 <template>
   <div class="mainDiv">
-    <div class="titletext">Add Tasks</div>
-    <div class="spaceBetween marginTop28 marginBottom34">
+    <div class="title-text">Add Tasks</div>
+    <div class="space-between flex-box margin-top-28 margin-bottom-34">
       <div>
         <button @click="createTask()">{{ $t('create') }}</button>
       </div>
       <div>
-        <button class="marginLeft19">All</button>
-        <button class="marginLeft19">Incomplete</button>
-        <button class="marginLeft19">Complete</button>
+        <button class="margin-left-19">All</button>
+        <button class="margin-left-19">Incomplete</button>
+        <button class="margin-left-19">Complete</button>
       </div>
     </div>
     <div class="listDiv">
@@ -16,7 +16,7 @@
         <textarea v-model="task.description"></textarea>
         <div class="flexBox">
           <button class="addButton" @click="addTask">Add Task</button>
-          <div class="marginTop13" @click="clearField()">
+          <div class="margin-top-13" @click="clearField()">
             <DeleteButton />
           </div>
         </div>
@@ -30,7 +30,7 @@
         <div class="centerItem">
           <img :src="noTaskLogo" />
         </div>
-        <div class="infoText marginTop32">
+        <div class="info-text margin-top-32">
           You didn’t add any task. Please, add one.
         </div>
       </div>
@@ -48,7 +48,10 @@ export default {
   layout: 'default',
   data: () => ({
     task: {
+      id: 0,
+      done: false,
       description: '',
+      completedAt: null,
       createdAt: null,
     },
     taskData: [],
@@ -62,7 +65,6 @@ export default {
     this.$nuxt.$on('searchOn', () => {
       this.taskData = this.getFilteredList;
     });
-    console.log(this.getTodoList);
   },
   mounted() {
     this.taskData = this.getTodoList;
@@ -72,11 +74,10 @@ export default {
       this.showAddCard = true;
     },
     addTask() {
-      console.log(this.$store);
-
       if (this.task.description.length > 0) {
         this.task.createdAt = new Date();
-        this.$store.commit('addTask', JSON.parse(JSON.stringify(this.task)));
+        // this.$store.commit('addTask', JSON.parse(JSON.stringify(this.task)));
+        this.$store.commit('addTask', this.task);
         this.taskData = this.getTodoList;
         this.task = {};
       }
@@ -124,8 +125,5 @@ body {
 .content {
   margin: auto;
   width: 500px;
-}
-.flexBox {
-  display: flex;
 }
 </style>

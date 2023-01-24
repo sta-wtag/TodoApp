@@ -22,7 +22,7 @@
         </div>
       </div>
       <div v-for="(task, index) in taskData" :key="index">
-        <TaskCard :card-data="task"/>
+        <TaskCard :card-data="task" />
       </div>
     </div>
     <div class="wrapper">

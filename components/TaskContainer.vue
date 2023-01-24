@@ -3,7 +3,7 @@
     <div class="title-text">Add Tasks</div>
     <div class="space-between flex-box margin-top-28 margin-bottom-34">
       <div>
-        <button @click="createTask()">{{ $t('create') }}</button>
+        <button @click="showAddTodoCard()">{{ $t('create') }}</button>
       </div>
       <div>
         <button class="margin-left-19">All</button>
@@ -69,12 +69,12 @@ export default {
     this.taskData = this.getTodoList;
   },
   methods: {
-    createTask() {
+    showAddTodoCard() {
       this.showAddCard = true;
     },
     addTask() {
       if (this.task.description.length > 0) {
-        this.task.createdAt = new Date();
+        this.task.createdAt = new Date().toDateString();
         // this.$store.commit('addTask', JSON.parse(JSON.stringify(this.task)));
         this.$store.commit('addTask', this.task);
         this.taskData = this.getTodoList;

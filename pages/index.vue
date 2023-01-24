@@ -46,18 +46,11 @@ export default {
   name: 'IndexPage',
   components: { DeleteButton },
   layout: 'default',
-<<<<<<< HEAD
   data:()=>({
     task:{
       id:0,
       description:'',
       createdAt: null
-=======
-  data: () => ({
-    task: {
-      description: '',
-      createdAt: null,
->>>>>>> fb2c40996e5318a0b596b5951bf79bb9df5717aa
     },
     taskData: [],
     showAddCard: false,
@@ -79,17 +72,6 @@ export default {
     createTask() {
       this.showAddCard = true;
     },
-<<<<<<< HEAD
-    addTask () {
-      if(this.task.description.length>0)
-      {
-        this.task.id = Math.floor(Math.random() * 10);
-        this.task.createdAt= new Date()
-        this.$store.commit('todo/setTask',JSON.parse(JSON.stringify(this.task)))
-        this.taskData = this.$store.state.todo.states.taskList
-        this.task = {}
-        // console.log(this.$store.getters.todo.getTaskById(0))
-=======
     addTask() {
       console.log(this.$store);
 
@@ -98,25 +80,17 @@ export default {
         this.$store.commit('addTask', JSON.parse(JSON.stringify(this.task)));
         this.taskData = this.getTodoList;
         this.task = {};
->>>>>>> fb2c40996e5318a0b596b5951bf79bb9df5717aa
       }
     },
     clearField() {
       this.showAddCard = false;
-<<<<<<< HEAD
       this.task={}
     },
     deleteTask(item){
-      this.$store.commit('todo/deleteTask',item)
+      this.$store.commit('deleteTask',item)
     }
   }
 }
-=======
-      this.task = {};
-    },
-  },
-};
->>>>>>> fb2c40996e5318a0b596b5951bf79bb9df5717aa
 </script>
 <style lang="scss">
 html,

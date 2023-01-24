@@ -9,7 +9,7 @@
       <div>
         <EditButton />
       </div>
-      <div>
+      <div  @click="deleteTask()">
         <DeleteButton />
       </div>
     </div>
@@ -27,28 +27,13 @@ export default {
       type: Object,
       default: null,
     },
-    props:{
-      cardData:{
-        type:Object,
-        default:null
-      }
     },
-    data:()=> ({
-        
-    }),
     methods:{
-      markDone(){
-
-      },
-      editTask(){
-
-      },
       deleteTask(){
+        console.log('delete')
         this.$emit('deleteTask')
       }
-    }
-    
-    
+    },
 }
 </script>
 <style scoped>

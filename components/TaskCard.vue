@@ -1,34 +1,31 @@
 <template>
-    <div class="card">
-      <div class="cardDescription">{{ cardData.description }}</div>
-      <div style="margin-top:9px; margin-bottom:26px;" class="caption">{{ cardData.createdAt }}</div>
-      <div style="display:flex; gap:8px;">
-        <div @click="markDone()">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="19" viewBox="0 0 24 19" fill="none">
-            <path d="M20.285 0L9 11.567L3.714 6.556L0 10.272L9 19L24 3.715L20.285 0Z" fill="#BBBDD0"/>
-          </svg>
-        </div>
-        <div @click="editTask()">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M7.127 22.562L0 24L1.438 16.872L7.127 22.562ZM8.541 21.148L19.769 9.923L14.079 4.231L2.852 15.458L8.541 21.148ZM18.309 0L15.493 2.817L21.184 8.508L24 5.689L18.309 0V0Z" fill="#BBBDD0"/>
-          </svg>
-        </div>
-        <div @click="deleteTask(cardData)">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 20 24" fill="none">
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M17 24H3C1.896 24 1 23.104 1 22V6H19V22C19 23.104 18.104 24 17 24ZM8 10C8 9.448 7.552 9 7 9C6.448 9 6 9.448 6 10V19C6 19.552 6.448 20 7 20C7.552 20 8 19.552 8 19V10ZM14 10C14 9.448 13.552 9 13 9C12.448 9 12 9.448 12 10V19C12 19.552 12.448 20 13 20C13.552 20 14 19.552 14 19V10ZM20 5H0V3H6V1.5C6 0.673 6.673 0 7.5 0H12.5C13.325 0 14 0.671 14 1.5V3H20V5ZM8 3H12V2H8V3Z" fill="#BBBDD0"/>
-          </svg>
-        </div>
+  <div class="card">
+    <div class="cardDescription">{{ cardData.description }}</div>
+    <div class="caption marginTop9">{{ cardData.createdAt }}</div>
+    <div class="flexGap8">
+      <div>
+        <TickButton />
+      </div>
+      <div>
+        <EditButton />
+      </div>
+      <div>
+        <DeleteButton />
       </div>
     </div>
+  </div>
 </template>
-
- <script>
+<script>
+import DeleteButton from './buttons/DeleteButton.vue';
+import EditButton from './buttons/EditButton.vue';
+import TickButton from './buttons/TickButton.vue';
 export default {
-    name:'TaskCard',
-    computed: {
-      singleTask(){
-        return this.$store.state.todo.states.task
-      }
+  name: 'TaskCard',
+  components: { EditButton, TickButton, DeleteButton },
+  props: {
+    cardData: {
+      type: Object,
+      default: null,
     },
     props:{
       cardData:{
@@ -54,7 +51,9 @@ export default {
     
 }
 </script>
-<style lang="scss">
-   
+<style scoped>
+.flexGap8 {
+  display: flex;
+  gap: 8px;
+}
 </style>
-

@@ -33,26 +33,10 @@ export default {
       seachIcon,
     };
   },
-  mounted(){
-    console.log(window.$nuxt.$cookies)
-  },
   methods: {
     switchLanguage(event) {
       this.$i18n.setLocale(event.target.value)
     }
-    // localePathAbout(event) {
-    //   if (event.target.value === 'en') {
-    //     return this.$router.replace(this.switchLocalePath('en'));
-    //   }
-
-    //   if (event.target.value === 'fr') {
-    //     return this.$router.replace(this.switchLocalePath('fr'));
-    //   }
-
-    //   if (event.target.value === 'es') {
-    //     return this.$router.replace(this.switchLocalePath('es'));
-    //   }
-    // },
   },
 };
 </script>

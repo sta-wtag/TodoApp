@@ -1,5 +1,5 @@
 export default {
-  setTask(state, val) {
+  addTask(state, val) {
     console.log(state.states);
     state.states.taskList.push(val);
   },

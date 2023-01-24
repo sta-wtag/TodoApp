@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import DeleteButton from '../components/buttons/DeleteButton.vue';
 import noTaskLogo from '../assets/svg/noTask.svg';
 export default {
@@ -54,14 +55,17 @@ export default {
     showAddCard: false,
     noTaskLogo,
   }),
+  computed: {
+    ...mapGetters(['getTodoList', 'getFilteredList']),
+  },
   created() {
     this.$nuxt.$on('searchOn', () => {
-      console.log(this.$store.state.states.filteredList);
-      this.taskData = this.$store.state.states.filteredList;
+      this.taskData = this.getFilteredList;
     });
+    console.log(this.getTodoList);
   },
   mounted() {
-    this.taskData = this.$store.state.states.taskList;
+    this.taskData = this.getTodoList;
   },
   methods: {
     createTask() {
@@ -72,11 +76,8 @@ export default {
 
       if (this.task.description.length > 0) {
         this.task.createdAt = new Date();
-        this.$store.commit(
-          'todo/setTask',
-          JSON.parse(JSON.stringify(this.task))
-        );
-        this.taskData = this.$store.state.states.taskList;
+        this.$store.commit('addTask', JSON.parse(JSON.stringify(this.task)));
+        this.taskData = this.getTodoList;
         this.task = {};
       }
     },

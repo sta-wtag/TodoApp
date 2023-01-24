@@ -1,6 +1,6 @@
 export default {
   addTask({ state, commit }) {
-    commit('setTask', val);
+    commit('addTask', val);
   },
   addFilteredList({ state, commit }) {
     commit('setFilteredList', val);

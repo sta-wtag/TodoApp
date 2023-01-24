@@ -3,6 +3,6 @@ export default {
     return state.states.taskList;
   },
   getFilteredList(state) {
-    return state.states.getFilteredList;
+    return state.states.filteredList;
   },
 };

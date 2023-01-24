@@ -12,7 +12,6 @@
     "lint": "eslint --fix --ext .js,.jsx ."
   },
   "dependencies": {
-    "cookie-universal-nuxt": "^2.2.2",
     "core-js": "^3.25.3",
     "nuxt": "^2.15.8",
     "nuxt-i18n": "^6.28.1",

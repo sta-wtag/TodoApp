@@ -1,11 +1,11 @@
 <template>
-    <div>
-        <TheHeader />
-        <Nuxt />
-    </div>
+  <div>
+    <TheHeader />
+    <Nuxt />
+  </div>
 </template>
 <script>
 export default {
-    name:'default'
-}
+  name: 'Default',
+};
 </script>

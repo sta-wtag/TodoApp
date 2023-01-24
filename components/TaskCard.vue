@@ -1,31 +1,34 @@
 <template>
   <div style="position:relative;">
     <div class="card">
-      <div v-if="!task.done" class="textDescription">{{ task.description }}</div>
+      <div v-if="!task.done" class="textDescription">
+        {{ task.description }}
+      </div>
       <div v-else class="textDescription textDone">{{ task.description }}</div>
-      <div style="margin-top:9px; margin-bottom:26px;" class="textCaption">Created At: {{ $helper.formatDate(task.createdAt) }}</div>
-      <div style="display:flex; justify-content: space-between;">
-        <div style="display:flex; gap:8px;">
-          <div  v-if="!task.done" @click="markDone()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="19" viewBox="0 0 24 19"  fill="none" >
-              <path d="M20.285 0L9 11.567L3.714 6.556L0 10.272L9 19L24 3.715L20.285 0Z" :fill="task.done ? '#0BC375' : '#BBBDD0'"/>
-            </svg>
+      <div class="textCaption marginTop9">
+        Created At: {{ $helper.formatDate(task.createdAt) }}
+      </div>
+      <div class="spaceBetween">
+        <div class="flexGap8">
+          <div v-if="!task.done" @click="markDone()">
+            <TickButton />
           </div>
           <div v-if="!task.done" @click="editTask()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path d="M7.127 22.562L0 24L1.438 16.872L7.127 22.562ZM8.541 21.148L19.769 9.923L14.079 4.231L2.852 15.458L8.541 21.148ZM18.309 0L15.493 2.817L21.184 8.508L24 5.689L18.309 0V0Z" fill="#BBBDD0"/>
-            </svg>
+            <EditButton />
           </div>
-          <div @click="deleteTask(task)">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 20 24" fill="none">
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M17 24H3C1.896 24 1 23.104 1 22V6H19V22C19 23.104 18.104 24 17 24ZM8 10C8 9.448 7.552 9 7 9C6.448 9 6 9.448 6 10V19C6 19.552 6.448 20 7 20C7.552 20 8 19.552 8 19V10ZM14 10C14 9.448 13.552 9 13 9C12.448 9 12 9.448 12 10V19C12 19.552 12.448 20 13 20C13.552 20 14 19.552 14 19V10ZM20 5H0V3H6V1.5C6 0.673 6.673 0 7.5 0H12.5C13.325 0 14 0.671 14 1.5V3H20V5ZM8 3H12V2H8V3Z" fill="#BBBDD0"/>
-            </svg>
+          <div @click="deleteTask()">
+            <DeleteButton />
           </div>
         </div>
-        <div class="chip textSmall" v-if="task.done"><p>Completed  {{ $helper.getDuration(task.createdAt, task.completedAt) }} </p></div>
+        <div v-if="task.done" class="chip textSmall">
+          <p>
+            Completed
+            {{ $helper.getDuration(task.createdAt, task.completedAt) }}
+          </p>
+        </div>
       </div>
     </div>
-    <div class="loadOverlay" v-if="loading">
+    <div v-if="loading" class="loadOverlay">
       <div class="spinIcon">
         <svg xmlns="http://www.w3.org/2000/svg" width="51" height="51" viewBox="0 0 51 51" fill="none">
           <path d="M3.50011 12.6506C6.83897 6.86754 12.2301 2.73085 18.6802 1.00239C25.1305 -0.725797 31.8677 0.161127 37.6507 3.49999C41.7457 5.8642 45.0695 9.31578 47.2628 13.4815C49.3953 17.5317 50.3796 22.0842 50.1093 26.6469L45.43 26.3697C45.6498 22.6605 44.8493 18.9589 43.1151 15.6653C41.3346 12.2836 38.6346 9.48068 35.307 7.55949C25.6073 1.95934 13.1597 5.29464 7.5596 14.9944C1.95945 24.6941 5.29475 37.1416 14.9945 42.7418C18.3221 44.663 22.0995 45.5997 25.9184 45.4509C29.6378 45.3059 33.2436 44.1483 36.3461 42.1035L38.9258 46.0174C35.1095 48.5328 30.6747 49.9566 26.1009 50.1349C21.3967 50.3182 16.7457 49.1655 12.6507 46.8013C6.86766 43.4624 2.73097 38.0713 1.00251 31.6211C-0.725684 25.1709 0.161239 18.4337 3.50011 12.6506Z" fill="#7A8DFD"/>
@@ -34,25 +37,29 @@
     </div>
   </div>
 </template>
-
- <script>
+<script>
+import DeleteButton from './buttons/DeleteButton.vue';
+import EditButton from './buttons/EditButton.vue';
+import TickButton from './buttons/TickButton.vue';
 export default {
-    name:'TaskCard',
-    props:{
-      cardData:{
-        type:Object,
-        default:null
-      }
-    },
-    mounted(){
-      this.task = this.cardData
-    },
-    data:()=> ({
-        task:'',
-        loading : false
-    }),
+  name:'TaskCard',
+  components: { EditButton, TickButton, DeleteButton },
+  mounted(){
+    this.task = this.cardData
+  },
+  props: {
+  cardData: {
+    type: Object,
+    default: null,
+  },
+  },
+  data:()=> ({
+      task:'',
+      loading : false
+  }),
     methods:{
       markDone(){
+        console.log('log')
         this.loading = true
         setTimeout(()=>{
           this.$emit('markDone')
@@ -67,10 +74,8 @@ export default {
           this.$emit('deleteTask')
         },2000)
         
-      }
-    }
-    
-    
+      },
+  },
 }
 </script>
 <style lang="scss">
@@ -101,7 +106,11 @@ export default {
     animation-duration:700ms;
     animation-iteration-count: infinite;
    }
+   .flexGap8 {
+  display: flex;
+  gap: 8px;
+}
   
-  
-</style>
 
+
+</style>

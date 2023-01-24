@@ -1,17 +1,20 @@
 export default {
   setTask({ state, commit }) {
-    commit('setTask', val)
+    commit('setTask', val);
   },
   addTask({ state, commit }) {
-    commit('addTask', val)
+    commit('addTask', val);
   },
   addFilteredList({ state, commit }) {
-    commit('setFilteredList', val)
+    commit('setFilteredList', val);
   },
   deleteTask({ state, commit }) {
-    commit('deleteTask', val)
+    commit('deleteTask', val);
   },
   changeTaskState({ state, commit }) {
-    commit('changeTaskState', val)
+    commit('changeTaskState', val);
   },
-}
+  SET_LANG({ state, commit }) {
+    commit('SET_LANG', val);
+  },
+};

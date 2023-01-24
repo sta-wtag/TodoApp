@@ -1,4 +1,12 @@
+@font-face {
+    font-family: 'Roboto';
+    src: url('@/assets/fonts/Roboto-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 .titletext {
+    font-family: Roboto;
     font-size: 30px;
     font-weight: 700;
     line-height: 35px;
@@ -6,7 +14,8 @@
     text-align: left;
 }
 
-.textDescription {
+.cardDescription {
+    font-family: Roboto;
     font-size: 24px;
     font-weight: 700;
     line-height: 28px;
@@ -15,32 +24,23 @@
 
 }
 
-.textButton {
+.caption {
     font-family: Roboto;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 19px;
-    letter-spacing: 0em;
-    text-align: left;
-
-}
-
-.textCaption {
     font-size: 14px;
     font-weight: 700;
-    line-height: 14px;
+    line-height: 16px;
     letter-spacing: 0em;
     text-align: left;
     color: #BBBDD0;
 }
 
-.textSmall {
-    font-size: 12px;
+.infoText {
+    font-family: Roboto;
+    font-size: 24px;
     font-weight: 700;
-    line-height: 12px;
+    line-height: 28px;
     letter-spacing: 0em;
-    text-align: left;
-    color: white;
+    text-align: center;
 }
 
 .card {
@@ -51,16 +51,33 @@
     background-color: white;
 }
 
-.chip {
-    width: auto;
-    height: auto;
-    background: #7A8DFD;
-    border-radius: 5px;
-    padding: 5px 12px;
-    text-align: center;
+.spaceBetween {
+    display: flex;
+    justify-content: space-between;
 }
 
-.textDone {
-    color: #0BC375;
-    text-decoration-line: line-through;
+textarea {
+    width: 100%;
+    border: 3px solid #D1D8FF;
+    border-radius: 5px;
+}
+
+.marginTop32 {
+    margin-top: 32px;
+}
+
+.marginTop28 {
+    margin-top: 28px;
+}
+
+.marginBottom34 {
+    margin-bottom: 34px;
+}
+
+.marginTop13 {
+    margin-top: 13px;
+}
+
+.marginLeft19 {
+    margin-left: 19px;
 }

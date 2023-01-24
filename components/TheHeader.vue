@@ -9,21 +9,21 @@
       <div id="searchIcon">
         <img :src="seachIcon" />
       </div>
-      <select class="" @change="switchLanguage">
-        <option 
-          v-for="locale in $i18n.locales" 
-          :key="locale.code" 
+      <select @change="switchLanguage">
+        <option
+          v-for="locale in $i18n.locales"
+          :key="locale.code"
           :value="locale.code"
         >
-           {{ locale.code }}
+          {{ locale.code }}
         </option>
       </select>
     </div>
   </div>
 </template>
 <script>
-import navLogo from '../assets/svg/navLogo.svg';
-import seachIcon from '../assets/svg/searchIcon.svg';
+import navLogo from '@/assets/svg/navLogo.svg';
+import seachIcon from '@/assets/svg/searchIcon.svg';
 export default {
   name: 'TheHeader',
   data() {
@@ -35,8 +35,8 @@ export default {
   },
   methods: {
     switchLanguage(event) {
-      this.$i18n.setLocale(event.target.value)
-    }
+      this.$i18n.setLocale(event.target.value);
+    },
   },
 };
 </script>

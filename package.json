@@ -9,7 +9,7 @@
     "generate": "nuxt generate",
     "start": "nuxt start",
     "test": "jest",
-    "lint": "eslint --fix --ext .js,.jsx ."
+    "lint": "eslint --fix --ext .js,.jsx"
   },
   "dependencies": {
     "core-js": "^3.25.3",

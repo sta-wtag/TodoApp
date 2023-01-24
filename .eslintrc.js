@@ -16,13 +16,6 @@ module.exports = {
   ],
   plugins: ['prettier'],
   rules: {
-    'prettier/prettier': [
-      'warn',
-      {
-        singleQuote: true,
-        semi: true,
-      },
-    ],
     'padding-line-between-statements': [
       'error',
       { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },

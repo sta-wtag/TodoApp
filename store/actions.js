@@ -6,7 +6,7 @@ export default {
     commit('setFilteredList', val);
   },
   deleteTask({ state, commit }) {
-    commit('deleteTask', val)
+    commit('deleteTask', val);
   },
   SET_LANG({ state, commit }) {
     commit('SET_LANG', val);

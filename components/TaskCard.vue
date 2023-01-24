@@ -5,7 +5,7 @@
         {{ task.description }}
       </div>
       <div v-else class="textDescription textDone">{{ task.description }}</div>
-      <div class="textCaption marginTop9">
+      <div class="textCaption marginTop9 marginBottom24">
         Created At: {{ $helper.formatDate(task.createdAt) }}
       </div>
       <div class="spaceBetween">

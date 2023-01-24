@@ -1,7 +1,7 @@
 <template>
   <div class="mainDiv">
     <div class="titletext">Add Tasks</div>
-        <div class="spaceBetween marginTop28 marginBottom34">
+    <div class="spaceBetween marginTop28 marginBottom34">
       <div>
         <button @click="createTask()">{{ $t('create') }}</button>
       </div>
@@ -20,12 +20,12 @@
             <DeleteButton />
           </div>
         </div>
-    </div>
-    <!-- <div v-if="!loading"> -->
+      </div>
+      <!-- <div v-if="!loading"> -->
       <div  v-for="task,index in taskData" :key="index">
         <TaskCard v-if="!loading" :card-data="task" @deleteTask="deleteTask(task)" @markDone="markDone(task)" />
       </div>
-    <!-- </div> -->
+      <!-- </div> -->
     </div>
     <div v-if="taskData.length<=0" class="wrapper">
       <div class="content">
@@ -48,18 +48,18 @@ export default {
   name: 'IndexPage',
   components: { DeleteButton },
   layout: 'default',
-  data:()=>({
-    task:{
-      id:0,
-      done:false,
-      description:'',
-      completedAt:null,
-      createdAt: null
+  data: () => ({
+    task: {
+      id: 0,
+      done: false,
+      description: '',
+      completedAt: null,
+      createdAt: null,
     },
     taskData: [],
     showAddCard: false,
     loading: false,
-    noTaskLogo
+    noTaskLogo,
   }),
   computed: {
     ...mapGetters(['getTodoList', 'getFilteredList']),
@@ -79,31 +79,31 @@ export default {
     },
     addTask() {
       console.log(this.$store);
-      this.loading= true
+      this.loading = true;
+
       if (this.task.description.length > 0) {
         this.task.createdAt = new Date();
         this.$store.commit('addTask', JSON.parse(JSON.stringify(this.task)));
         this.taskData = this.getTodoList;
         this.task = {};
-        this.loading= false
+        this.loading = false;
       }
     },
     clearField() {
       // this.showAddCard = false;
-      this.task={}
+      this.task = {}
     },
-    deleteTask(item){
-      this.$store.commit('deleteTask',item)
+    deleteTask(item) {
+      this.$store.commit('deleteTask', item);
     },
     markDone(item) {
-      console.log('jhjd')
       this.loading = true
-      this.$store.commit('changeTaskState',item)
-     setTimeout(()=>{
-      this.taskData = this.getTodoList
-      this.loading = false
-     },0) 
-      console.log(this.taskData)
+      this.$store.commit('changeTaskState', item);
+      setTimeout(() => {
+        this.taskData = this.getTodoList;
+        this.loading = false;
+      }, 0);
+      console.log(this.taskData);
     }
   }
 }

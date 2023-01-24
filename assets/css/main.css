@@ -5,6 +5,7 @@
     font-style: normal;
 }
 
+
 .titletext {
     font-family: Roboto;
     font-size: 30px;
@@ -14,7 +15,7 @@
     text-align: left;
 }
 
-.cardDescription {
+.textDescription {
     font-family: Roboto;
     font-size: 24px;
     font-weight: 700;
@@ -24,33 +25,25 @@
 
 }
 
-.caption {
+.textButton {
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: left;
+
+}
+
+.textCaption {
     font-family: Roboto;
     font-size: 14px;
     font-weight: 700;
-    line-height: 16px;
+    line-height: 14px;
     letter-spacing: 0em;
     text-align: left;
     color: #BBBDD0;
 }
-
-.infoText {
-    font-family: Roboto;
-    font-size: 24px;
-    font-weight: 700;
-    line-height: 28px;
-    letter-spacing: 0em;
-    text-align: center;
-}
-
-.card {
-    width: 100%;
-    padding: 16px;
-    border-radius: 5px;
-    border: 1px solid #DDE2FF;
-    background-color: white;
-}
-
 .spaceBetween {
     display: flex;
     justify-content: space-between;
@@ -61,13 +54,50 @@ textarea {
     border: 3px solid #D1D8FF;
     border-radius: 5px;
 }
+.textSmall {
+    font-family: Roboto;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 12px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: white;
+}
 
+.card {
+    width: 100%;
+    padding: 16px;
+    border-radius: 5px;
+    border: 1px solid #DDE2FF;
+    background-color: white;
+}
+
+.chip {
+    width: auto;
+    height: auto;
+    background: #7A8DFD;
+    border-radius: 5px;
+    padding: 5px 12px;
+    text-align: center;
+}
+
+.textDone {
+    color: #0BC375;
+    text-decoration-line: line-through;
+}
+.marginTop9 {
+    margin-top: 9px;
+}
 .marginTop32 {
     margin-top: 32px;
 }
 
 .marginTop28 {
     margin-top: 28px;
+}
+
+.marginBottom24 {
+    margin-bottom: 24px;
 }
 
 .marginBottom34 {

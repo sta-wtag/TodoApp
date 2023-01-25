@@ -24,7 +24,7 @@
             <EditButton v-if="showEditIcon" />
             <button v-else @click="editTask">Save</button>
           </div>
-          <div @click="deleteTask()">
+          <div @click="deleteTask">
             <DeleteButton />
           </div>
         </div>
@@ -69,33 +69,26 @@ export default {
     },
   },
   data: () => ({
-    task: '',
+    task: null,
     loading: false,
     showEditIcon: true,
   }),
-  mounted() {
-    this.task = _.clone(this.cardData);
+  created() {
+    this.task = _.clone(this.cardData); // this.task will be edited . to avoid issues thrown by vuex instead to directly assigning the ref to this.task, cloning it.
   },
   methods: {
     markDone() {
       this.loading = true;
-      setTimeout(() => {
-        this.$store.commit('changeTaskState', this.task);
-        this.loading = false;
-      }, 2000);
+      this.$store.dispatch('changeTaskState', this.task);
+      this.loading = false;
+      this.task = _.clone(this.cardData); // to update the task state
     },
     deleteTask() {
-      this.loading = true;
-      setTimeout(() => {
-        this.$store.commit('deleteTask', this.task);
-        this.loading = false;
-      }, 2000);
+      this.$store.dispatch('deleteTask', this.task);
     },
     editTask() {
       if (this.task.description.length > 0) {
-        const temp = _.clone(this.task);
-
-        this.$store.commit('editTask', temp);
+        this.$store.dispatch('editTask', this.task);
       }
     },
   },

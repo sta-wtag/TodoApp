@@ -1,7 +1,4 @@
 export default {
-  setTask(state, val) {
-    state.states.task = val;
-  },
   addTask(state, val) {
     state.states.taskList.push(val);
   },
@@ -9,31 +6,26 @@ export default {
     state.states.filteredList = val;
   },
   deleteTask(state, val) {
-    const index = state.states.taskList.indexOf(val);
-
-    state.states.taskList.splice(index, 1);
-  },
-  changeTaskState(state, val) {
-    const index = state.states.taskList.indexOf(val);
     const list = state.states.taskList;
 
-    for (let k = 0; k < list.length; k++) {
-      if (k === index) {
-        list[k].done = !list[k].done;
-        list[k].completedAt = new Date();
+    state.states.taskList = list.filter((task) => task.id !== val.id);
+  },
+  changeTaskState(state, val) {
+    const list = state.states.taskList;
+
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].id === val.id) {
+        list[i].done = !list[i].done;
+        list[i].completedAt = new Date();
       }
     }
   },
   editTask(state, val) {
-    const list = state.states.taskList;
+    // const list = state.states.taskList;
 
-    console.log(val);
-
-    console.log(val.description);
-
-    for (let k = 0; k < list.length; k++) {
-      if (list[k].id === val.id) {
-        list[k].description = val.description;
+    for (let k = 0; k < state.states.taskList.length; k++) {
+      if (state.states.taskList[k].id === val.id) {
+        state.states.taskList[k].description = val.description;
       }
     }
   },

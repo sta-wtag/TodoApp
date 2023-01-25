@@ -1,5 +1,5 @@
 export default {
-  getTodoList(state) {
+  todoList(state) {
     return state.states.taskList;
   },
   getFilteredList(state) {

@@ -21,8 +21,8 @@
           </div>
         </div>
       </div>
-      <div v-for="(task, index) in taskData" :key="index">
-        <TaskCard :card-data="task" />
+      <div v-for="(item, index) in todoList" :key="index">
+        <TaskCard :card-data="item" />
       </div>
     </div>
     <div class="wrapper">
@@ -39,6 +39,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import { uuid } from 'uuidv4';
 import DeleteButton from '../components/buttons/DeleteButton.vue';
 import noTaskLogo from '../assets/svg/noTask.svg';
 export default {
@@ -58,16 +59,14 @@ export default {
     noTaskLogo,
   }),
   computed: {
-    ...mapGetters(['getTodoList', 'getFilteredList']),
+    ...mapGetters(['todoList', 'getFilteredList']),
   },
   created() {
     this.$nuxt.$on('searchOn', () => {
       this.taskData = this.getFilteredList;
     });
   },
-  mounted() {
-    this.taskData = this.getTodoList;
-  },
+
   methods: {
     showAddTodoCard() {
       this.showAddCard = true;
@@ -75,15 +74,26 @@ export default {
     addTask() {
       if (this.task.description.length > 0) {
         this.task.createdAt = new Date().toDateString();
-        // this.$store.commit('addTask', JSON.parse(JSON.stringify(this.task)));
+        this.task.id = uuid();
         this.$store.commit('addTask', this.task);
-        this.taskData = this.getTodoList;
-        this.task = {};
+        this.task = {
+          id: 0,
+          done: false,
+          description: '',
+          completedAt: null,
+          createdAt: null,
+        };
       }
     },
     clearField() {
       this.showAddCard = false;
-      this.task = {};
+      this.task = {
+        id: 0,
+        done: false,
+        description: '',
+        completedAt: null,
+        createdAt: null,
+      };
     },
   },
 };

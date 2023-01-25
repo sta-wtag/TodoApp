@@ -4,14 +4,14 @@
     <div class="text-caption margin-top-9 margin-bottom-28">
       {{ task.createdAt }}
     </div>
-    <div class="flexGap8">
+    <div class="flex-gap-8">
       <div>
         <TickButton />
       </div>
       <div>
         <EditButton />
       </div>
-      <div @click="deleteTask()">
+      <div @click="deleteTask">
         <DeleteButton />
       </div>
     </div>
@@ -32,21 +32,21 @@ export default {
     },
   },
   data: () => ({
-    task: '',
+    task: null,
     loading: false,
   }),
-  mounted() {
+  created() {
     this.task = _.clone(this.cardData);
   },
   methods: {
     deleteTask() {
-      this.$store.commit('deleteTask', this.task);
+      this.$store.dispatch('deleteTask', this.task);
     },
   },
 };
 </script>
 <style scoped>
-.flexGap8 {
+.flex-gap-8 {
   display: flex;
   gap: 8px;
 }

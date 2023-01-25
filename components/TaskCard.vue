@@ -96,6 +96,7 @@ export default {
       if (this.showEditIcon) {
         this.$store.dispatch('deleteTask', this.task);
       } else {
+        this.task = _.clone(this.cardData);
         this.showEditIcon = true;
       }
     },

@@ -3,9 +3,15 @@ export default {
     state.states.taskList.push(val);
   },
   deleteTask(state, val) {
-    const index = state.states.taskList.indexOf(val);
+    const list = state.states.taskList;
 
-    state.states.taskList.splice(index, 1);
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].id === val.id) {
+        const index = list.indexOf(list[i]);
+
+        list.splice(index, 1);
+      }
+    }
   },
   setFilteredList(state, val) {
     state.states.filteredList = val;

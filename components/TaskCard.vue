@@ -18,6 +18,7 @@
   </div>
 </template>
 <script>
+import _ from 'lodash';
 import EditButton from '@/components/buttons/EditButton.vue';
 import TickButton from '@/components/buttons/TickButton.vue';
 import DeleteButton from '@/components/buttons/DeleteButton.vue';
@@ -35,7 +36,7 @@ export default {
     loading: false,
   }),
   mounted() {
-    this.task = this.cardData;
+    this.task = _.clone(this.cardData);
   },
   methods: {
     deleteTask() {

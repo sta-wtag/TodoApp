@@ -21,8 +21,6 @@ export default {
     }
   },
   editTask(state, val) {
-    // const list = state.states.taskList;
-
     for (let k = 0; k < state.states.taskList.length; k++) {
       if (state.states.taskList[k].id === val.id) {
         state.states.taskList[k].description = val.description;

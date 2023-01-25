@@ -79,16 +79,30 @@ export default {
   methods: {
     markDone() {
       this.loading = true;
-      this.$store.dispatch('changeTaskState', this.task);
-      this.loading = false;
-      this.task = _.clone(this.cardData); // to update the task state
+
+      if (this.showEditIcon) {
+        this.$store.dispatch('changeTaskState', this.task);
+        this.loading = false;
+        this.task = _.clone(this.cardData); // to update the task state
+      } else {
+        this.$store.dispatch('editTask', this.task);
+        this.$store.dispatch('changeTaskState', this.task);
+        this.showEditIcon = true;
+        this.loading = false;
+        this.task = _.clone(this.cardData);
+      }
     },
     deleteTask() {
-      this.$store.dispatch('deleteTask', this.task);
+      if (this.showEditIcon) {
+        this.$store.dispatch('deleteTask', this.task);
+      } else {
+        this.showEditIcon = true;
+      }
     },
     editTask() {
       if (this.task.description.length > 0) {
         this.$store.dispatch('editTask', this.task);
+        this.showEditIcon = true;
       }
     },
   },

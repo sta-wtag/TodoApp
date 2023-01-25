@@ -9,18 +9,23 @@ export default {
     state.states.filteredList = val;
   },
   deleteTask(state, val) {
-    const index = state.states.taskList.indexOf(val);
-
-    state.states.taskList.splice(index, 1);
-  },
-  changeTaskState(state, val) {
-    const index = state.states.taskList.indexOf(val);
     const list = state.states.taskList;
 
-    for (let k = 0; k < list.length; k++) {
-      if (k === index) {
-        list[k].done = !list[k].done;
-        list[k].completedAt = new Date();
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].id === val.id) {
+        const index = list.indexOf(list[i]);
+
+        list.splice(index, 1);
+      }
+    }
+  },
+  changeTaskState(state, val) {
+    const list = state.states.taskList;
+
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].id === val.id) {
+        list[i].done = !list[i].done;
+        list[i].completedAt = new Date();
       }
     }
   },

@@ -1,35 +1,5 @@
 <template>
   <div style="position: relative">
-    <div class="card">
-      <div v-if="!task.done" class="text-description">
-        {{ task.description }}
-      </div>
-      <div v-else class="text-description text-done">
-        {{ task.description }}
-      </div>
-      <div class="text-caption margin-top-9 margin-bottom-24">
-        Created At: {{ $helper.formatDate(task.createdAt) }}
-      </div>
-      <div class="space-between flex-box">
-        <div class="flex-gap-8">
-          <div v-if="!task.done" @click="markDone()">
-            <TickButton />
-          </div>
-          <div v-if="!task.done" @click="editTask()">
-            <EditButton />
-          </div>
-          <div @click="deleteTask()">
-            <DeleteButton />
-          </div>
-        </div>
-        <div v-if="task.done" class="chip textSmall">
-          <p>
-            Completed
-            {{ $helper.getDuration(task.createdAt, task.completedAt) }}
-          </p>
-        </div>
-      </div>
-    </div>
     <div v-if="loading" class="load-overlay">
       <div class="spin-icon">
         <svg
@@ -46,9 +16,40 @@
         </svg>
       </div>
     </div>
+    <div v-if="!loading" class="card">
+      <div v-if="!task.done" class="text-description">
+        {{ task.description }}
+      </div>
+      <div v-else class="text-description text-done">
+        {{ task.description }}
+      </div>
+      <div class="text-caption margin-top-9 margin-bottom-24">
+        Created At: {{ $helper.formatDate(task.createdAt) }}
+      </div>
+      <div class="space-between flex-box">
+        <div class="flex-gap-8">
+          <div v-if="!task.done" @click="markDone()">
+            <TickButton />
+          </div>
+          <div v-if="!task.done">
+            <EditButton />
+          </div>
+          <div @click="deleteTask()">
+            <DeleteButton />
+          </div>
+        </div>
+        <div v-if="task.done" class="chip textSmall">
+          <p>
+            Completed
+            {{ $helper.getDuration(task.createdAt, task.completedAt) }}
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
+import _ from 'lodash';
 import EditButton from '@/components/buttons/EditButton.vue';
 import TickButton from '@/components/buttons/TickButton.vue';
 import DeleteButton from '@/components/buttons/DeleteButton.vue';
@@ -66,22 +67,19 @@ export default {
     loading: false,
   }),
   mounted() {
-    this.task = this.cardData;
+    this.task = _.clone(this.cardData);
   },
   methods: {
     markDone() {
       this.loading = true;
-      setTimeout(() => {
-        this.$store.commit('changeTaskState', this.task);
-        this.loading = false;
-      }, 2000);
+      this.$store.commit('changeTaskState', this.task);
+      this.loading = false;
+      this.task = _.clone(this.cardData);
     },
     deleteTask() {
       this.loading = true;
-      setTimeout(() => {
-        this.$store.commit('deleteTask', this.task);
-        this.loading = false;
-      }, 2000);
+      this.$store.commit('deleteTask', this.task);
+      this.loading = false;
     },
   },
 };

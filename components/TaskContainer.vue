@@ -39,6 +39,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import _ from 'lodash';
 import DeleteButton from '../components/buttons/DeleteButton.vue';
 import noTaskLogo from '../assets/svg/noTask.svg';
 export default {
@@ -75,7 +76,6 @@ export default {
     addTask() {
       if (this.task.description.length > 0) {
         this.task.createdAt = new Date().toDateString();
-        // this.$store.commit('addTask', JSON.parse(JSON.stringify(this.task)));
         this.$store.commit('addTask', this.task);
         this.taskData = this.getTodoList;
         this.task = {};

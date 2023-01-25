@@ -14,6 +14,9 @@ export default {
   changeTaskState({ state, commit }) {
     commit('changeTaskState', val);
   },
+  editTask({ state, commit }) {
+    commit('editTask', val);
+  },
   SET_LANG({ state, commit }) {
     commit('SET_LANG', val);
   },

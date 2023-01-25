@@ -24,4 +24,17 @@ export default {
       }
     }
   },
+  editTask(state, val) {
+    const list = state.states.taskList;
+
+    console.log(val);
+
+    console.log(val.description);
+
+    for (let k = 0; k < list.length; k++) {
+      if (list[k].id === val.id) {
+        list[k].description = val.description;
+      }
+    }
+  },
 };

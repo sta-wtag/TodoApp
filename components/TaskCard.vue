@@ -1,11 +1,16 @@
 <template>
   <div style="position: relative">
     <div class="card">
-      <div v-if="!task.done" class="text-description">
-        {{ task.description }}
+      <div v-if="showEditIcon">
+        <div v-if="!task.done" class="text-description">
+          {{ task.description }}
+        </div>
+        <div v-else class="text-description text-done">
+          {{ task.description }}
+        </div>
       </div>
-      <div v-else class="text-description text-done">
-        {{ task.description }}
+      <div v-else>
+        <textarea v-model="task.description"></textarea>
       </div>
       <div class="text-caption margin-top-9 margin-bottom-24">
         Created At: {{ $helper.formatDate(task.createdAt) }}
@@ -15,8 +20,9 @@
           <div v-if="!task.done" @click="markDone()">
             <TickButton />
           </div>
-          <div v-if="!task.done" @click="editTask()">
-            <EditButton />
+          <div v-if="!task.done" @click="showEditIcon = !showEditIcon">
+            <EditButton v-if="showEditIcon" />
+            <button v-else @click="editTask">Save</button>
           </div>
           <div @click="deleteTask()">
             <DeleteButton />
@@ -49,6 +55,7 @@
   </div>
 </template>
 <script>
+import _ from 'lodash';
 import EditButton from '@/components/buttons/EditButton.vue';
 import TickButton from '@/components/buttons/TickButton.vue';
 import DeleteButton from '@/components/buttons/DeleteButton.vue';
@@ -64,9 +71,10 @@ export default {
   data: () => ({
     task: '',
     loading: false,
+    showEditIcon: true,
   }),
   mounted() {
-    this.task = this.cardData;
+    this.task = _.clone(this.cardData);
   },
   methods: {
     markDone() {
@@ -82,6 +90,13 @@ export default {
         this.$store.commit('deleteTask', this.task);
         this.loading = false;
       }, 2000);
+    },
+    editTask() {
+      if (this.task.description.length > 0) {
+        const temp = _.clone(this.task);
+
+        this.$store.commit('editTask', temp);
+      }
     },
   },
 };

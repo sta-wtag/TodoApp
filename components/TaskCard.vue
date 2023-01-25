@@ -63,10 +63,10 @@ export default {
     },
   },
   data: () => ({
-    task: '',
+    task: null,
     loading: false,
   }),
-  mounted() {
+  created() {
     this.task = _.clone(this.cardData);
   },
   methods: {
@@ -77,9 +77,7 @@ export default {
       this.task = _.clone(this.cardData);
     },
     deleteTask() {
-      this.loading = true;
-      this.$store.commit('deleteTask', this.task);
-      this.loading = false;
+      this.$store.dispatch('deleteTask', this.task);
     },
   },
 };

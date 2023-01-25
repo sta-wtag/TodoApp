@@ -11,13 +11,7 @@ export default {
   deleteTask(state, val) {
     const list = state.states.taskList;
 
-    for (let i = 0; i < list.length; i++) {
-      if (list[i].id === val.id) {
-        const index = list.indexOf(list[i]);
-
-        list.splice(index, 1);
-      }
-    }
+    state.states.taskList = list.filter((task) => task.id !== val.id);
   },
   changeTaskState(state, val) {
     const list = state.states.taskList;

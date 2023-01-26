@@ -2,11 +2,11 @@
   <div class="header">
     <div>
       <img :src="navLogo" />
-      <span class="headerText">Todos</span>
+      <span class="header-text">Todos</span>
     </div>
 
-    <div class="flexBox">
-      <div id="searchIcon">
+    <div class="flex-box">
+      <div id="search-icon">
         <img :src="seachIcon" />
       </div>
       <select @change="switchLanguage">
@@ -14,6 +14,7 @@
           v-for="locale in $i18n.locales"
           :key="locale.code"
           :value="locale.code"
+          :selected="lang"
         >
           {{ locale.code }}
         </option>
@@ -22,6 +23,7 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import navLogo from '@/assets/svg/navLogo.svg';
 import seachIcon from '@/assets/svg/searchIcon.svg';
 export default {
@@ -33,8 +35,13 @@ export default {
       seachIcon,
     };
   },
+  computed: {
+    ...mapGetters({ lang: 'lang/getLang' }),
+  },
+  mounted() {},
   methods: {
     switchLanguage(event) {
+      this.$store.dispatch('lang/setLang');
       this.$i18n.setLocale(event.target.value);
     },
   },
@@ -42,14 +49,13 @@ export default {
 </script>
 <style lang="scss">
 .header {
-  /* width: 100%; */
   text-align: center;
   display: flex;
   padding: 15px 150px;
   background-color: white;
   justify-content: space-between;
 }
-.headerText {
+.header-text {
   font-family: Roboto;
   font-size: 36px;
   font-weight: 700;
@@ -73,12 +79,9 @@ export default {
     right: 500px;
   }
 }
-.searchIcon {
+.search-icon {
   position: relative;
   animation-name: example;
   animation-duration: 1s;
-}
-.inputField {
-  @include inputField;
 }
 </style>

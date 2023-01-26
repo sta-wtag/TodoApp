@@ -26,7 +26,7 @@
               <div v-if="showEditIcon" @click="showEditIcon = false">
                 <EditIcon />
               </div>
-              <button v-else type="submit">Save</button>
+              <button v-else type="submit">{{ $t('Save') }}</button>
             </div>
             <div @click="deleteTask">
               <DeleteIcon />

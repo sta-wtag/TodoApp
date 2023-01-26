@@ -37,8 +37,8 @@ export default {
         file: 'en-Us.json',
       },
       {
-        code: 'fr',
-        file: 'fr-FR.json',
+        code: 'bn',
+        file: 'bn-BN.json',
       },
     ],
     lazy: true,

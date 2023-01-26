@@ -6,25 +6,25 @@
     </div>
     <div class="flex-gap-8">
       <div>
-        <TickButton />
+        <TickIcon />
       </div>
       <div>
-        <EditButton />
+        <EditIcon />
       </div>
       <div @click="deleteTask">
-        <DeleteButton />
+        <DeleteIcon />
       </div>
     </div>
   </div>
 </template>
 <script>
 import _ from 'lodash';
-import EditButton from '@/components/buttons/EditButton.vue';
-import TickButton from '@/components/buttons/TickButton.vue';
-import DeleteButton from '@/components/buttons/DeleteButton.vue';
+import EditIcon from '@/components/buttons/EditIcon.vue';
+import TickIcon from '@/components/buttons/TickIcon.vue';
+import DeleteIcon from '@/components/buttons/DeleteIcon.vue';
 export default {
   name: 'TaskCard',
-  components: { EditButton, TickButton, DeleteButton },
+  components: { EditIcon, TickIcon, DeleteIcon },
   props: {
     cardData: {
       type: Object,
@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     deleteTask() {
-      this.$store.dispatch('deleteTask', this.task);
+      this.$store.dispatch('todos/deleteTask', this.task);
     },
   },
 };

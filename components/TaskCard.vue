@@ -1,6 +1,6 @@
 <template>
   <div style="position: relative">
-    <div v-if="requestInProcess" class="load-overlay">
+    <div v-if="loading" class="load-overlay">
       <div class="spin-icon">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -69,6 +69,7 @@ export default {
 
   data: () => ({
     task: null,
+    loading: false,
   }),
 
   created() {
@@ -76,8 +77,12 @@ export default {
   },
   methods: {
     markDone() {
+      this.loading = true;
       this.$store.dispatch('todos/changeTaskState', this.task).then(() => {
-        this.task = _.clone(this.cardData);
+        if (!this.requestInProcess) {
+          this.loading = false;
+          this.task = _.clone(this.cardData);
+        }
       });
     },
     deleteTask() {

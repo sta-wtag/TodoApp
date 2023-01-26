@@ -16,7 +16,7 @@
         </svg>
       </div>
     </div>
-    <div v-if="!loading" class="card">
+    <div v-else class="card">
       <div v-if="!task.done" class="text-description">
         {{ task.description }}
       </div>
@@ -29,13 +29,13 @@
       <div class="space-between flex-box">
         <div class="flex-gap-8">
           <div v-if="!task.done" @click="markDone()">
-            <TickButton />
+            <TickIcon />
           </div>
           <div v-if="!task.done">
-            <EditButton />
+            <EditIcon />
           </div>
           <div @click="deleteTask()">
-            <DeleteButton />
+            <DeleteIcon />
           </div>
         </div>
         <div v-if="task.done" class="chip textSmall">
@@ -50,12 +50,12 @@
 </template>
 <script>
 import _ from 'lodash';
-import EditButton from '@/components/buttons/EditButton.vue';
-import TickButton from '@/components/buttons/TickButton.vue';
-import DeleteButton from '@/components/buttons/DeleteButton.vue';
+import EditIcon from '@/components/buttons/EditIcon.vue';
+import TickIcon from '@/components/buttons/TickIcon.vue';
+import DeleteIcon from '@/components/buttons/DeleteIcon.vue';
 export default {
   name: 'TaskCard',
-  components: { EditButton, TickButton, DeleteButton },
+  components: { EditIcon, TickIcon, DeleteIcon },
   props: {
     cardData: {
       type: Object,
@@ -72,12 +72,12 @@ export default {
   methods: {
     markDone() {
       this.loading = true;
-      this.$store.commit('changeTaskState', this.task);
+      this.$store.dispatch('todos/changeTaskState', this.task);
       this.loading = false;
       this.task = _.clone(this.cardData);
     },
     deleteTask() {
-      this.$store.dispatch('deleteTask', this.task);
+      this.$store.dispatch('todos/deleteTask', this.task);
     },
   },
 };

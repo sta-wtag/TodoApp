@@ -4,26 +4,26 @@
     <div class="text-caption margin-top-9 margin-bottom-28">
       {{ cardData.createdAt }}
     </div>
-    <div class="flexGap8">
+    <div class="flex-gap-8">
       <div>
-        <TickButton />
+        <TickIcon />
       </div>
       <div>
-        <EditButton />
+        <EditIcon />
       </div>
       <div>
-        <DeleteButton />
+        <DeleteIcon />
       </div>
     </div>
   </div>
 </template>
 <script>
-import EditButton from '@/components/buttons/EditButton.vue';
-import TickButton from '@/components/buttons/TickButton.vue';
-import DeleteButton from '@/components/buttons/DeleteButton.vue';
+import EditIcon from '@/components/buttons/EditIcon.vue';
+import TickIcon from '@/components/buttons/TickIcon.vue';
+import DeleteIcon from '@/components/buttons/DeleteIcon.vue';
 export default {
   name: 'TaskCard',
-  components: { EditButton, TickButton, DeleteButton },
+  components: { EditIcon, TickIcon, DeleteIcon },
   props: {
     cardData: {
       type: Object,
@@ -33,7 +33,7 @@ export default {
 };
 </script>
 <style scoped>
-.flexGap8 {
+.flex-gap-8 {
   display: flex;
   gap: 8px;
 }

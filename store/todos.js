@@ -20,7 +20,7 @@ export const actions = {
 
 export const mutations = {
   addTask: (state, val) => {
-    state.taskList.unshift(val);
+    state.taskList = [...state.taskList, val];
   },
   deleteTask: (state, val) => {
     const list = state.taskList;

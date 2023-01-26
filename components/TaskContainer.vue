@@ -49,7 +49,6 @@ import noTaskLogo from '@/assets/svg/noTask.svg';
 export default {
   name: 'IndexPage',
   components: { DeleteIcon, FilterComponent },
-  layout: 'default',
   data: () => ({
     task: {
       id: 0,
@@ -69,16 +68,11 @@ export default {
       todoList: 'getTodoList',
     }),
   },
-  mounted() {
-    console.log(this.$store);
-  },
   methods: {
     showAddTodoCard() {
       this.showAddCard = true;
     },
     checkForm(e) {
-      console.log(this.task.description.length);
-
       if (this.task.description.length <= 0) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';

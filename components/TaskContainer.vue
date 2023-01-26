@@ -68,16 +68,11 @@ export default {
       todoList: 'getTodoList',
     }),
   },
-  mounted() {
-    console.log(this.$store);
-  },
   methods: {
     showAddTodoCard() {
       this.showAddCard = true;
     },
     checkForm(e) {
-      console.log(this.task.description.length);
-
       if (this.task.description.length <= 0) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
@@ -89,7 +84,6 @@ export default {
     },
     addTask() {
       this.task.createdAt = new Date().toDateString();
-      console.log(this.$store);
       this.$store.dispatch('todos/addTask', this.task);
       this.clearField();
     },

@@ -54,17 +54,11 @@ export default {
       completedAt: null,
       createdAt: null,
     },
-    taskData: [],
     showAddCard: false,
     noTaskLogo,
   }),
   computed: {
     ...mapGetters(['todoList', 'getFilteredList']),
-  },
-  created() {
-    this.$nuxt.$on('searchOn', () => {
-      this.taskData = this.getFilteredList;
-    });
   },
 
   methods: {

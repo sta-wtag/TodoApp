@@ -1,5 +1,6 @@
 export default {
   addTask(state, val) {
+    // state.states.taskList = [val, ...state.states.taskList];
     state.states.taskList.push(val);
   },
   setFilteredList(state, val) {

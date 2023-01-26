@@ -101,10 +101,12 @@ export default {
       }
     },
     editTask() {
-      if (this.task.description.length > 0) {
-        this.$store.dispatch('editTask', this.task);
-        this.showEditIcon = true;
-      }
+      console.log('knfjk');
+
+      // if (this.task.description.length > 0) {
+      this.$store.dispatch('editTask', this.task);
+      this.showEditIcon = true;
+      // }
     },
   },
 };

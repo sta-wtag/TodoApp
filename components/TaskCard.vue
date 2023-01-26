@@ -1,6 +1,6 @@
 <template>
   <div style="position: relative">
-    <div v-if="loading" class="load-overlay">
+    <div v-if="requestInProcess" class="load-overlay">
       <div class="spin-icon">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -16,7 +16,7 @@
         </svg>
       </div>
     </div>
-    <div v-else class="card">
+    <div class="card">
       <div v-if="!task.done" class="text-description">
         {{ task.description }}
       </div>
@@ -50,6 +50,7 @@
 </template>
 <script>
 import _ from 'lodash';
+import { mapGetters } from 'vuex';
 import EditIcon from '@/components/buttons/EditIcon.vue';
 import TickIcon from '@/components/buttons/TickIcon.vue';
 import DeleteIcon from '@/components/buttons/DeleteIcon.vue';
@@ -62,19 +63,22 @@ export default {
       default: null,
     },
   },
+  computed: {
+    ...mapGetters({ requestInProcess: 'todos/getCompleteRequest' }),
+  },
+
   data: () => ({
     task: null,
-    loading: false,
   }),
+
   created() {
     this.task = _.clone(this.cardData);
   },
   methods: {
     markDone() {
-      this.loading = true;
-      this.$store.dispatch('todos/changeTaskState', this.task);
-      this.loading = false;
-      this.task = _.clone(this.cardData);
+      this.$store.dispatch('todos/changeTaskState', this.task).then(() => {
+        this.task = _.clone(this.cardData);
+      });
     },
     deleteTask() {
       this.$store.dispatch('todos/deleteTask', this.task);

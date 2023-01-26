@@ -1,4 +1,4 @@
-import { formatDistance } from 'date-fns';
+import { formatDistance, format } from 'date-fns';
 const helper = {
   name: 'helper',
   getDuration(from, to) {
@@ -8,12 +8,7 @@ const helper = {
     return formatDistance(date2, date1, { addSuffix: true });
   },
   formatDate(val) {
-    const date = new Date(val);
-    const day = date.getDay();
-    const month = date.getMonth();
-    const year = date.getFullYear();
-
-    return day + '.' + month + '.' + year;
+    return format(new Date(val), 'dd.MM.yyyy');
   },
 };
 export default ({ app }, inject) => {

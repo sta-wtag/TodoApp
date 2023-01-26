@@ -1,42 +1,47 @@
 <template>
   <div style="position: relative">
-    <div class="card">
-      <div v-if="showEditIcon">
-        <div v-if="!task.done" class="text-description">
-          {{ task.description }}
-        </div>
-        <div v-else class="text-description text-done">
-          {{ task.description }}
-        </div>
-      </div>
-      <div v-else>
-        <textarea v-model="task.description"></textarea>
-      </div>
-      <div class="text-caption margin-top-9 margin-bottom-24">
-        Created At: {{ $helper.formatDate(task.createdAt) }}
-      </div>
-      <div class="space-between flex-box">
-        <div class="flex-gap-8">
-          <div v-if="!task.done" @click="markDone()">
-            <TickButton />
+    <form @submit.prevent="checkForm">
+      <div class="card">
+        <div v-if="showEditIcon">
+          <div v-if="!task.done" class="text-description">
+            {{ task.description }}
           </div>
-          <div v-if="!task.done" @click="showEditIcon = !showEditIcon">
-            <EditButton v-if="showEditIcon" />
-            <button v-else @click="editTask">Save</button>
-          </div>
-          <div @click="deleteTask">
-            <DeleteButton />
+          <div v-else class="text-description text-done">
+            {{ task.description }}
           </div>
         </div>
-        <div v-if="task.done" class="chip textSmall">
-          <p>
-            Completed
-            {{ $helper.getDuration(task.createdAt, task.completedAt) }}
-          </p>
+        <div v-else>
+          <textarea id="title" v-model="task.description"></textarea>
+          <label v-if="titleInputError" for="title">{{ titleErrorMsg }}</label>
+        </div>
+        <div class="text-caption margin-top-9 margin-bottom-24">
+          Created At: {{ $helper.formatDate(task.createdAt) }}
+        </div>
+        <div class="space-between flex-box">
+          <div class="flex-gap-8">
+            <div v-if="!task.done" @click="markDone()">
+              <TickIcon />
+            </div>
+            <div v-if="!task.done">
+              <div v-if="showEditIcon" @click="showEditIcon = false">
+                <EditIcon />
+              </div>
+              <button v-else type="submit">Save</button>
+            </div>
+            <div @click="deleteTask">
+              <DeleteIcon />
+            </div>
+          </div>
+          <div v-if="task.done" class="chip textSmall">
+            <p>
+              Completed
+              {{ $helper.getDuration(task.createdAt, task.completedAt) }}
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-    <div v-if="loading" class="load-overlay">
+    </form>
+    <div v-if="requestInProcess" class="load-overlay">
       <div class="spin-icon">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -56,12 +61,13 @@
 </template>
 <script>
 import _ from 'lodash';
-import EditButton from '@/components/buttons/EditButton.vue';
-import TickButton from '@/components/buttons/TickButton.vue';
-import DeleteButton from '@/components/buttons/DeleteButton.vue';
+import { mapGetters } from 'vuex';
+import EditIcon from '@/components/buttons/EditIcon.vue';
+import TickIcon from '@/components/buttons/TickIcon.vue';
+import DeleteIcon from '@/components/buttons/DeleteIcon.vue';
 export default {
   name: 'TaskCard',
-  components: { EditButton, TickButton, DeleteButton },
+  components: { EditIcon, TickIcon, DeleteIcon },
   props: {
     cardData: {
       type: Object,
@@ -70,43 +76,59 @@ export default {
   },
   data: () => ({
     task: null,
-    loading: false,
     showEditIcon: true,
+    titleInputError: false,
+    titleErrorMsg: '',
   }),
+  computed: {
+    ...mapGetters({ requestInProcess: 'todos/getCompleteRequest' }),
+  },
+
   created() {
     this.task = _.clone(this.cardData); // this.task will be edited . to avoid issues thrown by vuex instead to directly assigning the ref to this.task, cloning it.
   },
   methods: {
     markDone() {
-      this.loading = true;
-
       if (this.showEditIcon) {
-        this.$store.dispatch('changeTaskState', this.task);
-        this.loading = false;
-        this.task = _.clone(this.cardData); // to update the task state
+        this.$store.dispatch('todos/changeTaskState', this.task).then(() => {
+          this.task = _.clone(this.cardData);
+        }); // to update the task state
       } else {
-        this.$store.dispatch('editTask', this.task);
-        this.$store.dispatch('changeTaskState', this.task);
-        this.showEditIcon = true;
-        this.loading = false;
-        this.task = _.clone(this.cardData);
+        this.$store.dispatch('todos/changeTaskState', this.task).then(() => {
+          this.$store.dispatch('todos/editTask', this.task).then(() => {
+            this.task = _.clone(this.cardData);
+            this.showEditIcon = true;
+          });
+        });
       }
     },
     deleteTask() {
       if (this.showEditIcon) {
-        this.$store.dispatch('deleteTask', this.task);
+        this.$store.dispatch('todos/deleteTask', this.task);
       } else {
         this.task = _.clone(this.cardData);
         this.showEditIcon = true;
       }
     },
-    editTask() {
-      console.log('knfjk');
+    checkForm(e) {
+      if (this.task.description.length > 0) {
+        this.editTask();
+      } else {
+        this.titleInputError = true;
+        this.titleErrorMsg = 'Field is empty';
+      }
 
-      // if (this.task.description.length > 0) {
-      this.$store.dispatch('editTask', this.task);
-      this.showEditIcon = true;
-      // }
+      e.preventDefault();
+    },
+    editTask() {
+      console.log(this.showEditIcon);
+
+      if (this.task.description.length > 0) {
+        this.$store.dispatch('todos/editTask', this.task).then(() => {
+          console.log(this.showEditIcon);
+          this.showEditIcon = true;
+        });
+      }
     },
   },
 };

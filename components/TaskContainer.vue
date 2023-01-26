@@ -1,37 +1,40 @@
 <template>
-  <div class="mainDiv">
-    <div class="title-text">Add Tasks</div>
+  <div class="main-div">
+    <div class="title-text">{{ $t('PageTitle') }}</div>
     <div class="space-between flex-box margin-top-28 margin-bottom-34">
       <div>
         <button @click="showAddTodoCard()">{{ $t('create') }}</button>
       </div>
-      <div>
-        <button class="margin-left-19">All</button>
-        <button class="margin-left-19">Incomplete</button>
-        <button class="margin-left-19">Complete</button>
-      </div>
+      <FilterComponent />
     </div>
-    <div class="listDiv">
-      <div v-if="showAddCard" class="card">
-        <textarea v-model="task.description"></textarea>
-        <div class="flexBox">
-          <button class="addButton" @click="addTask">Add Task</button>
-          <div class="margin-top-13" @click="clearField()">
-            <DeleteButton />
+    <div class="list-div">
+      <form v-if="showAddCard" @submit.prevent="checkForm">
+        <div class="card">
+          <textarea id="taskTitle" v-model="task.description"></textarea>
+          <label v-if="titleInputError" for="taskTitle">{{
+            titleErrorMsg
+          }}</label>
+          <div class="flex-box">
+            <button class="add-button" type="submit">
+              {{ $t('AddTask') }}
+            </button>
+            <div class="margin-top-13" @click="clearField()">
+              <DeleteIcon />
+            </div>
           </div>
         </div>
-      </div>
-      <div v-for="(item, index) in todoList" :key="index">
-        <TaskCard :card-data="item" />
+      </form>
+      <div v-for="(task, index) in todoList" :key="index">
+        <TaskCard :card-data="task" />
       </div>
     </div>
-    <div class="wrapper">
+    <div v-if="hasTask" class="wrapper">
       <div class="content">
-        <div class="centerItem">
+        <div class="center-item">
           <img :src="noTaskLogo" />
         </div>
         <div class="info-text margin-top-32">
-          You didn’t add any task. Please, add one.
+          {{ $t('NoTask') }}
         </div>
       </div>
     </div>
@@ -40,12 +43,12 @@
 <script>
 import { mapGetters } from 'vuex';
 import { uuid } from 'uuidv4';
-import DeleteButton from '@/components/buttons/DeleteButton.vue';
+import FilterComponent from '@/components/buttons/FilterComponent.vue';
+import DeleteIcon from '@/components/buttons/DeleteIcon.vue';
 import noTaskLogo from '@/assets/svg/noTask.svg';
 export default {
   name: 'IndexPage',
-  components: { DeleteButton },
-  layout: 'default',
+  components: { DeleteIcon, FilterComponent },
   data: () => ({
     task: {
       id: 0,
@@ -54,33 +57,44 @@ export default {
       completedAt: null,
       createdAt: null,
     },
+    titleInputError: false,
+    titleErrorMsg: '',
+    taskData: [],
     showAddCard: false,
     noTaskLogo,
   }),
   computed: {
-    ...mapGetters(['todoList', 'getFilteredList']),
+    ...mapGetters('todos', {
+      todoList: 'getTodoList',
+    }),
+    hasTask() {
+      return this.todoList && this.todoList.length <= 0;
+    },
   },
-
   methods: {
     showAddTodoCard() {
       this.showAddCard = true;
     },
-    addTask() {
-      if (this.task.description.length > 0) {
-        this.task.createdAt = new Date().toDateString();
-        this.task.id = uuid();
-        this.$store.dispatch('addTask', this.task);
-        this.task = {
-          id: 0,
-          done: false,
-          description: '',
-          completedAt: null,
-          createdAt: null,
-        };
+    checkForm(e) {
+      if (this.task.description.length <= 0) {
+        this.titleInputError = true;
+        this.titleErrorMsg = 'Field is empty';
+      } else {
+        this.addTask();
       }
+
+      e.preventDefault();
+    },
+    addTask() {
+      this.task.id = uuid();
+      this.task.createdAt = new Date().toDateString();
+      this.$store.dispatch('todos/addTask', this.task);
+      this.clearField();
     },
     clearField() {
       this.showAddCard = false;
+      this.titleInputError = false;
+      this.titleErrorMsg = '';
       this.task = {
         id: 0,
         done: false,
@@ -99,21 +113,21 @@ body {
   width: 100%;
   height: 100%;
 }
-.mainDiv {
+.main-div {
   height: 100vh;
   background-color: red;
   padding: 62px 149px;
   background-color: $base-color;
 }
-.addButton {
+.add-button {
   margin-right: 19px;
   margin-top: 13px;
 }
-.centerItem {
+.center-item {
   display: flex;
   justify-content: center;
 }
-.listDiv {
+.list-div {
   display: grid;
   row-gap: 34px;
   column-gap: 54px;

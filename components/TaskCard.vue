@@ -15,7 +15,7 @@
           <label v-if="titleInputError" for="title">{{ titleErrorMsg }}</label>
         </div>
         <div class="text-caption margin-top-9 margin-bottom-24">
-          Created At: {{ $helper.formatDate(task.createdAt) }}
+          {{ $t('CreatedAt') + ':' + ' ' + $helper.formatDate(task.createdAt) }}
         </div>
         <div class="space-between flex-box">
           <div class="flex-gap-8">
@@ -34,8 +34,10 @@
           </div>
           <div v-if="task.done" class="chip textSmall">
             <p>
-              Completed
-              {{ $helper.getDuration(task.createdAt, task.completedAt) }}
+              {{
+                $t('CompletedIn') +
+                $helper.getDuration(task.createdAt, task.completedAt)
+              }}
             </p>
           </div>
         </div>

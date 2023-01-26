@@ -1,21 +1,28 @@
 export const state = () => ({
-  language: '',
+  locals: [
+    { code: 'en', name: 'English' },
+    { code: 'bn', name: 'বাংলা' },
+  ],
+  currentLocale: { code: 'en', name: 'English' },
 });
 
 export const getters = {
-  getLang: (state) => {
-    return state.language;
+  getCurrentLocale: (state) => {
+    return state.currentLocale;
   },
-};
-
-export const actions = {
-  setLang: ({ state, commit }, val) => {
-    commit('setLang', val);
+  getLocals: (state) => {
+    return state.locals;
   },
 };
 
 export const mutations = {
-  setLang: (state, val) => {
-    state.language = val;
+  setLocale(state, locale) {
+    state.currentLocale = locale;
+  },
+};
+
+export const actions = {
+  setLocale({ commit }, locale) {
+    commit('setLocale', locale);
   },
 };

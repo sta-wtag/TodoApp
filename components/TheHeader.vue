@@ -10,13 +10,14 @@
         <img :src="seachIcon" />
       </div>
       <select @change="switchLanguage">
+        <option value="" disabled>{{ $t('SelectLanguage') }}</option>
         <option
-          v-for="locale in $i18n.locales"
+          v-for="locale in locales"
           :key="locale.code"
           :value="locale.code"
-          :selected="lang"
+          :selected="curentLocale.code"
         >
-          {{ locale.code }}
+          {{ locale.name }}
         </option>
       </select>
     </div>
@@ -36,12 +37,16 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ lang: 'lang/getLang' }),
+    ...mapGetters({
+      locales: 'lang/getLocals',
+      curentLocale: 'lang/getCurrentLocale',
+    }),
   },
   mounted() {},
   methods: {
     switchLanguage(event) {
-      this.$store.dispatch('lang/setLang');
+      console.log(event.target.value);
+      this.$store.dispatch('lang/setLocale', event.target.value);
       this.$i18n.setLocale(event.target.value);
     },
   },

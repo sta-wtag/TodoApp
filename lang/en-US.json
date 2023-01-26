@@ -6,5 +6,8 @@
   "Incomplete":"Incomplete",
   "Complete": "Complete",
   "NoTask": "You didn’t add any task. Please, add one.",
-  "Save": "Save"
+  "Save": "Save",
+  "CreatedAt": "Created At",
+  "CompletedIn": "Completed",
+  "SelectLanguage": "Select Language"
 }

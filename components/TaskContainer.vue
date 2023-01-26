@@ -28,7 +28,7 @@
         <TaskCard :card-data="task" />
       </div>
     </div>
-    <div v-if="todoList && todoList.length <= 0" class="wrapper">
+    <div v-if="hasTask" class="wrapper">
       <div class="content">
         <div class="center-item">
           <img :src="noTaskLogo" />
@@ -67,6 +67,9 @@ export default {
     ...mapGetters('todos', {
       todoList: 'getTodoList',
     }),
+    hasTask() {
+      return this.todoList && this.todoList.length <= 0;
+    },
   },
   methods: {
     showAddTodoCard() {

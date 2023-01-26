@@ -43,7 +43,7 @@
         </div>
       </div>
     </form>
-    <div v-if="requestInProcess" class="load-overlay">
+    <div v-if="loading" class="load-overlay">
       <div class="spin-icon">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -81,6 +81,7 @@ export default {
     showEditIcon: true,
     titleInputError: false,
     titleErrorMsg: '',
+    loading: false,
   }),
   computed: {
     ...mapGetters({ requestInProcess: 'todos/getCompleteRequest' }),
@@ -92,14 +93,22 @@ export default {
   methods: {
     markDone() {
       if (this.showEditIcon) {
+        this.loading = true;
         this.$store.dispatch('todos/changeTaskState', this.task).then(() => {
-          this.task = _.clone(this.cardData);
+          if (!this.requestInProcess) {
+            this.loading = false;
+            this.task = _.clone(this.cardData);
+          }
         }); // to update the task state
       } else {
+        this.loading = true;
         this.$store.dispatch('todos/changeTaskState', this.task).then(() => {
           this.$store.dispatch('todos/editTask', this.task).then(() => {
-            this.task = _.clone(this.cardData);
-            this.showEditIcon = true;
+            if (!this.requestInProcess) {
+              this.loading = false;
+              this.task = _.clone(this.cardData);
+              this.showEditIcon = true;
+            }
           });
         });
       }
@@ -123,12 +132,13 @@ export default {
       e.preventDefault();
     },
     editTask() {
-      console.log(this.showEditIcon);
-
       if (this.task.description.length > 0) {
+        this.loading = true;
         this.$store.dispatch('todos/editTask', this.task).then(() => {
-          console.log(this.showEditIcon);
-          this.showEditIcon = true;
+          if (!this.requestInProcess) {
+            this.showEditIcon = true;
+            this.loading = false;
+          }
         });
       }
     },

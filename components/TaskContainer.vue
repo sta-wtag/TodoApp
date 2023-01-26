@@ -7,7 +7,7 @@
       </div>
       <FilterComponent />
     </div>
-    <div class="listDiv">
+    <div class="list-div">
       <form v-if="showAddCard" @submit.prevent="checkForm">
         <div class="card">
           <textarea id="taskTitle" v-model="task.description"></textarea>
@@ -129,7 +129,7 @@ body {
   display: flex;
   justify-content: center;
 }
-.listDiv {
+.list-div {
   display: grid;
   row-gap: 34px;
   column-gap: 54px;

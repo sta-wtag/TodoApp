@@ -92,7 +92,7 @@ textarea {
   border-radius: 5px;
 }
 
-.textSmall {
+.text-small {
   font-family: Roboto;
   font-size: 12px;
   font-weight: 700;
@@ -133,4 +133,8 @@ textarea {
 
 .margin-left-19 {
   margin-left: 19px;
+}
+
+.relative-position {
+  position: relative;
 }

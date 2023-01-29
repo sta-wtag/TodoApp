@@ -1,3 +1,4 @@
+import { uuid } from 'uuidv4';
 export const state = () => ({
   completeRequest: false,
   taskList: [],
@@ -58,7 +59,15 @@ export const actions = {
 
 export const mutations = {
   addTask: (state, val) => {
-    state.taskList = [...state.taskList, val];
+    const task = {
+      id: uuid(),
+      done: false,
+      description: val,
+      completedAt: null,
+      createdAt: new Date().toDateString(),
+    };
+
+    state.taskList.push(task);
   },
   setCompleteRequest: (state, val) => {
     state.completeRequest = val;

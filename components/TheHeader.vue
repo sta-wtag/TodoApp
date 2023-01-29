@@ -45,7 +45,6 @@ export default {
   mounted() {},
   methods: {
     switchLanguage(event) {
-      console.log(event.target.value);
       this.$store.dispatch('lang/setLocale', event.target.value);
       this.$i18n.setLocale(event.target.value);
     },

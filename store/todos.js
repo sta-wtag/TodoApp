@@ -44,12 +44,12 @@ export const actions = {
   setCompleteRequest: ({ state, commit }, val) => {
     commit('setCompleteRequest', val);
   },
-  editTask: ({ state, commit }, val) => {
+  editTask: ({ state, commit }, val, id) => {
     commit('setCompleteRequest', true);
 
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        commit('editTask', val);
+        commit('editTask', val, id);
         commit('setCompleteRequest', false);
         resolve();
       }, 1000);
@@ -87,7 +87,7 @@ export const mutations = {
       }
     }
   },
-  editTask(state, val) {
+  editTask(state, val, id) {
     for (let k = 0; k < state.taskList.length; k++) {
       if (state.taskList[k].id === val.id) {
         state.taskList[k].description = val.description;

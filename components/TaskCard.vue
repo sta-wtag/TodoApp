@@ -36,7 +36,6 @@
   </div>
 </template>
 <script>
-import _ from 'lodash';
 import { mapGetters } from 'vuex';
 import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
 export default {

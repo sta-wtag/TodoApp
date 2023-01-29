@@ -88,10 +88,8 @@ export const mutations = {
     }
   },
   editTask(state, val) {
-    for (let k = 0; k < state.taskList.length; k++) {
-      if (state.taskList[k].id === val.id) {
-        state.taskList[k].description = val.description;
-      }
-    }
+    const task = state.taskList.find((task) => task.id === val.id);
+
+    task.description = val.description;
   },
 };

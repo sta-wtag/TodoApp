@@ -13,10 +13,18 @@ export const actions = {
   addTask: ({ state, commit }, val) => {
     commit('addTask', val);
   },
+  deleteTask: ({ state, commit }, val) => {
+    commit('deleteTask', val);
+  },
 };
 
 export const mutations = {
   addTask: (state, val) => {
-    state.taskList.unshift(val);
+    state.taskList = [...state.taskList, val];
+  },
+  deleteTask: (state, val) => {
+    const list = state.taskList;
+
+    state.taskList = list.filter((task) => task.id !== val.id);
   },
 };

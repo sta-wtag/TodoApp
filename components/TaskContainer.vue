@@ -42,13 +42,13 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import { uuid } from 'uuidv4';
 import FilterComponent from '@/components/buttons/FilterComponent.vue';
 import DeleteIcon from '@/components/buttons/DeleteIcon.vue';
 import noTaskLogo from '@/assets/svg/noTask.svg';
 export default {
   name: 'IndexPage',
   components: { DeleteIcon, FilterComponent },
-  layout: 'default',
   data: () => ({
     task: {
       id: 0,
@@ -86,6 +86,7 @@ export default {
       e.preventDefault();
     },
     addTask() {
+      this.task.id = uuid();
       this.task.createdAt = new Date().toDateString();
       this.$store.dispatch('todos/addTask', this.task);
       this.clearField();

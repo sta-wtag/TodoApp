@@ -5,5 +5,7 @@
   "All": "All",
   "Incomplete":"Incomplete",
   "Complete": "Complete",
-  "NoTask": "You didn’t add any task. Please, add one."
+  "NoTask": "You didn’t add any task. Please, add one.",
+  "CreatedAt": "Created At",
+  "Completed": "Completed"
 }

@@ -28,6 +28,7 @@
         <TaskCard :card-data="task" />
       </div>
     </div>
+    <button @click="loadMore">loadMore</button>
     <div v-if="hasTask" class="wrapper">
       <div class="content">
         <div class="center-item">
@@ -65,7 +66,7 @@ export default {
   }),
   computed: {
     ...mapGetters('todos', {
-      todoList: 'getTodoList',
+      todoList: 'getListPerPage',
     }),
     hasTask() {
       return this.todoList && this.todoList.length <= 0;
@@ -102,6 +103,9 @@ export default {
         completedAt: null,
         createdAt: null,
       };
+    },
+    loadMore() {
+      this.$store.dispatch('todos/increasePageCount');
     },
   },
 };

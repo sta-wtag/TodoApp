@@ -1,4 +1,5 @@
 export const state = () => ({
+  limit: 2,
   completeRequest: false,
   taskList: [],
   filteredList: [],
@@ -10,6 +11,9 @@ export const getters = {
   },
   getCompleteRequest: (state) => {
     return state.completeRequest;
+  },
+  getListPerPage: (state) => {
+    return state.taskList.slice(0, state.limit);
   },
 };
 
@@ -54,6 +58,9 @@ export const actions = {
       }, 1000);
     });
   },
+  increasePageCount: ({ commit }) => {
+    commit('increasePageCount');
+  },
 };
 
 export const mutations = {
@@ -84,5 +91,8 @@ export const mutations = {
         state.taskList[k].description = val.description;
       }
     }
+  },
+  increasePageCount(state, val) {
+    state.limit += state.limit;
   },
 };

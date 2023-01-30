@@ -67,13 +67,9 @@ export const mutations = {
     state.taskList = list.filter((task) => task.id !== val.id);
   },
   changeTaskState(state, val) {
-    const list = state.taskList;
+    const task = state.taskList.find((task) => task.id === val.id);
 
-    for (let i = 0; i < list.length; i++) {
-      if (list[i].id === val.id) {
-        list[i].done = !list[i].done;
-        list[i].completedAt = new Date();
-      }
-    }
+    task.done = !task.done;
+    task.completedAt = new Date();
   },
 };

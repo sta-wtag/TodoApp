@@ -17,6 +17,7 @@
   "characters": "অক্ষর",
   "not-found": "কোন {item} পাওয়া যায়নি",
   "load-more": "আরও লোড করুন",
+  "show-less": "কম প্রদর্শন করুন",
   "loading": "লোড হচ্ছে",
   "validation": {
       "todo": {

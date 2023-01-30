@@ -102,7 +102,7 @@ export default {
         if (!this.requestInProcess) {
           this.loading = false;
         }
-      } else {
+      } else if (this.taskDescription.length > 0) {
         this.loading = true;
         const val = {
           description: this.taskDescription,
@@ -116,6 +116,9 @@ export default {
           this.loading = false;
           this.showEditIcon = true;
         }
+      } else {
+        this.titleInputError = true;
+        this.titleErrorMsg = 'Field is empty';
       }
     },
     async deleteTask() {
@@ -127,11 +130,12 @@ export default {
           this.loading = false;
         }
       } else {
+        this.taskDescription = this.task.description;
         this.showEditIcon = true;
       }
     },
     checkForm(e) {
-      if (this.task.description.length > 0) {
+      if (this.taskDescription.length > 0) {
         this.editTask();
       } else {
         this.titleInputError = true;
@@ -141,7 +145,7 @@ export default {
       e.preventDefault();
     },
     async editTask() {
-      if (this.task.description.length > 0) {
+      if (this.taskDescription.length > 0) {
         this.loading = true;
         const val = {
           description: this.taskDescription,

@@ -24,12 +24,27 @@
           </div>
         </div>
       </form>
-      <div v-for="(task, index) in todoList" :key="index">
+      <div v-for="task in todoList" :key="task.id">
         <TaskCard :card-data="task" />
       </div>
     </div>
-    <button @click="loadMore">loadMore</button>
-    <div v-if="hasTask" class="wrapper">
+    <div class="center-item">
+      <button
+        v-if="!hasNoTask && perPage < totalTask"
+        class="load-button"
+        @click="loadMore"
+      >
+        {{ $t('load-more') }}
+      </button>
+      <button
+        v-if="!hasNoTask && perPage > totalTask"
+        class="load-button"
+        @click="showLess"
+      >
+        {{ $t('show-less') }}
+      </button>
+    </div>
+    <div v-if="hasNoTask" class="wrapper">
       <div class="content">
         <div class="center-item">
           <img :src="noTaskLogo" />
@@ -42,7 +57,7 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import FilterComponent from '@/components/buttons/FilterComponent.vue';
 import DeleteIcon from '@/components/buttons/DeleteIcon.vue';
 import noTaskLogo from '@/assets/svg/noTask.svg';
@@ -60,8 +75,12 @@ export default {
   computed: {
     ...mapGetters('todos', {
       todoList: 'getListPerPage',
+      totalTask: 'getTotalTask',
     }),
-    hasTask() {
+    ...mapState('todos', {
+      perPage: 'perPage',
+    }),
+    hasNoTask() {
       return this.todoList && this.todoList.length <= 0;
     },
   },
@@ -90,7 +109,10 @@ export default {
       this.taskDescription = '';
     },
     loadMore() {
-      this.$store.dispatch('todos/increasePageCount');
+      this.$store.dispatch('todos/increaseLimit');
+    },
+    showLess() {
+      this.$store.dispatch('todos/resetLimit');
     },
   },
 };
@@ -131,5 +153,16 @@ body {
 .content {
   margin: auto;
   width: 500px;
+}
+
+.load-button {
+  background: $button-background;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 9px 20px;
+  font: inherit;
+  cursor: pointer;
+  margin: 57px 0px;
 }
 </style>

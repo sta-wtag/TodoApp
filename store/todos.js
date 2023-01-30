@@ -1,6 +1,8 @@
 import { uuid } from 'uuidv4';
 export const state = () => ({
   limit: 2,
+  totalTask: 0,
+  perPage: 2,
   completeRequest: false,
   taskList: [],
   filteredList: [],
@@ -14,7 +16,10 @@ export const getters = {
     return state.completeRequest;
   },
   getListPerPage: (state) => {
-    return state.taskList.slice(0, state.limit);
+    return state.taskList.slice(0, state.perPage);
+  },
+  getTotalTask: (state) => {
+    return state.taskList.length;
   },
 };
 
@@ -59,8 +64,11 @@ export const actions = {
       }, 1000);
     });
   },
-  increasePageCount: ({ commit }) => {
-    commit('increasePageCount');
+  increaseLimit: ({ commit }) => {
+    commit('increaseLimit');
+  },
+  resetLimit: ({ commit }) => {
+    commit('resetLimit');
   },
 };
 
@@ -74,8 +82,7 @@ export const mutations = {
       createdAt: new Date().toDateString(),
     };
 
-    state.limit = 2;
-    state.taskList.push(task);
+    state.taskList = [task, ...state.taskList];
   },
   setCompleteRequest: (state, val) => {
     state.completeRequest = val;
@@ -96,7 +103,10 @@ export const mutations = {
 
     task.description = val.description;
   },
-  increasePageCount(state, val) {
-    state.limit += state.limit;
+  increaseLimit(state, val) {
+    state.perPage += state.limit;
+  },
+  resetLimit(state, val) {
+    state.perPage = 2;
   },
 };

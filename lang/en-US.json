@@ -9,5 +9,7 @@
   "Save": "Save",
   "CreatedAt": "Created At",
   "CompletedIn": "Completed",
-  "SelectLanguage": "Select Language"
+  "SelectLanguage": "Select Language",
+  "load-more": "Load More",
+  "show-less": "Show More"
 }

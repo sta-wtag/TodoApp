@@ -10,7 +10,7 @@
     <div class="list-div">
       <form v-if="showAddCard" @submit.prevent="checkForm">
         <div class="card">
-          <textarea id="taskTitle" v-model="task.description"></textarea>
+          <textarea id="taskTitle" v-model="taskDescription"></textarea>
           <label v-if="titleInputError" for="taskTitle">{{
             titleErrorMsg
           }}</label>
@@ -43,7 +43,6 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import { uuid } from 'uuidv4';
 import FilterComponent from '@/components/buttons/FilterComponent.vue';
 import DeleteIcon from '@/components/buttons/DeleteIcon.vue';
 import noTaskLogo from '@/assets/svg/noTask.svg';
@@ -51,18 +50,12 @@ export default {
   name: 'IndexPage',
   components: { DeleteIcon, FilterComponent },
   data: () => ({
-    task: {
-      id: 0,
-      done: false,
-      description: '',
-      completedAt: null,
-      createdAt: null,
-    },
     titleInputError: false,
     titleErrorMsg: '',
     taskData: [],
     showAddCard: false,
     noTaskLogo,
+    taskDescription: '',
   }),
   computed: {
     ...mapGetters('todos', {
@@ -77,7 +70,7 @@ export default {
       this.showAddCard = true;
     },
     checkForm(e) {
-      if (this.task.description.length <= 0) {
+      if (this.taskDescription.length <= 0) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
       } else {
@@ -87,22 +80,14 @@ export default {
       e.preventDefault();
     },
     addTask() {
-      this.task.id = uuid();
-      this.task.createdAt = new Date().toDateString();
-      this.$store.dispatch('todos/addTask', this.task);
+      this.$store.dispatch('todos/addTask', this.taskDescription);
       this.clearField();
     },
     clearField() {
       this.showAddCard = false;
       this.titleInputError = false;
       this.titleErrorMsg = '';
-      this.task = {
-        id: 0,
-        done: false,
-        description: '',
-        completedAt: null,
-        createdAt: null,
-      };
+      this.taskDescription = '';
     },
     loadMore() {
       this.$store.dispatch('todos/increasePageCount');

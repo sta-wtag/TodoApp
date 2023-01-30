@@ -1,3 +1,4 @@
+import { uuid } from 'uuidv4';
 export const state = () => ({
   limit: 2,
   completeRequest: false,
@@ -47,12 +48,12 @@ export const actions = {
   setCompleteRequest: ({ state, commit }, val) => {
     commit('setCompleteRequest', val);
   },
-  editTask: ({ state, commit }, val) => {
+  editTask: ({ state, commit }, val, id) => {
     commit('setCompleteRequest', true);
 
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        commit('editTask', val);
+        commit('editTask', val, id);
         commit('setCompleteRequest', false);
         resolve();
       }, 1000);
@@ -65,7 +66,15 @@ export const actions = {
 
 export const mutations = {
   addTask: (state, val) => {
-    state.taskList = [...state.taskList, val];
+    const task = {
+      id: uuid(),
+      done: false,
+      description: val,
+      completedAt: null,
+      createdAt: new Date().toDateString(),
+    };
+
+    state.taskList.push(task);
   },
   setCompleteRequest: (state, val) => {
     state.completeRequest = val;
@@ -86,11 +95,9 @@ export const mutations = {
     }
   },
   editTask(state, val) {
-    for (let k = 0; k < state.taskList.length; k++) {
-      if (state.taskList[k].id === val.id) {
-        state.taskList[k].description = val.description;
-      }
-    }
+    const task = state.taskList.find((task) => task.id === val.id);
+
+    task.description = val.description;
   },
   increasePageCount(state, val) {
     state.limit += state.limit;

@@ -10,7 +10,7 @@
         {{ task.description }}
       </div>
       <div class="text-caption margin-top-9 margin-bottom-24">
-        {{ $t('CreatedAt') + ':  ' + formatDate }}
+        {{ formatDate }}
       </div>
       <div class="space-between flex-box">
         <div class="flex-gap-8 card-button">
@@ -27,9 +27,7 @@
           </button>
         </div>
         <div v-if="task.done" class="chip text-small">
-          <p>
-            {{ $t('Completed') + '   ' + duration }}
-          </p>
+          {{ duration }}
         </div>
       </div>
     </div>
@@ -55,12 +53,17 @@ export default {
     ...mapGetters({ requestInProcess: 'todos/getCompleteRequest' }),
 
     formatDate() {
-      return this.$helper.formatDate(this.task.createdAt);
+      return (
+        this.$t('CreatedAt') +
+        ':  ' +
+        this.$helper.formatDate(this.task.createdAt)
+      );
     },
     duration() {
-      return this.$helper.getDuration(
-        this.task.createdAt,
-        this.task.completedAt
+      return (
+        this.$t('Completed') +
+        '   ' +
+        this.$helper.getDuration(this.task.createdAt, this.task.completedAt)
       );
     },
   },
@@ -71,21 +74,19 @@ export default {
   methods: {
     async markDone() {
       this.loading = true;
-      await this.$store
-        .dispatch('todos/changeTaskState', this.task)
-        .then(() => {
-          if (!this.requestInProcess) {
-            this.loading = false;
-          }
-        });
+      await this.$store.dispatch('todos/changeTaskState', this.task);
+
+      if (!this.requestInProcess) {
+        this.loading = false;
+      }
     },
     async deleteTask() {
       this.loading = true;
-      await this.$store.dispatch('todos/deleteTask', this.task).then(() => {
-        if (!this.requestInProcess) {
-          this.loading = false;
-        }
-      });
+      await this.$store.dispatch('todos/deleteTask', this.task);
+
+      if (!this.requestInProcess) {
+        this.loading = false;
+      }
     },
   },
 };

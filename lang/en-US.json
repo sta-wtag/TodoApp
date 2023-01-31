@@ -11,5 +11,12 @@
   "CompletedIn": "Completed",
   "SelectLanguage": "Select Language",
   "load-more": "Load More",
-  "show-less": "Show Less"
+  "show-less": "Show Less",
+  "validation": {
+    "todo": {
+        "title": {
+            "required": "Field is empty"
+        }
+    }
+}
 }

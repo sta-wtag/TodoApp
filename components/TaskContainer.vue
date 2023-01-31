@@ -12,7 +12,7 @@
         <div class="card">
           <textarea id="taskTitle" v-model="taskDescription"></textarea>
           <label v-if="titleInputError" for="taskTitle">{{
-            titleErrorMsg
+            $t('validation.todo.title.required')
           }}</label>
           <div class="flex-box">
             <button class="add-button" type="submit">
@@ -67,7 +67,6 @@ export default {
   data: () => ({
     titleInputError: false,
     titleErrorMsg: '',
-    taskData: [],
     showAddCard: false,
     taskDescription: '',
   }),
@@ -95,9 +94,11 @@ export default {
       if (this.taskDescription.length <= 0) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
-      } else {
-        this.addTask();
+
+        return;
       }
+
+      this.addTask();
 
       e.preventDefault();
     },

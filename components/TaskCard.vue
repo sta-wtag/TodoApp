@@ -16,7 +16,9 @@
         </div>
         <div v-else>
           <textarea id="title" v-model="taskDescription"></textarea>
-          <label v-if="titleInputError" for="title">{{ titleErrorMsg }}</label>
+          <label v-if="titleInputError" for="title">{{
+            $t('validation.todo.title.required')
+          }}</label>
         </div>
         <div class="text-caption margin-top-9 margin-bottom-24">
           {{ formatDate }}
@@ -38,8 +40,8 @@
                 {{ $t('Save') }}
               </button>
             </div>
-            <button @click="deleteTask">
-              <DeleteIcon />
+            <button @click.prevent="deleteTask">
+              <img src="@/assets/svg/Delete.svg" />
             </button>
           </div>
           <div v-if="task.done" class="chip text-small">
@@ -98,14 +100,14 @@ export default {
   },
   methods: {
     async markDone() {
-      if (this.showEditIcon) {
-        this.loading = true;
-        await this.$store.dispatch('todos/changeTaskState', this.task);
+      if (!this.showEditIcon) {
+        if (this.taskDescription.length <= 0) {
+          this.titleInputError = true;
+          this.titleErrorMsg = 'Field is empty';
 
-        if (!this.requestInProcess) {
-          this.loading = false;
+          return;
         }
-      } else if (this.taskDescription.length > 0) {
+
         this.loading = true;
         const val = {
           description: this.taskDescription,
@@ -114,54 +116,65 @@ export default {
 
         await this.$store.dispatch('todos/editTask', val);
         await this.$store.dispatch('todos/changeTaskState', this.task);
+        this.titleInputError = false;
+        this.titleErrorMsg = '';
 
-        if (!this.requestInProcess) {
-          this.loading = false;
-          this.showEditIcon = true;
-        }
-      } else {
-        this.titleInputError = true;
-        this.titleErrorMsg = 'Field is empty';
+        if (this.requestInProcess) return;
+
+        this.loading = false;
+        this.showEditIcon = true;
+
+        return;
       }
+
+      this.loading = true;
+      await this.$store.dispatch('todos/changeTaskState', this.task);
+
+      if (this.requestInProcess) return;
+
+      this.loading = false;
     },
     async deleteTask() {
-      if (this.showEditIcon) {
-        this.loading = true;
-        await this.$store.dispatch('todos/deleteTask', this.task);
-
-        if (!this.requestInProcess) {
-          this.loading = false;
-        }
-      } else {
-        this.taskDescription = this.task.description;
+      if (!this.showEditIcon) {
         this.showEditIcon = true;
+
+        return;
       }
+
+      this.loading = true;
+      await this.$store.dispatch('todos/deleteTask', this.task);
+
+      if (this.requestInProcess) return;
+
+      this.loading = false;
     },
     checkForm(e) {
-      if (this.taskDescription.length > 0) {
-        this.editTask();
-      } else {
+      if (this.taskDescription.length <= 0) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
+
+        return;
       }
+
+      this.editTask();
 
       e.preventDefault();
     },
     async editTask() {
-      if (this.taskDescription.length > 0) {
-        this.loading = true;
-        const val = {
-          description: this.taskDescription,
-          id: this.task.id,
-        };
+      this.loading = true;
+      const val = {
+        description: this.taskDescription,
+        id: this.task.id,
+      };
 
-        await this.$store.dispatch('todos/editTask', val);
+      await this.$store.dispatch('todos/editTask', val);
+      this.titleInputError = false;
+      this.titleErrorMsg = '';
 
-        if (!this.requestInProcess) {
-          this.showEditIcon = true;
-          this.loading = false;
-        }
-      }
+      if (this.requestInProcess) return;
+
+      this.showEditIcon = true;
+      this.loading = false;
     },
   },
 };

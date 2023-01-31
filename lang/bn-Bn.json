@@ -22,9 +22,7 @@
   "validation": {
       "todo": {
           "title": {
-              "required": "শিরোনাম প্রয়োজন",
-              "min-length": "শিরোনাম অন্তত {minLength} অক্ষর হতে হবে",
-              "max-length": "শিরোনাম সর্বোচ্চ {maxLength} অক্ষর হতে পারে"
+              "required": "শিরোনাম প্রয়োজন"
           }
       }
   }

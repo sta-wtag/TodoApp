@@ -119,7 +119,7 @@ export const mutations = {
     state.perPage += state.limit;
   },
   resetLimit(state, val) {
-    state.perPage = 2;
+    state.perPage = 9;
     state.page = 1;
   },
 };

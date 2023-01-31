@@ -11,12 +11,7 @@
       </div>
       <select @change="switchLanguage">
         <option value="" disabled>{{ $t('SelectLanguage') }}</option>
-        <option
-          v-for="locale in locales"
-          :key="locale.code"
-          :value="locale.code"
-          :selected="curentLocale.code"
-        >
+        <option v-for="locale in locales" :key="locale.code">
           {{ locale.name }}
         </option>
       </select>
@@ -39,7 +34,7 @@ export default {
   computed: {
     ...mapGetters({
       locales: 'lang/getLocals',
-      curentLocale: 'lang/getCurrentLocale',
+      currentLocale: 'lang/getCurrentLocale',
     }),
   },
   mounted() {},

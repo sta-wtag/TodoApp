@@ -11,9 +11,9 @@
       <form v-if="showAddCard" @submit.prevent="checkForm">
         <div class="card">
           <textarea id="taskTitle" v-model="taskDescription"></textarea>
-          <label v-if="titleInputError" for="taskTitle">{{
-            $t('validation.todo.title.required')
-          }}</label>
+          <label v-if="titleInputError" for="taskTitle">
+            {{ $t('validation.todo.title.required') }}
+          </label>
           <div class="flex-box">
             <button class="add-button" type="submit">
               {{ $t('AddTask') }}
@@ -68,6 +68,8 @@ export default {
       this.showAddCard = true;
     },
     checkForm(e) {
+      e.preventDefault();
+
       if (this.taskDescription.length <= 0) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
@@ -76,8 +78,6 @@ export default {
       }
 
       this.addTask();
-
-      e.preventDefault();
     },
     addTask() {
       this.$store.dispatch('todos/addTask', this.taskDescription);

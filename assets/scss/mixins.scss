@@ -1,10 +1,10 @@
-@mixin borderPrimary {
+@mixin border-primary {
   border: 1px solid lack;
   border-radius: 4px;
 }
 
-@mixin inputField {
+@mixin input-field {
   height: 36px;
-  border: 1px $borderPrimary;
+  border: 1px $border-primary;
   border-radius: 5px;
 }

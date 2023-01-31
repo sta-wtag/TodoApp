@@ -29,18 +29,10 @@
       </div>
     </div>
     <div class="center-item">
-      <button
-        v-if="!hasNoTask && page < totalPage"
-        class="load-button"
-        @click="loadMore"
-      >
+      <button v-if="loadMoreTask" class="load-button" @click="loadMore">
         {{ $t('load-more') }}
       </button>
-      <button
-        v-if="!hasNoTask && page >= totalPage && page !== 1"
-        class="load-button"
-        @click="showLess"
-      >
+      <button v-if="showLessTask" class="load-button" @click="showLess">
         {{ $t('show-less') }}
       </button>
     </div>
@@ -81,6 +73,12 @@ export default {
     }),
     hasNoTask() {
       return this.todoList && this.todoList.length <= 0;
+    },
+    loadMoreTask() {
+      return !this.hasNoTask && this.page < this.totalPage;
+    },
+    showLessTask() {
+      return !this.hasNoTask && this.page >= this.totalPage && this.page !== 1;
     },
   },
   mounted() {

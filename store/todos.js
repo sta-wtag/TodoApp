@@ -1,6 +1,8 @@
 import { uuid } from 'uuidv4';
+import { Limit } from '@/constants.js';
+
 export const state = () => ({
-  limit: 9,
+  limit: Limit,
   totalTask: 0,
   perPage: 9,
   page: 1,

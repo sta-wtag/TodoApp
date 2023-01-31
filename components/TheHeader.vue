@@ -68,7 +68,7 @@ export default {
   line-height: 42px;
   letter-spacing: 0em;
   text-align: left;
-  color: $primaryText;
+  color: $primary-text;
   margin-left: 14px;
 }
 @keyframes example {

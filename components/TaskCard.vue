@@ -41,7 +41,7 @@
               </button>
             </div>
             <button @click.prevent="deleteTask">
-              <img src="@/assets/svg/Delete.svg" />
+              <DeleteIcon />
             </button>
           </div>
           <div v-if="task.done" class="chip text-small">

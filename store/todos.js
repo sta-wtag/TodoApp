@@ -73,7 +73,6 @@ export const mutations = {
     state.completeRequest = val;
   },
   deleteTask: (state, val) => {
-    console.log('delete');
     const list = state.taskList;
 
     state.taskList = list.filter((task) => task.id !== val.id);
@@ -85,7 +84,6 @@ export const mutations = {
     task.completedAt = new Date();
   },
   editTask(state, val) {
-    console.log('edit');
     const task = state.taskList.find((task) => task.id === val.id);
 
     task.description = val.description;

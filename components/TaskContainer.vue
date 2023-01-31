@@ -51,7 +51,6 @@ export default {
   data: () => ({
     titleInputError: false,
     titleErrorMsg: '',
-    taskData: [],
     showAddCard: false,
     noTaskLogo,
     taskDescription: '',
@@ -72,9 +71,11 @@ export default {
       if (this.taskDescription.length <= 0) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
-      } else {
-        this.addTask();
+
+        return;
       }
+
+      this.addTask();
 
       e.preventDefault();
     },

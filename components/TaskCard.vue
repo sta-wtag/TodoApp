@@ -1,30 +1,44 @@
 <template>
-  <div class="card">
-    <div class="text-description">{{ task.description }}</div>
-    <div class="text-caption margin-top-9 margin-bottom-28">
-      {{ task.createdAt }}
+  <div class="relative-position">
+    <div v-if="loading" class="load-overlay">
+      <div class="spin-icon">
+        <LoadingIcon />
+      </div>
     </div>
-    <div class="flex-gap-8">
-      <div>
-        <TickIcon />
+    <div class="card">
+      <div class="text-description" :class="{ 'text-done': task.done }">
+        {{ task.description }}
       </div>
-      <div>
-        <EditIcon />
+      <div class="text-caption margin-top-9 margin-bottom-24">
+        {{ formatDate }}
       </div>
-      <div @click="deleteTask">
-        <DeleteIcon />
+      <div class="space-between flex-box">
+        <div class="flex-gap-8 card-button">
+          <div v-if="!task.done" class="flex-gap-8">
+            <button @click="markDone">
+              <img src="@/assets/svg/Tick.svg" />
+            </button>
+            <button>
+              <img src="@/assets/svg/Edit.svg" />
+            </button>
+          </div>
+          <button @click="deleteTask">
+            <img src="@/assets/svg/Delete.svg" />
+          </button>
+        </div>
+        <div v-if="task.done" class="chip text-small">
+          {{ duration }}
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import _ from 'lodash';
-import EditIcon from '@/components/buttons/EditIcon.vue';
-import TickIcon from '@/components/buttons/TickIcon.vue';
-import DeleteIcon from '@/components/buttons/DeleteIcon.vue';
+import { mapGetters } from 'vuex';
+import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
 export default {
   name: 'TaskCard',
-  components: { EditIcon, TickIcon, DeleteIcon },
+  components: { LoadingIcon },
   props: {
     cardData: {
       type: Object,
@@ -35,19 +49,85 @@ export default {
     task: null,
     loading: false,
   }),
+  computed: {
+    ...mapGetters({ requestInProcess: 'todos/getCompleteRequest' }),
+
+    formatDate() {
+      return (
+        this.$t('CreatedAt') +
+        ':  ' +
+        this.$helper.formatDate(this.task.createdAt)
+      );
+    },
+    duration() {
+      return (
+        this.$t('Completed') +
+        '   ' +
+        this.$helper.getDuration(this.task.createdAt, this.task.completedAt)
+      );
+    },
+  },
+
   created() {
-    this.task = _.clone(this.cardData);
+    this.task = this.cardData;
   },
   methods: {
-    deleteTask() {
-      this.$store.dispatch('todos/deleteTask', this.task);
+    async markDone() {
+      this.loading = true;
+      await this.$store.dispatch('todos/changeTaskState', this.task);
+
+      if (!this.requestInProcess) {
+        this.loading = false;
+      }
+    },
+    async deleteTask() {
+      this.loading = true;
+      await this.$store.dispatch('todos/deleteTask', this.task);
+
+      if (!this.requestInProcess) {
+        this.loading = false;
+      }
     },
   },
 };
 </script>
-<style scoped>
+<style lang="scss">
+.load-overlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.spin-icon {
+  margin: auto;
+  animation-name: spin;
+  animation-duration: 700ms;
+  animation-iteration-count: infinite;
+}
 .flex-gap-8 {
   display: flex;
   gap: 8px;
+}
+.card-button button {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
 }
 </style>

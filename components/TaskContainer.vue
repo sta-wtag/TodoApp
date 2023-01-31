@@ -37,7 +37,7 @@
         {{ $t('load-more') }}
       </button>
       <button
-        v-if="!hasNoTask && page === totalPage"
+        v-if="!hasNoTask && page >= totalPage && page !== 1"
         class="load-button"
         @click="showLess"
       >

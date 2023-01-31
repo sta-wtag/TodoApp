@@ -11,9 +11,9 @@
       <form v-if="showAddCard" @submit.prevent="checkForm">
         <div class="card">
           <textarea id="taskTitle" v-model="taskDescription"></textarea>
-          <label v-if="titleInputError" for="taskTitle">{{
-            $t('validation.todo.title.required')
-          }}</label>
+          <label v-if="titleInputError" for="taskTitle">
+            {{ $t('validation.todo.title.required') }}
+          </label>
           <div class="flex-box">
             <button class="add-button" type="submit">
               {{ $t('AddTask') }}

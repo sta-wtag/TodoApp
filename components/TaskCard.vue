@@ -16,9 +16,9 @@
         </div>
         <div v-else>
           <textarea id="title" v-model="taskDescription"></textarea>
-          <label v-if="titleInputError" for="title">{{
-            $t('validation.todo.title.required')
-          }}</label>
+          <label v-if="titleInputError" for="title">
+            {{ $t('validation.todo.title.required') }}
+          </label>
         </div>
         <div class="text-caption margin-top-9 margin-bottom-24">
           {{ formatDate }}
@@ -108,16 +108,8 @@ export default {
           return;
         }
 
-        this.loading = true;
-        const val = {
-          description: this.taskDescription,
-          id: this.task.id,
-        };
-
-        await this.$store.dispatch('todos/editTask', val);
+        await this.editTask();
         await this.$store.dispatch('todos/changeTaskState', this.task);
-        this.titleInputError = false;
-        this.titleErrorMsg = '';
 
         if (this.requestInProcess) return;
 

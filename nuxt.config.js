@@ -29,7 +29,7 @@ export default {
     scss: ['~assets/scss/variables.scss', '~assets/scss/mixins.scss'],
   },
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ['nuxt-i18n', 'lodash'],
+  modules: ['nuxt-i18n', 'lodash', 'nuxt-svg-loader'],
   i18n: {
     locales: [
       {

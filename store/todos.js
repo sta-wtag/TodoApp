@@ -3,6 +3,8 @@ export const state = () => ({
   limit: 2,
   totalTask: 0,
   perPage: 2,
+  page: 1,
+  totalPage: 1,
   completeRequest: false,
   taskList: [],
   filteredList: [],
@@ -20,6 +22,9 @@ export const getters = {
   },
   getTotalTask: (state) => {
     return state.taskList.length;
+  },
+  getTotalPage: (state) => {
+    return state.totalPage;
   },
 };
 
@@ -70,6 +75,9 @@ export const actions = {
   resetLimit: ({ commit }) => {
     commit('resetLimit');
   },
+  setTotalPage: ({ commit }) => {
+    commit('setTotalPage');
+  },
 };
 
 export const mutations = {
@@ -86,6 +94,9 @@ export const mutations = {
   },
   setCompleteRequest: (state, val) => {
     state.completeRequest = val;
+  },
+  setTotalPage: (state, val) => {
+    state.totalPage = Math.ceil(state.taskList.length / state.limit);
   },
   deleteTask: (state, val) => {
     const list = state.taskList;
@@ -104,9 +115,11 @@ export const mutations = {
     task.description = val.description;
   },
   increaseLimit(state, val) {
+    state.page++;
     state.perPage += state.limit;
   },
   resetLimit(state, val) {
     state.perPage = 2;
+    state.page = 1;
   },
 };

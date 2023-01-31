@@ -30,14 +30,14 @@
     </div>
     <div class="center-item">
       <button
-        v-if="!hasNoTask && perPage < totalTask"
+        v-if="!hasNoTask && page < totalPage"
         class="load-button"
         @click="loadMore"
       >
         {{ $t('load-more') }}
       </button>
       <button
-        v-if="!hasNoTask && perPage > totalTask"
+        v-if="!hasNoTask && page === totalPage"
         class="load-button"
         @click="showLess"
       >
@@ -47,7 +47,7 @@
     <div v-if="hasNoTask" class="wrapper">
       <div class="content">
         <div class="center-item">
-          <img :src="noTaskLogo" />
+          <NoTaskLogo />
         </div>
         <div class="info-text margin-top-32">
           {{ $t('NoTask') }}
@@ -60,29 +60,32 @@
 import { mapGetters, mapState } from 'vuex';
 import FilterComponent from '@/components/buttons/FilterComponent.vue';
 import DeleteIcon from '@/components/buttons/DeleteIcon.vue';
-import noTaskLogo from '@/assets/svg/noTask.svg';
+import NoTaskLogo from '@/assets/svg/noTask.svg';
 export default {
   name: 'IndexPage',
-  components: { DeleteIcon, FilterComponent },
+  components: { DeleteIcon, FilterComponent, NoTaskLogo },
   data: () => ({
     titleInputError: false,
     titleErrorMsg: '',
     taskData: [],
     showAddCard: false,
-    noTaskLogo,
     taskDescription: '',
   }),
   computed: {
     ...mapGetters('todos', {
       todoList: 'getListPerPage',
-      totalTask: 'getTotalTask',
+      totalPage: 'getTotalPage',
     }),
     ...mapState('todos', {
       perPage: 'perPage',
+      page: 'page',
     }),
     hasNoTask() {
       return this.todoList && this.todoList.length <= 0;
     },
+  },
+  mounted() {
+    this.$store.dispatch('todos/setTotalPage');
   },
   methods: {
     showAddTodoCard() {
@@ -100,6 +103,7 @@ export default {
     },
     addTask() {
       this.$store.dispatch('todos/addTask', this.taskDescription);
+      this.$store.dispatch('todos/setTotalPage');
       this.clearField();
     },
     clearField() {

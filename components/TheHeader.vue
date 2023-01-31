@@ -1,13 +1,13 @@
 <template>
   <div class="header">
     <div>
-      <img :src="navLogo" />
+      <NavLogo />
       <span class="header-text">Todos</span>
     </div>
 
     <div class="flex-box">
       <div id="search-icon">
-        <img :src="seachIcon" />
+        <SearchIcon />
       </div>
       <select @change="switchLanguage">
         <option value="" disabled>{{ $t('SelectLanguage') }}</option>
@@ -25,15 +25,17 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import navLogo from '@/assets/svg/navLogo.svg';
-import seachIcon from '@/assets/svg/searchIcon.svg';
+import NavLogo from '@/assets/svg/navLogo.svg';
+import SearchIcon from '@/assets/svg/searchIcon.svg';
 export default {
   name: 'TheHeader',
+  components: {
+    NavLogo,
+    SearchIcon,
+  },
   data() {
     return {
       searchTask: '',
-      navLogo,
-      seachIcon,
     };
   },
   computed: {

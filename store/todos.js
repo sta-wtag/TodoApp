@@ -1,8 +1,8 @@
 import { uuid } from 'uuidv4';
 export const state = () => ({
-  limit: 2,
+  limit: 9,
   totalTask: 0,
-  perPage: 2,
+  perPage: 9,
   page: 1,
   totalPage: 1,
   completeRequest: false,

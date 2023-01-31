@@ -38,7 +38,7 @@
                 {{ $t('Save') }}
               </button>
             </div>
-            <button @click="deleteTask">
+            <button @click.prevent="deleteTask">
               <img src="@/assets/svg/Delete.svg" />
             </button>
           </div>
@@ -95,14 +95,14 @@ export default {
   },
   methods: {
     async markDone() {
-      if (this.showEditIcon) {
-        this.loading = true;
-        await this.$store.dispatch('todos/changeTaskState', this.task);
+      if (!this.showEditIcon) {
+        if (this.taskDescription.length <= 0) {
+          this.titleInputError = true;
+          this.titleErrorMsg = 'Field is empty';
 
-        if (!this.requestInProcess) {
-          this.loading = false;
+          return;
         }
-      } else {
+
         this.loading = true;
         const val = {
           description: this.taskDescription,
@@ -111,50 +111,65 @@ export default {
 
         await this.$store.dispatch('todos/editTask', val);
         await this.$store.dispatch('todos/changeTaskState', this.task);
+        this.titleInputError = false;
+        this.titleErrorMsg = '';
 
-        if (!this.requestInProcess) {
-          this.loading = false;
-          this.showEditIcon = true;
-        }
+        if (this.requestInProcess) return;
+
+        this.loading = false;
+        this.showEditIcon = true;
+
+        return;
       }
+
+      this.loading = true;
+      await this.$store.dispatch('todos/changeTaskState', this.task);
+
+      if (this.requestInProcess) return;
+
+      this.loading = false;
     },
     async deleteTask() {
-      if (this.showEditIcon) {
-        this.loading = true;
-        await this.$store.dispatch('todos/deleteTask', this.task);
-
-        if (!this.requestInProcess) {
-          this.loading = false;
-        }
-      } else {
+      if (!this.showEditIcon) {
         this.showEditIcon = true;
+
+        return;
       }
+
+      this.loading = true;
+      await this.$store.dispatch('todos/deleteTask', this.task);
+
+      if (this.requestInProcess) return;
+
+      this.loading = false;
     },
     checkForm(e) {
-      if (this.task.description.length > 0) {
-        this.editTask();
-      } else {
+      if (this.taskDescription.length <= 0) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
+
+        return;
       }
+
+      this.editTask();
 
       e.preventDefault();
     },
     async editTask() {
-      if (this.task.description.length > 0) {
-        this.loading = true;
-        const val = {
-          description: this.taskDescription,
-          id: this.task.id,
-        };
+      this.loading = true;
+      const val = {
+        description: this.taskDescription,
+        id: this.task.id,
+      };
 
-        await this.$store.dispatch('todos/editTask', val);
+      await this.$store.dispatch('todos/editTask', val);
+      this.titleInputError = false;
+      this.titleErrorMsg = '';
 
-        if (!this.requestInProcess) {
-          this.showEditIcon = true;
-          this.loading = false;
-        }
-      }
+      if (this.requestInProcess) return;
+
+      this.showEditIcon = true;
+      this.loading = false;
     },
   },
 };

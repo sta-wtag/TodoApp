@@ -16,7 +16,9 @@
         </div>
         <div v-else>
           <textarea id="title" v-model="taskDescription"></textarea>
-          <label v-if="titleInputError" for="title">{{ titleErrorMsg }}</label>
+          <label v-if="titleInputError" for="title">{{
+            $t('validation.todo.title.required')
+          }}</label>
         </div>
         <div class="text-caption margin-top-9 margin-bottom-24">
           {{ formatDate }}

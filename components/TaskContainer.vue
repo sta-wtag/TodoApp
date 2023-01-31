@@ -12,7 +12,7 @@
         <div class="card">
           <textarea id="taskTitle" v-model="taskDescription"></textarea>
           <label v-if="titleInputError" for="taskTitle">{{
-            titleErrorMsg
+            $t('validation.todo.title.required')
           }}</label>
           <div class="flex-box">
             <button class="add-button" type="submit">

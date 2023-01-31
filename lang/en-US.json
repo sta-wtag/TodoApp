@@ -9,5 +9,12 @@
   "Save": "Save",
   "CreatedAt": "Created At",
   "CompletedIn": "Completed",
-  "SelectLanguage": "Select Language"
+  "SelectLanguage": "Select Language",
+  "validation": {
+    "todo": {
+        "title": {
+            "required": "Field is empty"
+        }
+    }
+}
 }

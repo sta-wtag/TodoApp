@@ -10,11 +10,13 @@ export const state = () => ({
   completeRequest: false,
   taskList: [],
   taskListPerPage: [],
+  searchText: '',
   filterOptions: [
-    { id: uuid(), title: 'All', status: true },
+    { id: uuid(), title: 'All', status: false },
     { id: uuid(), title: 'Incomplete', status: false },
     { id: uuid(), title: 'Complete', status: false },
   ],
+  activeFilterOption: null,
 });
 
 export const getters = {
@@ -35,6 +37,9 @@ export const getters = {
   },
   getTotalPage: (state) => {
     return state.totalPage;
+  },
+  getActiveFilterOption: (state) => {
+    return state.activeFilterOption;
   },
 };
 
@@ -95,6 +100,18 @@ export const actions = {
   filterTaskList: ({ commit, state }, val) => {
     commit('filterTaskList', val);
   },
+
+  setSearchText: ({ commit }, val) => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        commit('setSearchText', val);
+        resolve();
+      }, 300);
+    });
+  },
+  setActiveFilterOption: ({ commit }, val) => {
+    commit('setActiveFilterOption', val);
+  },
 };
 
 export const mutations = {
@@ -142,29 +159,48 @@ export const mutations = {
   setListPerPage(state, val) {
     state.taskListPerPage = state.taskList;
   },
-  filterTaskList(state, val) {
+  setSearchText(state, val) {
+    state.searchText = val;
+  },
+  setActiveFilterOption(state, val) {
+    state.activeFilterOption = val;
+  },
+  filterTaskList(state) {
     state.filterOptions.map((option) => (option.status = false));
-    const option = state.filterOptions.find((option) => option.id === val.id);
+    const option = state.filterOptions.find(
+      (option) => option.id === state.activeFilterOption.id
+    );
 
     option.status = true;
+    console.log(state.searchText);
 
-    if (val.title === 'All') {
-      state.taskListPerPage = state.taskList;
-
-      return;
-    }
-
-    if (val.title === 'Incomplete') {
-      state.taskListPerPage = state.taskList.filter(
-        (task) => task.done === false
+    if (state.activeFilterOption.title === 'All') {
+      state.taskListPerPage = state.taskList.filter((task) =>
+        task.description.toLowerCase().includes(state.searchText.toLowerCase())
       );
 
       return;
     }
 
-    if (val.title === 'Complete') {
+    if (state.activeFilterOption.title === 'Incomplete') {
       state.taskListPerPage = state.taskList.filter(
-        (task) => task.done === true
+        (task) =>
+          task.done === false &&
+          task.description
+            .toLowerCase()
+            .includes(state.searchText.toLowerCase())
+      );
+
+      return;
+    }
+
+    if (state.activeFilterOption.title === 'Complete') {
+      state.taskListPerPage = state.taskList.filter(
+        (task) =>
+          task.done === true &&
+          task.description
+            .toLowerCase()
+            .includes(state.searchText.toLowerCase())
       );
     }
   },

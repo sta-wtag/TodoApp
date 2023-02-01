@@ -6,9 +6,14 @@
     </div>
 
     <div class="flex-box">
-      <div id="search-icon">
+      <div
+        id="search-icon"
+        class="align-self-center margin-right-19"
+        @click="search = !search"
+      >
         <SearchIcon />
       </div>
+      <input v-if="search" v-model="searchText" class="margin-right-19" />
       <select @change="switchLanguage">
         <option value="" disabled>{{ $t('SelectLanguage') }}</option>
         <option
@@ -34,7 +39,8 @@ export default {
   },
   data() {
     return {
-      searchTask: '',
+      searchText: '',
+      search: false,
     };
   },
   computed: {
@@ -43,6 +49,13 @@ export default {
       currentLocale: 'lang/getCurrentLocale',
     }),
   },
+  watch: {
+    searchText: {
+      handler(val) {
+        this.searchTask(val);
+      },
+    },
+  },
   mounted() {
     this.$i18n.setLocale(this.currentLocale.code);
   },
@@ -50,6 +63,12 @@ export default {
     switchLanguage(event) {
       this.$store.dispatch('lang/setLocale', event.target.value);
       this.$i18n.setLocale(event.target.value);
+    },
+    async searchTask(val) {
+      await this.$store.dispatch('todos/setSearchText', val);
+      this.$store.dispatch('todos/filterTaskList');
+      this.$store.dispatch('todos/resetLimit');
+      this.$store.dispatch('todos/setTotalPage');
     },
   },
 };

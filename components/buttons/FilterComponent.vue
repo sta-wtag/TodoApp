@@ -23,7 +23,8 @@ export default {
   methods: {
     filterList(option) {
       this.$store.dispatch('todos/resetLimit');
-      this.$store.dispatch('todos/filterTaskList', option);
+      this.$store.dispatch('todos/setActiveFilterOption', option);
+      this.$store.dispatch('todos/filterTaskList');
       this.$store.dispatch('todos/setTotalPage');
     },
   },

@@ -87,6 +87,10 @@
   justify-content: space-between;
 }
 
+.align-self-center {
+  align-self: center;
+}
+
 textarea {
   width: 100%;
   border: 3px solid #d1d8ff;
@@ -136,6 +140,13 @@ textarea {
   margin-left: 19px;
 }
 
+.margin-right-19 {
+  margin-right: 19px;
+}
+
+.margin-right-5 {
+  margin-right: 5px;
+}
 .relative-position {
   position: relative;
 }

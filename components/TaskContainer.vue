@@ -3,7 +3,13 @@
     <div class="title-text">{{ $t('PageTitle') }}</div>
     <div class="space-between flex-box margin-top-28 margin-bottom-34">
       <div>
-        <button @click="showAddTodoCard()">{{ $t('create') }}</button>
+        <button
+          class="create-button text-button flex-box"
+          @click="showAddTodoCard()"
+        >
+          <PlusIcon class="align-self-center margin-right-5" />
+          {{ $t('create') }}
+        </button>
       </div>
       <FilterComponent :options="filterOptions" />
     </div>
@@ -60,10 +66,11 @@
 import { mapGetters, mapState } from 'vuex';
 import FilterComponent from '@/components/buttons/FilterComponent.vue';
 import DeleteIcon from '@/components/buttons/DeleteIcon.vue';
+import PlusIcon from '@/assets/svg/plusIcon.svg';
 import NoTaskLogo from '@/assets/svg/noTask.svg';
 export default {
   name: 'IndexPage',
-  components: { DeleteIcon, FilterComponent, NoTaskLogo },
+  components: { DeleteIcon, FilterComponent, NoTaskLogo, PlusIcon },
   data: () => ({
     titleInputError: false,
     titleErrorMsg: '',
@@ -92,7 +99,8 @@ export default {
   },
   mounted() {
     this.$store.dispatch('todos/setTotalPage');
-    this.$store.dispatch('todos/filterTaskList', this.filterOptions[0]);
+    this.$store.dispatch('todos/setActiveFilterOption', this.filterOptions[0]);
+    this.$store.dispatch('todos/filterTaskList');
   },
   methods: {
     showAddTodoCard() {
@@ -170,6 +178,15 @@ body {
 
 .load-button {
   background: $button-background;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 9px 18px;
+  cursor: pointer;
+  margin: 57px 0px;
+}
+.create-button {
+  background: $primary-text;
   color: white;
   border: none;
   border-radius: 5px;

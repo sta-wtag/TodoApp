@@ -9,12 +9,19 @@ export const state = () => ({
   totalPage: 1,
   completeRequest: false,
   taskList: [],
-  filteredList: [],
+  filterOptions: [
+    { id: uuid(), title: 'All', status: false },
+    { id: uuid(), title: 'Incomplete', status: false },
+    { id: uuid(), title: 'Complete', status: false },
+  ],
 });
 
 export const getters = {
   getTodoList: (state) => {
     return state.taskList;
+  },
+  getFilterOptions: (state) => {
+    return state.filterOptions;
   },
   getCompleteRequest: (state) => {
     return state.completeRequest;

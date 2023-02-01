@@ -5,7 +5,7 @@
       <div>
         <button @click="showAddTodoCard()">{{ $t('create') }}</button>
       </div>
-      <FilterComponent />
+      <FilterComponent :options="filterOptions" />
     </div>
     <div class="list-div">
       <form v-if="showAddCard" @submit.prevent="checkForm">
@@ -66,6 +66,7 @@ export default {
     ...mapGetters('todos', {
       todoList: 'getListPerPage',
       totalPage: 'getTotalPage',
+      filterOptions: 'getFilterOptions',
     }),
     ...mapState('todos', {
       perPage: 'perPage',

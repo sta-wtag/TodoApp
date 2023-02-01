@@ -1,4 +1,5 @@
 import { uuid } from 'uuidv4';
+import { forEach } from 'lodash';
 import {
   Limit,
   // eslint-disable-next-line camelcase
@@ -151,7 +152,7 @@ export const mutations = {
     state.taskListPerPage = state.taskList;
   },
   filterTaskList(state, val) {
-    state.filterOptions.map((option) => (option.status = false));
+    state.filterOptions.forEach((element) => (element.status = false));
     const option = state.filterOptions.find((option) => option.id === val.id);
 
     option.status = true;

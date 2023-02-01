@@ -150,6 +150,8 @@ export const mutations = {
 
     if (val.title === 'All') {
       state.taskListPerPage = state.taskList;
+
+      return;
     }
 
     if (val.title === 'Incomplete') {

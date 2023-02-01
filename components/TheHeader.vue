@@ -11,7 +11,11 @@
       </div>
       <select @change="switchLanguage">
         <option value="" disabled>{{ $t('SelectLanguage') }}</option>
-        <option v-for="locale in locales" :key="locale.code">
+        <option
+          v-for="locale in locales"
+          :key="locale.code"
+          :value="locale.code"
+        >
           {{ locale.name }}
         </option>
       </select>

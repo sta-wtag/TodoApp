@@ -24,7 +24,7 @@
           {{ formatDate }}
         </div>
         <div class="space-between flex-box">
-          <div class="flex-gap-8 card-button">
+          <div class="flex-gap-8 card-button text-button">
             <div v-if="!task.done" class="flex-gap-8">
               <button value="update" @click.prevent="markDone">
                 <TickIcon />
@@ -199,7 +199,6 @@ export default {
   color: inherit;
   border: none;
   padding: 0;
-  font: inherit;
   cursor: pointer;
 }
 </style>

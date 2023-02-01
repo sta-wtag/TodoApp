@@ -9,8 +9,9 @@ export const state = () => ({
   totalPage: 1,
   completeRequest: false,
   taskList: [],
+  taskListPerPage: [],
   filterOptions: [
-    { id: uuid(), title: 'All', status: false },
+    { id: uuid(), title: 'All', status: true },
     { id: uuid(), title: 'Incomplete', status: false },
     { id: uuid(), title: 'Complete', status: false },
   ],
@@ -27,7 +28,7 @@ export const getters = {
     return state.completeRequest;
   },
   getListPerPage: (state) => {
-    return state.taskList.slice(0, state.perPage);
+    return state.taskListPerPage.slice(0, state.perPage);
   },
   getTotalTask: (state) => {
     return state.taskList.length;
@@ -40,6 +41,7 @@ export const getters = {
 export const actions = {
   addTask: ({ state, commit }, val) => {
     commit('addTask', val);
+    commit('setListPerPage');
   },
   deleteTask: ({ state, commit }, val) => {
     commit('setCompleteRequest', true);
@@ -67,6 +69,9 @@ export const actions = {
   setCompleteRequest: ({ state, commit }, val) => {
     commit('setCompleteRequest', val);
   },
+  setListPerPage: ({ commit }) => {
+    commit('setListPerPage');
+  },
   editTask: ({ state, commit }, val, id) => {
     commit('setCompleteRequest', true);
 
@@ -87,6 +92,9 @@ export const actions = {
   setTotalPage: ({ commit }) => {
     commit('setTotalPage');
   },
+  filterTaskList: ({ commit, state }, val) => {
+    commit('filterTaskList', val);
+  },
 };
 
 export const mutations = {
@@ -105,7 +113,7 @@ export const mutations = {
     state.completeRequest = val;
   },
   setTotalPage: (state, val) => {
-    state.totalPage = Math.ceil(state.taskList.length / state.limit);
+    state.totalPage = Math.ceil(state.taskListPerPage.length / state.limit);
   },
   deleteTask: (state, val) => {
     const list = state.taskList;
@@ -130,5 +138,32 @@ export const mutations = {
   resetLimit(state, val) {
     state.perPage = 9;
     state.page = 1;
+  },
+  setListPerPage(state, val) {
+    state.taskListPerPage = state.taskList;
+  },
+  filterTaskList(state, val) {
+    state.filterOptions.map((option) => (option.status = false));
+    const option = state.filterOptions.find((option) => option.id === val.id);
+
+    option.status = true;
+
+    if (val.title === 'All') {
+      state.taskListPerPage = state.taskList;
+    }
+
+    if (val.title === 'Incomplete') {
+      state.taskListPerPage = state.taskList.filter(
+        (task) => task.done === false
+      );
+
+      return;
+    }
+
+    if (val.title === 'Complete') {
+      state.taskListPerPage = state.taskList.filter(
+        (task) => task.done === true
+      );
+    }
   },
 };

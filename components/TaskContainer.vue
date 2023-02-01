@@ -29,10 +29,18 @@
       </div>
     </div>
     <div class="center-item">
-      <button v-if="loadMoreTask" class="load-button" @click="loadMore">
+      <button
+        v-if="loadMoreTask"
+        class="load-button text-button"
+        @click="loadMore"
+      >
         {{ $t('load-more') }}
       </button>
-      <button v-if="showLessTask" class="load-button" @click="showLess">
+      <button
+        v-if="showLessTask"
+        class="load-button text-button"
+        @click="showLess"
+      >
         {{ $t('show-less') }}
       </button>
     </div>
@@ -84,6 +92,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('todos/setTotalPage');
+    this.$store.dispatch('todos/filterTaskList', this.filterOptions[0]);
   },
   methods: {
     showAddTodoCard() {
@@ -165,7 +174,6 @@ body {
   border: none;
   border-radius: 5px;
   padding: 9px 20px;
-  font: inherit;
   cursor: pointer;
   margin: 57px 0px;
 }

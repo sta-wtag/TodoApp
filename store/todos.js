@@ -1,5 +1,13 @@
 import { uuid } from 'uuidv4';
-import { Limit } from '@/constants.js';
+import {
+  Limit,
+  // eslint-disable-next-line camelcase
+  All_Task,
+  // eslint-disable-next-line camelcase
+  Incomplete_Task,
+  // eslint-disable-next-line camelcase
+  Complete_Task,
+} from '@/constants.js';
 
 export const state = () => ({
   limit: Limit,
@@ -174,7 +182,8 @@ export const mutations = {
     option.status = true;
     console.log(state.searchText);
 
-    if (state.activeFilterOption.title === 'All') {
+    // eslint-disable-next-line camelcase
+    if (state.activeFilterOption.title === All_Task) {
       state.taskListPerPage = state.taskList.filter((task) =>
         task.description.toLowerCase().includes(state.searchText.toLowerCase())
       );
@@ -182,7 +191,8 @@ export const mutations = {
       return;
     }
 
-    if (state.activeFilterOption.title === 'Incomplete') {
+    // eslint-disable-next-line camelcase
+    if (state.activeFilterOption.title === Incomplete_Task) {
       state.taskListPerPage = state.taskList.filter(
         (task) =>
           task.done === false &&
@@ -194,7 +204,8 @@ export const mutations = {
       return;
     }
 
-    if (state.activeFilterOption.title === 'Complete') {
+    // eslint-disable-next-line camelcase
+    if (state.activeFilterOption.title === Complete_Task) {
       state.taskListPerPage = state.taskList.filter(
         (task) =>
           task.done === true &&

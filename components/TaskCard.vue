@@ -100,23 +100,15 @@ export default {
   },
   methods: {
     async markDone() {
-      if (!this.showEditIcon) {
-        if (this.taskDescription.length <= 0) {
-          this.titleInputError = true;
-          this.titleErrorMsg = 'Field is empty';
-
-          return;
-        }
-
-        await this.editTask();
-        await this.$store.dispatch('todos/changeTaskState', this.task);
-
-        if (this.requestInProcess) return;
-
-        this.loading = false;
-        this.showEditIcon = true;
+      if (this.taskDescription.length <= 0) {
+        this.titleInputError = true;
 
         return;
+      }
+
+      if (!this.showEditIcon) {
+        await this.editTask();
+        this.showEditIcon = true;
       }
 
       this.loading = true;
@@ -141,6 +133,8 @@ export default {
       this.loading = false;
     },
     checkForm(e) {
+      e.preventDefault();
+
       if (this.taskDescription.length <= 0) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
@@ -149,8 +143,6 @@ export default {
       }
 
       this.editTask();
-
-      e.preventDefault();
     },
     async editTask() {
       this.loading = true;

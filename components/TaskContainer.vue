@@ -89,6 +89,8 @@ export default {
       this.showAddCard = true;
     },
     checkForm(e) {
+      e.preventDefault();
+
       if (this.taskDescription.length <= 0) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
@@ -97,8 +99,6 @@ export default {
       }
 
       this.addTask();
-
-      e.preventDefault();
     },
     addTask() {
       this.$store.dispatch('todos/addTask', this.taskDescription);

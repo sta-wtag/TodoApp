@@ -1,7 +1,8 @@
 import { uuid } from 'uuidv4';
 import { forEach } from 'lodash';
+import { COMPLETE_TASK } from '../constants';
 import {
-  Limit,
+  LIMIT,
   // eslint-disable-next-line camelcase
   All_Task,
   // eslint-disable-next-line camelcase
@@ -11,7 +12,7 @@ import {
 } from '@/constants.js';
 
 export const state = () => ({
-  limit: Limit,
+  limit: LIMIT,
   totalTask: 0,
   perPage: 9,
   page: 1,
@@ -158,14 +159,14 @@ export const mutations = {
     option.status = true;
 
     // eslint-disable-next-line camelcase
-    if (val.title === All_Task) {
+    if (val.title === ALL_TASK) {
       state.taskListPerPage = state.taskList;
 
       return;
     }
 
     // eslint-disable-next-line camelcase
-    if (val.title === Incomplete_Task) {
+    if (val.title === INCOMPLETE_TASK) {
       state.taskListPerPage = state.taskList.filter(
         (task) => task.done === false
       );
@@ -174,7 +175,7 @@ export const mutations = {
     }
 
     // eslint-disable-next-line camelcase
-    if (val.title === Complete_Task) {
+    if (val.title === COMPLETE_TASK) {
       state.taskListPerPage = state.taskList.filter(
         (task) => task.done === true
       );

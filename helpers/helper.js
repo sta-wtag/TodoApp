@@ -10,6 +10,18 @@ const helper = {
   formatDate(val) {
     return format(new Date(val), 'dd.MM.yyyy');
   },
+  debounce(func, timeout = 300) {
+    let timer;
+
+    console.log(func);
+
+    return () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        func.apply(this);
+      }, timeout);
+    };
+  },
 };
 export default ({ app }, inject) => {
   inject('helper', helper);

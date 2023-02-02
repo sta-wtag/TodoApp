@@ -1,4 +1,5 @@
 import { uuid } from 'uuidv4';
+import debounce from '@/helpers/debounce';
 import {
   Limit,
   // eslint-disable-next-line camelcase
@@ -8,7 +9,6 @@ import {
   // eslint-disable-next-line camelcase
   Complete_Task,
 } from '@/constants.js';
-
 export const state = () => ({
   limit: Limit,
   totalTask: 0,
@@ -111,10 +111,11 @@ export const actions = {
 
   setSearchText: ({ commit }, val) => {
     return new Promise((resolve, reject) => {
-      setTimeout(() => {
+      debounce(() => {
         commit('setSearchText', val);
-        resolve();
-      }, 300);
+      }, 3000);
+
+      resolve();
     });
   },
   setActiveFilterOption: ({ commit }, val) => {

@@ -2,16 +2,14 @@
   <div class="main-div">
     <div class="title-text">{{ $t('PageTitle') }}</div>
     <div class="space-between flex-box margin-top-28 margin-bottom-34">
-      <div>
-        <button
-          class="create-button text-button flex-box"
-          :disabled="isSearching"
-          @click="showAddTodoCard()"
-        >
-          <PlusIcon class="align-self-center margin-right-5" />
-          {{ $t('create') }}
-        </button>
-      </div>
+      <button
+        class="create-button text-button"
+        :disabled="isSearching"
+        @click="showAddTodoCard()"
+      >
+        <PlusIcon class="align-self-center margin-right-5" />
+        {{ $t('create') }}
+      </button>
       <FilterComponent :options="filterOptions" />
     </div>
     <div class="list-div">
@@ -65,6 +63,7 @@
 </template>
 <script>
 import { mapGetters, mapState } from 'vuex';
+import swal from 'sweetalert';
 import FilterComponent from '@/components/buttons/FilterComponent.vue';
 import DeleteIcon from '@/components/buttons/DeleteIcon.vue';
 import PlusIcon from '@/assets/svg/plusIcon.svg';
@@ -114,6 +113,12 @@ export default {
       if (this.taskDescription.length <= 0) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
+        swal('Field is empty', {
+          buttons: false,
+          className: 'error',
+          iconHtml: '<img src="https://picsum.photos/100/100">',
+          timer: 3000,
+        });
 
         return;
       }
@@ -123,6 +128,12 @@ export default {
     addTask() {
       this.$store.dispatch('todos/addTask', this.taskDescription);
       this.$store.dispatch('todos/setTotalPage');
+      swal('Changes are saved successfully', {
+        buttons: false,
+        className: 'success',
+        iconHtml: '<img src="https://picsum.photos/100/100">',
+        timer: 3000,
+      });
       this.clearField();
     },
     clearField() {
@@ -194,6 +205,5 @@ body {
   border-radius: 5px;
   padding: 9px 20px;
   cursor: pointer;
-  margin: 57px 0px;
 }
 </style>

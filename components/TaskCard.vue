@@ -117,6 +117,7 @@ export default {
       if (this.requestInProcess) return;
 
       this.loading = false;
+      this.alert();
     },
     async deleteTask() {
       if (!this.showEditIcon) {
@@ -131,6 +132,7 @@ export default {
       if (this.requestInProcess) return;
 
       this.loading = false;
+      this.alert();
     },
     checkForm(e) {
       e.preventDefault();
@@ -138,6 +140,12 @@ export default {
       if (this.taskDescription.length <= 0) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
+        swal('Field is empty', {
+          buttons: false,
+          className: 'error',
+          iconHtml: '<img src="https://picsum.photos/100/100">',
+          timer: 3000,
+        });
 
         return;
       }
@@ -159,6 +167,14 @@ export default {
 
       this.showEditIcon = true;
       this.loading = false;
+      this.alert();
+    },
+    alert() {
+      swal('Changes are saved successfully', {
+        buttons: false,
+        className: 'success',
+        timer: 3000,
+      });
     },
   },
 };

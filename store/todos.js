@@ -67,6 +67,7 @@ export const actions = {
       // return to the location where is was dispatched after being resolved
       setTimeout(() => {
         commit('deleteTask', val);
+        commit('setListPerPage');
         commit('setCompleteRequest', false);
         resolve();
       }, 1000);
@@ -78,6 +79,7 @@ export const actions = {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         commit('changeTaskState', val);
+        commit('setListPerPage');
         commit('setCompleteRequest', false);
         resolve();
       }, 1000);
@@ -95,6 +97,7 @@ export const actions = {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         commit('editTask', val, id);
+        commit('setListPerPage');
         commit('setCompleteRequest', false);
         resolve();
       }, 1000);
@@ -143,6 +146,7 @@ export const mutations = {
     state.totalPage = Math.ceil(state.taskListPerPage.length / state.limit);
   },
   deleteTask: (state, val) => {
+    console.log(val.id);
     const list = state.taskList;
 
     state.taskList = list.filter((task) => task.id !== val.id);

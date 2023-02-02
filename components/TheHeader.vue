@@ -13,7 +13,13 @@
       >
         <SearchIcon />
       </div>
-      <input v-if="search" v-model="searchText" class="margin-right-19" />
+      <input
+        v-if="search"
+        v-model="searchText"
+        class="margin-right-19"
+        @keyup.prevent="debounced"
+      />
+
       <select @change="switchLanguage">
         <option value="" disabled>{{ $t('SelectLanguage') }}</option>
         <option
@@ -31,6 +37,7 @@
 import { mapGetters } from 'vuex';
 import NavLogo from '@/assets/svg/navLogo.svg';
 import SearchIcon from '@/assets/svg/searchIcon.svg';
+import debounce from '@/helpers/debounce.js';
 export default {
   name: 'TheHeader',
   components: {
@@ -41,6 +48,7 @@ export default {
     return {
       searchText: '',
       search: false,
+      debounced: null,
     };
   },
   computed: {
@@ -49,26 +57,24 @@ export default {
       currentLocale: 'lang/getCurrentLocale',
     }),
   },
-  watch: {
-    searchText: {
-      handler(val) {
-        this.searchTask(val);
-      },
-    },
-  },
   mounted() {
     this.$i18n.setLocale(this.currentLocale.code);
+    this.debounced = debounce(this.searchTask, 2000);
   },
   methods: {
     switchLanguage(event) {
       this.$store.dispatch('lang/setLocale', event.target.value);
       this.$i18n.setLocale(event.target.value);
     },
-    async searchTask(val) {
-      await this.$store.dispatch('todos/setSearchText', val);
-      this.$store.dispatch('todos/filterTaskList');
-      this.$store.dispatch('todos/resetLimit');
-      this.$store.dispatch('todos/setTotalPage');
+    searchTask() {
+      new Promise((resolve) => {
+        this.$store.dispatch('todos/setSearchText', this.searchText);
+        resolve();
+      }).then(() => {
+        this.$store.dispatch('todos/filterTaskList');
+        this.$store.dispatch('todos/resetLimit');
+        this.$store.dispatch('todos/setTotalPage');
+      });
     },
   },
 };

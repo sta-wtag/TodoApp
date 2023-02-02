@@ -1,14 +1,15 @@
-const debounce = (func, delay) => {
-  let timeout;
+const debounce = (func, timeout) => {
+  let timer;
 
-  return function executed() {
-    const later = () => {
-      timeout = null;
-      func.apply(this, arguments);
-    };
+  return () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      // if (!timer) {
+      func.apply(this);
+      // }
 
-    clearTimeout(timeout);
-    timeout = setTimeout(later, delay);
+      timer = undefined;
+    }, timeout);
   };
 };
 

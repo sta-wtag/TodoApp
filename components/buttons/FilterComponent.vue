@@ -4,6 +4,7 @@
       <button
         class="margin-left-19 text-button"
         :class="option.status ? 'selected-option' : 'unselected-option'"
+        :disabled="isSearching"
         @click.prevent="filterList(option)"
       >
         {{ $t(`${option.title}`) }}
@@ -13,12 +14,18 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
   props: {
     options: {
       type: Array,
       default: () => [],
     },
+  },
+  computed: {
+    ...mapState('todos', {
+      isSearching: 'isSearching',
+    }),
   },
   methods: {
     filterList(option) {

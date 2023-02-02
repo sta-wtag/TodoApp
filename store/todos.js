@@ -19,6 +19,7 @@ export const state = () => ({
   taskList: [],
   taskListPerPage: [],
   searchText: '',
+  isSearching: false,
   filterOptions: [
     { id: uuid(), title: 'All', status: false },
     { id: uuid(), title: 'Incomplete', status: false },
@@ -48,6 +49,9 @@ export const getters = {
   },
   getActiveFilterOption: (state) => {
     return state.activeFilterOption;
+  },
+  getIsSearching: (state) => {
+    return state.isSearching;
   },
 };
 
@@ -114,6 +118,9 @@ export const actions = {
   },
   setActiveFilterOption: ({ commit }, val) => {
     commit('setActiveFilterOption', val);
+  },
+  setIsSearching: ({ commit }, val) => {
+    commit('setIsSearching', val);
   },
 };
 
@@ -209,5 +216,8 @@ export const mutations = {
             .includes(state.searchText.toLowerCase())
       );
     }
+  },
+  setIsSearching: (state, val) => {
+    state.isSearching = val;
   },
 };

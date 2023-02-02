@@ -9,12 +9,12 @@
       <div
         id="search-icon"
         class="align-self-center margin-right-19"
-        @click="search = !search"
+        @click="setSearch"
       >
         <SearchIcon />
       </div>
       <input
-        v-if="search"
+        v-if="isSearching"
         v-model="searchText"
         class="margin-right-19"
         @keyup.prevent="debounced"
@@ -46,8 +46,8 @@ export default {
   },
   data() {
     return {
-      searchText: '',
       search: false,
+      searchText: '',
       debounced: null,
     };
   },
@@ -55,6 +55,7 @@ export default {
     ...mapGetters({
       locales: 'lang/getLocals',
       currentLocale: 'lang/getCurrentLocale',
+      isSearching: 'todos/getIsSearching',
     }),
   },
   mounted() {
@@ -75,6 +76,10 @@ export default {
         this.$store.dispatch('todos/resetLimit');
         this.$store.dispatch('todos/setTotalPage');
       });
+    },
+    setSearch() {
+      this.search = !this.search;
+      this.$store.commit('todos/setIsSearching', this.search);
     },
   },
 };

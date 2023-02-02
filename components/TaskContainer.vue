@@ -100,7 +100,6 @@ export default {
     },
   },
   mounted() {
-    console.log(this.isSearching);
     this.$store.dispatch('todos/setTotalPage');
     this.$store.dispatch('todos/setActiveFilterOption', this.filterOptions[0]);
     this.$store.dispatch('todos/filterTaskList');

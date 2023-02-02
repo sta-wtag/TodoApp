@@ -182,9 +182,7 @@ export const mutations = {
     );
 
     option.status = true;
-    console.log(state.searchText);
 
-    // eslint-disable-next-line camelcase
     if (state.activeFilterOption.title === ALL_TASK) {
       state.taskListPerPage = state.taskList.filter((task) =>
         task.description.toLowerCase().includes(state.searchText.toLowerCase())
@@ -193,7 +191,6 @@ export const mutations = {
       return;
     }
 
-    // eslint-disable-next-line camelcase
     if (state.activeFilterOption.title === INCOMPLETE_TASK) {
       state.taskListPerPage = state.taskList.filter(
         (task) =>
@@ -206,7 +203,6 @@ export const mutations = {
       return;
     }
 
-    // eslint-disable-next-line camelcase
     if (state.activeFilterOption.title === COMPLETE_TASK) {
       state.taskListPerPage = state.taskList.filter(
         (task) =>

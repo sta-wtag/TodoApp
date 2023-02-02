@@ -1,16 +1,16 @@
 import { uuid } from 'uuidv4';
-import debounce from '@/helpers/debounce';
+
 import {
-  Limit,
+  LIMIT,
   // eslint-disable-next-line camelcase
-  All_Task,
+  ALL_TASK,
   // eslint-disable-next-line camelcase
-  Incomplete_Task,
+  INCOMPLETE_TASK,
   // eslint-disable-next-line camelcase
-  Complete_Task,
+  COMPLETE_TASK,
 } from '@/constants.js';
 export const state = () => ({
-  limit: Limit,
+  limit: LIMIT,
   totalTask: 0,
   perPage: 9,
   page: 1,
@@ -110,13 +110,7 @@ export const actions = {
   },
 
   setSearchText: ({ commit }, val) => {
-    return new Promise((resolve, reject) => {
-      debounce(() => {
-        commit('setSearchText', val);
-      }, 3000);
-
-      resolve();
-    });
+    commit('setSearchText', val);
   },
   setActiveFilterOption: ({ commit }, val) => {
     commit('setActiveFilterOption', val);
@@ -184,7 +178,7 @@ export const mutations = {
     console.log(state.searchText);
 
     // eslint-disable-next-line camelcase
-    if (state.activeFilterOption.title === All_Task) {
+    if (state.activeFilterOption.title === ALL_TASK) {
       state.taskListPerPage = state.taskList.filter((task) =>
         task.description.toLowerCase().includes(state.searchText.toLowerCase())
       );
@@ -193,7 +187,7 @@ export const mutations = {
     }
 
     // eslint-disable-next-line camelcase
-    if (state.activeFilterOption.title === Incomplete_Task) {
+    if (state.activeFilterOption.title === INCOMPLETE_TASK) {
       state.taskListPerPage = state.taskList.filter(
         (task) =>
           task.done === false &&
@@ -206,7 +200,7 @@ export const mutations = {
     }
 
     // eslint-disable-next-line camelcase
-    if (state.activeFilterOption.title === Complete_Task) {
+    if (state.activeFilterOption.title === COMPLETE_TASK) {
       state.taskListPerPage = state.taskList.filter(
         (task) =>
           task.done === true &&

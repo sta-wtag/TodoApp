@@ -192,9 +192,10 @@ export default {
   left: 0px;
   right: 0px;
   bottom: 0px;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.3);
   display: flex;
   align-items: center;
+  z-index: 1;
 }
 @keyframes spin {
   from {

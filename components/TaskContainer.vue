@@ -1,61 +1,68 @@
 <template>
-  <div class="main-div main-div-padding">
-    <div class="title-text">{{ $t('PageTitle') }}</div>
-    <div class="space-between flex-box margin-top-28 margin-bottom-34">
-      <button
-        class="create-button text-button"
-        :disabled="isSearching"
-        @click="showAddTodoCard()"
-      >
-        <PlusIcon class="align-self-center margin-right-5" />
-        {{ $t('create') }}
-      </button>
-      <FilterComponent :options="filterOptions" />
-    </div>
-    <div class="list-div grid-template-column">
-      <form v-if="showAddCard" @submit.prevent="checkForm">
-        <div class="card">
-          <textarea id="taskTitle" v-model="taskDescription"></textarea>
-          <label v-if="titleInputError" for="taskTitle">
-            {{ $t('validation.todo.title.required') }}
-          </label>
-          <div class="flex-box">
-            <button class="add-button" type="submit">
-              {{ $t('AddTask') }}
-            </button>
-            <div class="margin-top-13" @click="clearField()">
-              <DeleteIcon />
-            </div>
-          </div>
-        </div>
-      </form>
-      <div v-for="task in todoList" :key="task.id">
-        <TaskCard :card-data="task" />
+  <div class="relative-position">
+    <div v-if="requestInProcess && isSearching" class="load-overlay">
+      <div class="spin-icon">
+        <LoadingIcon />
       </div>
     </div>
-    <div class="center-item">
-      <button
-        v-if="loadMoreTask"
-        class="load-button text-button"
-        @click="loadMore"
-      >
-        {{ $t('load-more') }}
-      </button>
-      <button
-        v-if="showLessTask"
-        class="load-button text-button"
-        @click="showLess"
-      >
-        {{ $t('show-less') }}
-      </button>
-    </div>
-    <div v-if="hasNoTask" class="wrapper">
-      <div class="content">
-        <div class="center-item">
-          <NoTaskLogo />
+    <div class="main-div main-div-padding">
+      <div class="title-text">{{ $t('PageTitle') }}</div>
+      <div class="space-between flex-box margin-top-28 margin-bottom-34">
+        <button
+          class="create-button text-button"
+          :disabled="isSearching"
+          @click="showAddTodoCard"
+        >
+          <PlusIcon class="align-self-center margin-right-5" />
+          {{ $t('create') }}
+        </button>
+        <FilterComponent :options="filterOptions" />
+      </div>
+      <div class="list-div grid-template-column">
+        <form v-if="showAddCard" @submit.prevent="checkForm">
+          <div class="card">
+            <textarea id="taskTitle" v-model="taskDescription"></textarea>
+            <label v-if="titleInputError" for="taskTitle">
+              {{ $t('validation.todo.title.required') }}
+            </label>
+            <div class="flex-box">
+              <button class="add-button" type="submit">
+                {{ $t('AddTask') }}
+              </button>
+              <div class="margin-top-13" @click="clearField()">
+                <DeleteIcon />
+              </div>
+            </div>
+          </div>
+        </form>
+        <div v-for="task in todoList" :key="task.id">
+          <TaskCard :card-data="task" />
         </div>
-        <div class="info-text margin-top-32">
-          {{ $t('NoTask') }}
+      </div>
+      <div class="center-item">
+        <button
+          v-if="loadMoreTask"
+          class="load-button text-button"
+          @click="loadMore"
+        >
+          {{ $t('load-more') }}
+        </button>
+        <button
+          v-if="showLessTask"
+          class="load-button text-button"
+          @click="showLess"
+        >
+          {{ $t('show-less') }}
+        </button>
+      </div>
+      <div v-if="hasNoTask" class="wrapper">
+        <div class="content">
+          <div class="center-item">
+            <NoTaskLogo />
+          </div>
+          <div class="info-text margin-top-32">
+            {{ $t('NoTask') }}
+          </div>
         </div>
       </div>
     </div>
@@ -68,9 +75,16 @@ import FilterComponent from '@/components/buttons/FilterComponent.vue';
 import DeleteIcon from '@/components/buttons/DeleteIcon.vue';
 import PlusIcon from '@/assets/svg/plusIcon.svg';
 import NoTaskLogo from '@/assets/svg/noTask.svg';
+import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
 export default {
   name: 'IndexPage',
-  components: { DeleteIcon, FilterComponent, NoTaskLogo, PlusIcon },
+  components: {
+    DeleteIcon,
+    FilterComponent,
+    NoTaskLogo,
+    PlusIcon,
+    LoadingIcon,
+  },
   data: () => ({
     titleInputError: false,
     titleErrorMsg: '',
@@ -82,6 +96,7 @@ export default {
       todoList: 'getListPerPage',
       totalPage: 'getTotalPage',
       filterOptions: 'getFilterOptions',
+      requestInProcess: 'getCompleteRequest',
     }),
     ...mapState('todos', {
       perPage: 'perPage',

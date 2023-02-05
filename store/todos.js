@@ -117,7 +117,15 @@ export const actions = {
   },
 
   setSearchText: ({ commit }, val) => {
-    commit('setSearchText', val);
+    commit('setCompleteRequest', true);
+
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        commit('setSearchText', val);
+        commit('setCompleteRequest', false);
+        resolve();
+      }, 1000);
+    });
   },
   setActiveFilterOption: ({ commit }, val) => {
     commit('setActiveFilterOption', val);

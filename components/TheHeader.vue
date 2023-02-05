@@ -67,15 +67,11 @@ export default {
       this.$store.dispatch('lang/setLocale', event.target.value);
       this.$i18n.setLocale(event.target.value);
     },
-    searchTask() {
-      new Promise((resolve) => {
-        this.$store.dispatch('todos/setSearchText', this.searchText);
-        resolve();
-      }).then(() => {
-        this.$store.dispatch('todos/filterTaskList');
-        this.$store.dispatch('todos/resetLimit');
-        this.$store.dispatch('todos/setTotalPage');
-      });
+    async searchTask() {
+      await this.$store.dispatch('todos/setSearchText', this.searchText);
+      this.$store.dispatch('todos/filterTaskList');
+      this.$store.dispatch('todos/resetLimit');
+      this.$store.dispatch('todos/setTotalPage');
     },
     setSearch() {
       this.search = !this.search;

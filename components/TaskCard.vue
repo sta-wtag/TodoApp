@@ -8,7 +8,7 @@
     <form @submit.prevent="checkForm">
       <div class="card">
         <div
-          v-if="showEditIcon"
+          v-if="showEditIcon && task !== null"
           class="text-description"
           :class="{ 'text-done': task.done }"
         >
@@ -25,7 +25,7 @@
         </div>
         <div class="space-between flex-box">
           <div class="flex-gap-8 card-button text-button">
-            <div v-if="!task.done" class="flex-gap-8">
+            <div v-if="!task?.done" class="flex-gap-8">
               <button value="update" @click.prevent="markDone">
                 <TickIcon />
               </button>
@@ -79,6 +79,8 @@ export default {
     ...mapGetters({ requestInProcess: 'todos/getCompleteRequest' }),
 
     formatDate() {
+      if (!this.task?.createdAt) return;
+
       return (
         this.$t('CreatedAt') +
         ':  ' +
@@ -86,6 +88,8 @@ export default {
       );
     },
     duration() {
+      if (!this.task?.completedAt) return;
+
       return (
         this.$t('Completed') +
         '   ' +

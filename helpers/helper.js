@@ -8,7 +8,9 @@ const helper = {
     return formatDistance(date2, date1, { addSuffix: true });
   },
   formatDate(val) {
-    return format(new Date(val), 'dd.MM.yyyy');
+    if (val) {
+      return format(new Date(val), 'dd.MM.yyyy');
+    }
   },
 };
 export default ({ app }, inject) => {

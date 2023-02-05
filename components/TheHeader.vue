@@ -2,10 +2,10 @@
   <div class="header">
     <div class="flex-box">
       <NavLogo class="align-self-center" />
-      <span class="header-text">Todos</span>
+      <span class="header-text header-text-small">Todos</span>
     </div>
 
-    <div class="flex-box">
+    <div class="display-only">
       <input
         v-if="isSearching"
         v-model="searchText"
@@ -93,24 +93,6 @@ select {
   color: $button-background;
 }
 
-.header {
-  text-align: center;
-  display: flex;
-  padding: 15px 150px;
-  background-color: white;
-  justify-content: space-between;
-  border-bottom: 1px solid $border-primary;
-}
-.header-text {
-  font-family: Roboto;
-  font-size: 36px;
-  font-weight: 700;
-  line-height: 42.19px;
-  letter-spacing: 0em;
-  text-align: left;
-  color: $primary-text;
-  margin-left: 14px;
-}
 @keyframes example {
   0% {
     right: 0px;
@@ -136,5 +118,53 @@ select {
   padding: 0px 12px;
   border: 3px solid #d1d8ff;
   border-radius: 5px;
+}
+
+@media only screen and (min-width: 768px) {
+  .header {
+    text-align: center;
+    display: flex;
+    padding: 15px 150px;
+    background-color: white;
+    justify-content: space-between;
+    border-bottom: 1px solid $border-primary;
+  }
+
+  .display-only {
+    display: flex;
+  }
+  .header-text {
+    font-family: Roboto;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 42.19px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: $primary-text;
+    margin-left: 14px;
+  }
+}
+@media only screen and (max-width: 400px) {
+  .header {
+    text-align: center;
+    display: flex;
+    padding: 15px 16px;
+    background-color: white;
+    justify-content: space-between;
+    border-bottom: 1px solid $border-primary;
+  }
+  .display-only {
+    display: none;
+  }
+  .header-text-small {
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 42.19px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: $primary-text;
+    margin-left: 14px;
+  }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="main-div">
+  <div class="main-div main-div-padding">
     <div class="title-text">{{ $t('PageTitle') }}</div>
     <div class="space-between flex-box margin-top-28 margin-bottom-34">
       <button
@@ -12,7 +12,7 @@
       </button>
       <FilterComponent :options="filterOptions" />
     </div>
-    <div class="list-div">
+    <div class="list-div grid-template-column">
       <form v-if="showAddCard" @submit.prevent="checkForm">
         <div class="card">
           <textarea id="taskTitle" v-model="taskDescription"></textarea>
@@ -160,8 +160,6 @@ body {
 }
 .main-div {
   height: 100vh;
-  background-color: red;
-  padding: 62px 149px;
   background-color: $base-color;
 }
 .add-button {
@@ -176,9 +174,10 @@ body {
   display: grid;
   row-gap: 34px;
   column-gap: 54px;
-  grid-template-columns: auto auto auto;
+
   padding: 10px;
 }
+
 .wrapper {
   align-items: center;
   display: flex;
@@ -198,12 +197,38 @@ body {
   cursor: pointer;
   margin: 57px 0px;
 }
-.create-button {
-  background: $primary-text;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 9px 20px;
-  cursor: pointer;
+
+@media only screen and (min-width: 768px) {
+  .grid-template-column {
+    grid-template-columns: auto auto auto;
+  }
+  .main-div-padding {
+    padding: 62px 149px;
+  }
+  .create-button {
+    background: $primary-text;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 9px 20px;
+    cursor: pointer;
+  }
+}
+@media only screen and (max-width: 400px) {
+  .grid-template-column {
+    grid-template-columns: auto;
+  }
+  .main-div-padding {
+    padding: 0px 30px;
+  }
+  .create-button {
+    background: $primary-text;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 9px 12px;
+    cursor: pointer;
+    display: flex;
+  }
 }
 </style>

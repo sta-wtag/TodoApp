@@ -4,16 +4,58 @@
   font-weight: normal;
   font-style: normal;
 }
-
+@media only screen and (max-width: 400px) {
 .title-text {
   font-family: Roboto;
-  font-size: 30px;
+  font-size: 16px;
   font-weight: 700;
   line-height: 35px;
   letter-spacing: 0em;
   text-align: left;
 }
-
+.text-button {
+  font-family: Roboto;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 19px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+.info-text {
+  font-family: Roboto;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 28px;
+  letter-spacing: 0em;
+  text-align: center;
+}
+}
+@media only screen and (min-width: 768px) {
+  .title-text {
+    font-family: Roboto;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 35px;
+    letter-spacing: 0em;
+    text-align: left;
+  }
+  .text-button {
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: left;
+  }
+  .info-text {
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 28px;
+    letter-spacing: 0em;
+    text-align: center;
+  }
+  }
 .text-description {
   font-family: Roboto;
   font-size: 24px;
@@ -23,14 +65,7 @@
   text-align: left;
 }
 
-.text-button {
-  font-family: Roboto;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 19px;
-  letter-spacing: 0em;
-  text-align: left;
-}
+
 .text-search {
   font-family: Roboto;
 font-size: 16px;
@@ -60,14 +95,7 @@ text-align: left;
   color: white;
 }
 
-.info-text {
-  font-family: Roboto;
-  font-size: 24px;
-  font-weight: 700;
-  line-height: 28px;
-  letter-spacing: 0em;
-  text-align: center;
-}
+
 
 .card {
   width: 100%;

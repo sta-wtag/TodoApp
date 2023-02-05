@@ -212,7 +212,7 @@ export default {
 }
 .flex-gap-8 {
   display: flex;
-  gap: 8px;
+  gap: 26px;
 }
 .card-button button {
   background: none;

@@ -77,7 +77,6 @@ import PlusIcon from '@/assets/svg/plusIcon.svg';
 import NoTaskLogo from '@/assets/svg/noTask.svg';
 import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
 export default {
-  name: 'IndexPage',
   components: {
     DeleteIcon,
     FilterComponent,

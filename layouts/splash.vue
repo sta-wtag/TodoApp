@@ -1,11 +1,10 @@
 <template>
   <div>
-    <task-container />
+    <Nuxt />
   </div>
 </template>
 <script>
 export default {
-  name: 'IndexPage',
-  layout: 'default',
+  name: 'Splash',
 };
 </script>

@@ -97,7 +97,7 @@ export const mutations = {
   setCompleteRequest: (state, val) => {
     state.completeRequest = val;
   },
-  setTotalPage: (state, val) => {
+  setTotalPage: (state, _val) => {
     state.totalPage = Math.ceil(state.taskList.length / state.limit);
   },
   deleteTask: (state, val) => {

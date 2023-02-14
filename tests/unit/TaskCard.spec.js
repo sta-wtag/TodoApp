@@ -47,6 +47,6 @@ describe('@/components/TaskCard.vue', () => {
   it('Conertes button name to english locale', () => {
     const wrapper = wrapperFactory();
 
-    expect(wrapper.contains('button'));
+    expect(wrapper.find('[data-testid="save-button"]'));
   });
 });

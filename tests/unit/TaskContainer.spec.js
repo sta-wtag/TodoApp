@@ -5,9 +5,8 @@ import NuxtI18n from 'vue-i18n';
 import localVue from '../utils/vueInstanceFactory';
 import i18Mock from '../utils/i18Mock';
 import { todos } from '../utils/storeHelper';
-// import lang from '../../store/lang';
-import { helper } from '../../helpers/helper';
-import TaskCard from '../../components/TaskCard.vue';
+
+import TaskContainer from '../../components/TaskContainer.vue';
 
 let store;
 
@@ -25,28 +24,25 @@ beforeEach(() => {
 });
 
 function wrapperFactory() {
-  const mounted = mount(TaskCard, {
+  const mounted = mount(TaskContainer, {
     localVue,
     store,
     i18n,
-    propsData: {
-      cardData: null,
-    },
     mocks: {
       $store: {
         dispatch: (item) => item,
       },
-      helper,
     },
   });
 
   return mounted;
 }
 
-describe('@/components/TaskCard.vue', () => {
+describe('@/components/TaskContainer.vue', () => {
   it('Conertes button name to english locale', () => {
     const wrapper = wrapperFactory();
+    const saveButton = wrapper.find('[data-testid="create-button"]');
 
-    expect(wrapper.contains('button'));
+    expect(saveButton.text()).toBe(i18Mock.en.create);
   });
 });

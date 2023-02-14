@@ -25,7 +25,7 @@
         </div>
         <div class="space-between flex-box">
           <div class="flex-gap-8 card-button text-button">
-            <div v-if="!task?.done" class="flex-gap-8">
+            <div v-if="task && !task.done" class="flex-gap-8">
               <button value="update" @click.prevent="markDone">
                 <TickIcon />
               </button>
@@ -44,7 +44,7 @@
               <DeleteIcon />
             </button>
           </div>
-          <div v-if="task.done" class="chip text-small">
+          <div v-if="task && task.done" class="chip text-small">
             {{ duration }}
           </div>
         </div>
@@ -54,10 +54,10 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import DeleteIcon from '@/assets/svg/Delete.svg';
-import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
-import EditIcon from '@/assets/svg/Edit.svg';
-import TickIcon from '@/assets/svg/Tick.svg';
+import DeleteIcon from '../assets/svg/Delete.svg';
+import EditIcon from '../assets/svg/Edit.svg';
+import TickIcon from '../assets/svg/Tick.svg';
+import LoadingIcon from './buttons/LoadingIcon.vue';
 export default {
   name: 'TaskCard',
   components: { LoadingIcon, EditIcon, TickIcon, DeleteIcon },
@@ -100,7 +100,7 @@ export default {
 
   created() {
     this.task = this.cardData;
-    this.taskDescription = this.task.description;
+    this.taskDescription = this.task ? this.task.description : '';
   },
   methods: {
     async markDone() {

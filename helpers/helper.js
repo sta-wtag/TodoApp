@@ -1,5 +1,5 @@
 import { formatDistance, format } from 'date-fns';
-const helper = {
+export const helper = {
   name: 'helper',
   getDuration(from, to) {
     const date1 = new Date(from);
@@ -13,6 +13,6 @@ const helper = {
     }
   },
 };
-export default ({ app }, inject) => {
-  inject('helper', helper);
-};
+// export default ({ app }, inject) => {
+//   inject('helper', helper);
+// };

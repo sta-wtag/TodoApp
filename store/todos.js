@@ -2,13 +2,10 @@ import { uuid } from 'uuidv4';
 
 import {
   LIMIT,
-  // eslint-disable-next-line camelcase
   ALL_TASK,
-  // eslint-disable-next-line camelcase
   INCOMPLETE_TASK,
-  // eslint-disable-next-line camelcase
   COMPLETE_TASK,
-} from '@/constants.js';
+} from '../constants.js';
 export const state = () => ({
   limit: LIMIT,
   totalTask: 0,

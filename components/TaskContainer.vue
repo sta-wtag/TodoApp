@@ -10,6 +10,7 @@
       <div class="space-between flex-box margin-top-28 margin-bottom-34">
         <button
           class="create-button text-button"
+          data-testid="create-button"
           :disabled="isSearching"
           @click="showAddTodoCard"
         >
@@ -70,12 +71,12 @@
 </template>
 <script>
 import { mapGetters, mapState } from 'vuex';
-import swal from 'sweetalert';
-import FilterComponent from '@/components/buttons/FilterComponent.vue';
-import DeleteIcon from '@/components/buttons/DeleteIcon.vue';
-import PlusIcon from '@/assets/svg/plusIcon.svg';
-import NoTaskLogo from '@/assets/svg/noTask.svg';
-import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
+import { swal } from 'sweetalert';
+import PlusIcon from '../assets/svg/plusIcon.svg';
+import NoTaskLogo from '../assets/svg/noTask.svg';
+import FilterComponent from './buttons/FilterComponent.vue';
+import DeleteIcon from './buttons/DeleteIcon.vue';
+import LoadingIcon from './buttons/LoadingIcon.vue';
 export default {
   components: {
     DeleteIcon,
@@ -114,7 +115,14 @@ export default {
   },
   mounted() {
     this.$store.dispatch('todos/setTotalPage');
-    this.$store.dispatch('todos/setActiveFilterOption', this.filterOptions[0]);
+
+    if (this.filterOptions && this.filterOptions.length > 0) {
+      this.$store.dispatch(
+        'todos/setActiveFilterOption',
+        this.filterOptions[0]
+      );
+    }
+
     this.$store.dispatch('todos/filterTaskList');
   },
   methods: {

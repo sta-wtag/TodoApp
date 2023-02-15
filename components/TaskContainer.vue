@@ -19,11 +19,11 @@
           <label v-if="titleInputError" for="taskTitle">
             {{ $t('validation.todo.title.required') }}
           </label>
-          <div class="flex-box">
+          <div class="flex-box margin-top-13">
             <button class="add-button" type="submit">
               {{ $t('AddTask') }}
             </button>
-            <div class="margin-top-13" @click="clearField()">
+            <div class="align-self-center" @click="clearField()">
               <DeleteIcon />
             </div>
           </div>
@@ -166,7 +166,12 @@ body {
 }
 .add-button {
   margin-right: 19px;
-  margin-top: 13px;
+  background: white;
+  color: $button-background;
+  border: 1px solid $border-primary;
+  border-radius: 5px;
+  padding: 9px 18px;
+  cursor: pointer;
 }
 .center-item {
   display: flex;
@@ -177,7 +182,7 @@ body {
   row-gap: 34px;
   column-gap: 54px;
   grid-template-columns: auto auto auto;
-  padding: 10px;
+  // padding: 10px;
 }
 .wrapper {
   align-items: center;

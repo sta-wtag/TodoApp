@@ -2,14 +2,16 @@ import { uuid } from 'uuidv4';
 
 import {
   LIMIT,
+  COMPLETE_TASK,
   ALL_TASK,
   INCOMPLETE_TASK,
-  COMPLETE_TASK,
-} from '../constants.js';
+  PER_PAGE,
+} from '../constants';
+
 export const state = () => ({
   limit: LIMIT,
   totalTask: 0,
-  perPage: 9,
+  perPage: PER_PAGE,
   page: 1,
   totalPage: 1,
   completeRequest: false,
@@ -142,6 +144,8 @@ export const mutations = {
       createdAt: new Date(),
     };
 
+    state.filterOptions.forEach((element) => (element.status = false));
+    state.filterOptions[0].status = true;
     state.taskList = [task, ...state.taskList];
   },
   setCompleteRequest: (state, val) => {
@@ -172,7 +176,7 @@ export const mutations = {
     state.perPage += state.limit;
   },
   resetLimit(state, val) {
-    state.perPage = 9;
+    state.perPage = PER_PAGE;
     state.page = 1;
   },
   setListPerPage(state, val) {

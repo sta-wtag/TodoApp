@@ -5,3 +5,4 @@ export const ALL_TASK = 'All';
 export const COMPLETE_TASK = 'Complete';
 
 export const INCOMPLETE_TASK = 'Incomplete';
+export const PER_PAGE = 9;

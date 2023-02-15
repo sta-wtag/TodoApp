@@ -108,6 +108,8 @@ export const mutations = {
       createdAt: new Date().toDateString(),
     };
 
+    state.filterOptions.forEach((element) => (element.status = false));
+    state.filterOptions[0].status = true;
     state.taskList = [task, ...state.taskList];
   },
   setCompleteRequest: (state, val) => {

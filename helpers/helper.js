@@ -1,7 +1,7 @@
 import { formatDistance, subDays, format } from 'date-fns';
-import { bn } from 'date-fns/locale';
+// import { bn } from 'date-fns/locale';
 
-const helper = {
+export const helper = {
   name: 'helper',
   getDuration(from, to) {
     const date1 = new Date(from);
@@ -10,8 +10,6 @@ const helper = {
     return formatDistance(subDays(date2, 0), date1);
   },
   formatDate(val) {
-    console.log(val);
-
     if (val) {
       return format(new Date(val), 'dd.MM.yyyy');
     }

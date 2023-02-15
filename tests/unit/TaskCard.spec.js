@@ -24,13 +24,21 @@ beforeEach(() => {
   });
 });
 
-function wrapperFactory() {
+function wrapperFactory(newState = {}) {
   const mounted = mount(TaskCard, {
     localVue,
     store,
     i18n,
     propsData: {
       cardData: null,
+    },
+    data() {
+      return {
+        task: {
+          ...newState,
+        },
+        showEditIcon: null,
+      };
     },
     mocks: {
       $store: {
@@ -43,10 +51,18 @@ function wrapperFactory() {
   return mounted;
 }
 
-describe('@/components/TaskCard.vue', () => {
-  it('Conertes button name to english locale', () => {
-    const wrapper = wrapperFactory();
+describe('../../components/TaskCard.vue', () => {
+  it('Convertes button name to english locale', async () => {
+    const wrapper = await wrapperFactory();
 
-    expect(wrapper.find('[data-testid="save-button"]'));
+    await wrapper.setData({
+      task: {
+        done: false,
+      },
+      showEditIcon: false,
+    });
+    expect(wrapper.get('[data-testid="save-button"]').text()).toBe(
+      i18Mock.en.Save
+    );
   });
 });

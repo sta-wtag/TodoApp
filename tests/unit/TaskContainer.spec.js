@@ -39,8 +39,8 @@ function wrapperFactory() {
 }
 
 describe('@/components/TaskContainer.vue', () => {
-  it('Conertes button name to english locale', () => {
-    const wrapper = wrapperFactory();
+  it('Convertes button name to english locale', async () => {
+    const wrapper = await wrapperFactory();
     const saveButton = wrapper.find('[data-testid="create-button"]');
 
     expect(saveButton.text()).toBe(i18Mock.en.create);

@@ -150,12 +150,12 @@ export default {
     addTask() {
       this.$store.dispatch('todos/addTask', this.taskDescription);
       this.$store.dispatch('todos/setTotalPage');
-      swal('Changes are saved successfully', {
-        buttons: false,
-        className: 'success',
-        iconHtml: '<img src="https://picsum.photos/100/100">',
-        timer: 3000,
-      });
+      // swal('Changes are saved successfully', {
+      //   buttons: false,
+      //   className: 'success',
+      //   iconHtml: '<img src="https://picsum.photos/100/100">',
+      //   timer: 3000,
+      // });
       this.clearField();
     },
     clearField() {

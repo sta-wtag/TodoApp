@@ -134,7 +134,7 @@ export const mutations = {
       done: false,
       description: val,
       completedAt: null,
-      createdAt: new Date().toDateString(),
+      createdAt: new Date(),
     };
 
     state.taskList = [task, ...state.taskList];

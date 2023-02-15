@@ -6,24 +6,30 @@
       </div>
     </div>
     <form @submit.prevent="checkForm">
-      <div class="card">
-        <div
-          v-if="showEditIcon && task !== null"
-          class="text-description"
-          :class="{ 'text-done': task.done }"
-        >
-          {{ task.description }}
+      <div class="card align-content-space-between">
+        <div class="margin-bottom-24">
+          <div
+            v-if="showEditIcon && task !== null"
+            class="text-description"
+            :class="{ 'text-done': task.done }"
+          >
+            {{ task.description }}
+          </div>
+          <div v-else>
+            <textarea
+              id="title"
+              v-model="taskDescription"
+              class="text-area"
+            ></textarea>
+            <label v-if="titleInputError" for="title">
+              {{ $t('validation.todo.title.required') }}
+            </label>
+          </div>
+          <div class="text-caption margin-top-9">
+            {{ formatDate }}
+          </div>
         </div>
-        <div v-else>
-          <textarea id="title" v-model="taskDescription"></textarea>
-          <label v-if="titleInputError" for="title">
-            {{ $t('validation.todo.title.required') }}
-          </label>
-        </div>
-        <div class="text-caption margin-top-9 margin-bottom-24">
-          {{ formatDate }}
-        </div>
-        <div class="space-between flex-box">
+        <div class="space-between flex-box width-full">
           <div class="flex-gap-8 card-button text-button">
             <div v-if="!task?.done" class="flex-gap-8">
               <button value="update" @click.prevent="markDone">
@@ -184,6 +190,9 @@ export default {
 };
 </script>
 <style lang="scss">
+textarea {
+  height: 80px;
+}
 .load-overlay {
   width: 100%;
   height: 100%;

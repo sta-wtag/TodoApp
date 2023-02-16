@@ -7,7 +7,8 @@
 
     <div class="flex-box">
       <input
-        v-if="isSearching"
+        v-if="search"
+        id="searchInputField"
         v-model="searchText"
         class="margin-right-19 input-search text-search"
         @keyup.prevent="debounced"
@@ -19,13 +20,6 @@
       >
         <SearchIcon />
       </div>
-      <input
-        v-if="search"
-        id="searchInputField"
-        v-model="searchText"
-        class="margin-right-19"
-        @keyup.prevent="debounced"
-      />
 
       <select class="text-button" @change="switchLanguage">
         <option value="" disabled>{{ $t('SelectLanguage') }}</option>

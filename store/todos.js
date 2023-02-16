@@ -66,6 +66,7 @@ export const actions = {
       // return to the location where is was dispatched after being resolved
       setTimeout(() => {
         commit('deleteTask', val);
+        commit('setListPerPage');
         commit('setCompleteRequest', false);
         resolve();
       }, 1000);
@@ -77,6 +78,7 @@ export const actions = {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         commit('changeTaskState', val);
+        commit('setListPerPage');
         commit('setCompleteRequest', false);
         resolve();
       }, 1000);
@@ -113,7 +115,12 @@ export const actions = {
   },
 
   setSearchText: ({ commit }, val) => {
-    commit('setSearchText', val);
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        commit('setSearchText', val);
+        resolve();
+      }, 1000);
+    });
   },
   setActiveFilterOption: ({ commit }, val) => {
     commit('setActiveFilterOption', val);

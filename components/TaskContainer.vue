@@ -1,12 +1,12 @@
 <template>
-  <div class="main-div">
+  <div class="main-div relative-position">
     <div class="title-text">{{ $t('PageTitle') }}</div>
     <div class="space-between flex-box margin-top-28 margin-bottom-34">
       <div>
         <button
           class="create-button text-button flex-box"
           :disabled="isSearching"
-          @click="showAddTodoCard()"
+          @click="showAddTodoCard"
         >
           <PlusIcon class="align-self-center margin-right-5" />
           {{ $t('create') }}
@@ -33,6 +33,12 @@
       </form>
       <div v-for="task in todoList" :key="task.id">
         <TaskCard :card-data="task" />
+      </div>
+
+      <div v-if="isSearching" class="load-overlay">
+        <div class="spin-icon">
+          <LoadingIcon />
+        </div>
       </div>
     </div>
     <div class="center-item">
@@ -69,9 +75,16 @@ import FilterComponent from '@/components/buttons/FilterComponent.vue';
 import DeleteIcon from '@/components/buttons/DeleteIcon.vue';
 import PlusIcon from '@/assets/svg/plusIcon.svg';
 import NoTaskLogo from '@/assets/svg/noTask.svg';
+import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
 export default {
   name: 'IndexPage',
-  components: { DeleteIcon, FilterComponent, NoTaskLogo, PlusIcon },
+  components: {
+    DeleteIcon,
+    FilterComponent,
+    NoTaskLogo,
+    PlusIcon,
+    LoadingIcon,
+  },
   data: () => ({
     titleInputError: false,
     titleErrorMsg: '',

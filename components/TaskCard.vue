@@ -140,8 +140,13 @@ export default {
     },
     checkForm(e) {
       e.preventDefault();
+      // Sanitize the user input by removing any HTML tags
+      const sanitizedInput = this.taskDescription.replace(/<[^>]+>/g, '');
 
-      if (this.taskDescription.length <= 0) {
+      // Set the sanitized input as the value of the input element
+      this.taskDescription = sanitizedInput;
+
+      if (this.taskDescription.trim().length <= 0) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
         swal('Field is empty', {

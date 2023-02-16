@@ -22,7 +22,7 @@
   "validation": {
       "todo": {
           "title": {
-              "required": "শিরোনাম প্রয়োজন"
+              "required": "অবৈধ ইনপুট"
           }
       }
   }

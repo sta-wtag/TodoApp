@@ -19,6 +19,7 @@ export const state = () => ({
   taskListPerPage: [],
   searchText: '',
   isSearching: false,
+  showSearchField: false,
   filterOptions: [
     { id: uuid(), title: 'All', status: false },
     { id: uuid(), title: 'Incomplete', status: false },
@@ -51,6 +52,9 @@ export const getters = {
   },
   getIsSearching: (state) => {
     return state.isSearching;
+  },
+  getShowSearchField(state) {
+    return state.showSearchField;
   },
 };
 
@@ -89,6 +93,9 @@ export const actions = {
   },
   setListPerPage: ({ commit }) => {
     commit('setListPerPage');
+  },
+  setShowSearchField: ({ commit }, val) => {
+    commit('setShowSearchField', val);
   },
   editTask: ({ state, commit }, val, id) => {
     commit('setCompleteRequest', true);
@@ -184,6 +191,9 @@ export const mutations = {
   },
   setActiveFilterOption(state, val) {
     state.activeFilterOption = val;
+  },
+  setShowSearchField(state, val) {
+    state.showSearchField = val;
   },
   filterTaskList(state) {
     state.filterOptions.map((option) => (option.status = false));

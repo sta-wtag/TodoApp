@@ -7,7 +7,7 @@
 
     <div class="flex-box">
       <input
-        v-if="search"
+        v-if="showSearchInput"
         id="searchInputField"
         v-model="searchText"
         class="margin-right-19 input-search text-search"
@@ -57,6 +57,7 @@ export default {
       locales: 'lang/getLocals',
       currentLocale: 'lang/getCurrentLocale',
       isSearching: 'todos/getIsSearching',
+      showSearchInput: 'todos/getShowSearchField',
     }),
   },
   mounted() {
@@ -78,7 +79,7 @@ export default {
     },
     async setSearch() {
       this.search = !this.search;
-      await this.$store.dispatch('todos/setIsSearching', false);
+      await this.$store.dispatch('todos/setShowSearchField', this.search);
 
       if (document.getElementById('searchInputField')) {
         document.getElementById('searchInputField').focus();

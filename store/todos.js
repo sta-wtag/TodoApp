@@ -1,5 +1,12 @@
 import { uuid } from 'uuidv4';
-import { LIMIT, PER_PAGE } from '@/constants.js';
+
+import {
+  LIMIT,
+  COMPLETE_TASK,
+  ALL_TASK,
+  INCOMPLETE_TASK,
+  PER_PAGE,
+} from '../constants';
 
 export const state = () => ({
   limit: LIMIT,
@@ -9,18 +16,26 @@ export const state = () => ({
   totalPage: 1,
   completeRequest: false,
   taskList: [],
-  filteredList: [],
+  taskListPerPage: [],
+  filterOptions: [
+    { id: uuid(), title: 'All', status: true },
+    { id: uuid(), title: 'Incomplete', status: false },
+    { id: uuid(), title: 'Complete', status: false },
+  ],
 });
 
 export const getters = {
   getTodoList: (state) => {
     return state.taskList;
   },
+  getFilterOptions: (state) => {
+    return state.filterOptions;
+  },
   getCompleteRequest: (state) => {
     return state.completeRequest;
   },
   getListPerPage: (state) => {
-    return state.taskList.slice(0, state.perPage);
+    return state.taskListPerPage.slice(0, state.perPage);
   },
   getTotalTask: (state) => {
     return state.taskList.length;
@@ -33,6 +48,7 @@ export const getters = {
 export const actions = {
   addTask: ({ state, commit }, val) => {
     commit('addTask', val);
+    commit('setListPerPage');
   },
   deleteTask: ({ state, commit }, val) => {
     commit('setCompleteRequest', true);
@@ -60,6 +76,9 @@ export const actions = {
   setCompleteRequest: ({ state, commit }, val) => {
     commit('setCompleteRequest', val);
   },
+  setListPerPage: ({ commit }) => {
+    commit('setListPerPage');
+  },
   editTask: ({ state, commit }, val, id) => {
     commit('setCompleteRequest', true);
 
@@ -80,6 +99,9 @@ export const actions = {
   setTotalPage: ({ commit }) => {
     commit('setTotalPage');
   },
+  filterTaskList: ({ commit, state }, val) => {
+    commit('filterTaskList', val);
+  },
 };
 
 export const mutations = {
@@ -92,13 +114,15 @@ export const mutations = {
       createdAt: new Date().toDateString(),
     };
 
+    state.filterOptions.forEach((element) => (element.status = false));
+    state.filterOptions[0].status = true;
     state.taskList = [task, ...state.taskList];
   },
   setCompleteRequest: (state, val) => {
     state.completeRequest = val;
   },
-  setTotalPage: (state, _val) => {
-    state.totalPage = Math.ceil(state.taskList.length / state.limit);
+  setTotalPage: (state, val) => {
+    state.totalPage = Math.ceil(state.taskListPerPage.length / state.limit);
   },
   deleteTask: (state, val) => {
     const list = state.taskList;
@@ -123,5 +147,34 @@ export const mutations = {
   resetLimit(state, val) {
     state.perPage = PER_PAGE;
     state.page = 1;
+  },
+  setListPerPage(state, val) {
+    state.taskListPerPage = state.taskList;
+  },
+  filterTaskList(state, val) {
+    state.filterOptions.forEach((element) => (element.status = false));
+    const option = state.filterOptions.find((option) => option.id === val.id);
+
+    option.status = true;
+
+    if (val.title === ALL_TASK) {
+      state.taskListPerPage = state.taskList;
+
+      return;
+    }
+
+    if (val.title === INCOMPLETE_TASK) {
+      state.taskListPerPage = state.taskList.filter(
+        (task) => task.done === false
+      );
+
+      return;
+    }
+
+    if (val.title === COMPLETE_TASK) {
+      state.taskListPerPage = state.taskList.filter(
+        (task) => task.done === true
+      );
+    }
   },
 };

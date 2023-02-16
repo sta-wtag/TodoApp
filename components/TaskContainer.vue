@@ -5,7 +5,7 @@
       <div>
         <button @click="showAddTodoCard()">{{ $t('create') }}</button>
       </div>
-      <FilterComponent />
+      <FilterComponent :options="filterOptions" />
     </div>
     <div class="list-div">
       <form v-if="showAddCard" @submit.prevent="checkForm">
@@ -29,10 +29,18 @@
       </div>
     </div>
     <div class="center-item">
-      <button v-if="loadMoreTask" class="load-button" @click="loadMore">
+      <button
+        v-if="loadMoreTask"
+        class="load-button text-button"
+        @click="loadMore"
+      >
         {{ $t('load-more') }}
       </button>
-      <button v-if="showLessTask" class="load-button" @click="showLess">
+      <button
+        v-if="showLessTask"
+        class="load-button text-button"
+        @click="showLess"
+      >
         {{ $t('show-less') }}
       </button>
     </div>
@@ -66,6 +74,7 @@ export default {
     ...mapGetters('todos', {
       todoList: 'getListPerPage',
       totalPage: 'getTotalPage',
+      filterOptions: 'getFilterOptions',
     }),
     ...mapState('todos', {
       perPage: 'perPage',
@@ -83,6 +92,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('todos/setTotalPage');
+    this.$store.dispatch('todos/filterTaskList', this.filterOptions[0]);
   },
   methods: {
     showAddTodoCard() {
@@ -164,7 +174,6 @@ body {
   border: none;
   border-radius: 5px;
   padding: 9px 20px;
-  font: inherit;
   cursor: pointer;
   margin: 57px 0px;
 }

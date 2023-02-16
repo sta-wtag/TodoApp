@@ -7,7 +7,8 @@
 
     <div class="display-only">
       <input
-        v-if="isSearching"
+        v-if="search"
+        id="searchInputField"
         v-model="searchText"
         class="margin-right-19 input-search text-search"
         @keyup.prevent="debounced"
@@ -60,7 +61,7 @@ export default {
   },
   mounted() {
     this.$i18n.setLocale(this.currentLocale.code);
-    this.debounced = debounce(this.searchTask, 2000);
+    this.debounced = debounce(this.searchTask, 500);
   },
   methods: {
     switchLanguage(event) {
@@ -68,14 +69,20 @@ export default {
       this.$i18n.setLocale(event.target.value);
     },
     async searchTask() {
+      this.$store.dispatch('todos/setIsSearching', true);
       await this.$store.dispatch('todos/setSearchText', this.searchText);
       this.$store.dispatch('todos/filterTaskList');
+      this.$store.dispatch('todos/setIsSearching', false);
       this.$store.dispatch('todos/resetLimit');
       this.$store.dispatch('todos/setTotalPage');
     },
-    setSearch() {
+    async setSearch() {
       this.search = !this.search;
-      this.$store.commit('todos/setIsSearching', this.search);
+      await this.$store.dispatch('todos/setIsSearching', false);
+
+      if (document.getElementById('searchInputField')) {
+        document.getElementById('searchInputField').focus();
+      }
     },
   },
 };

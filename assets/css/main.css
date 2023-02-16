@@ -100,7 +100,6 @@ text-align: left;
 
 
 .card {
-  width: 100%;
   padding: 16px;
   border-radius: 5px;
   border: 1px solid #dde2ff;
@@ -108,6 +107,7 @@ text-align: left;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
+  z-index: -1
 }
 
 .chip {

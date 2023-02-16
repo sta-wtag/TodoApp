@@ -1,8 +1,44 @@
 <template>
-  <div class="relative-position">
-    <div v-if="requestInProcess && isSearching" class="load-overlay">
-      <div class="spin-icon">
-        <LoadingIcon />
+  <div class="main-div relative-position">
+    <div class="title-text">{{ $t('PageTitle') }}</div>
+    <div class="space-between flex-box margin-top-28 margin-bottom-34">
+      <div>
+        <button
+          class="create-button text-button flex-box"
+          :disabled="isSearching"
+          @click="showAddTodoCard"
+        >
+          <PlusIcon class="align-self-center margin-right-5" />
+          {{ $t('create') }}
+        </button>
+      </div>
+      <FilterComponent :options="filterOptions" />
+    </div>
+    <div class="list-div">
+      <form v-if="showAddCard" @submit.prevent="checkForm">
+        <div class="card">
+          <textarea id="taskTitle" v-model="taskDescription"></textarea>
+          <label v-if="titleInputError" for="taskTitle">
+            {{ $t('validation.todo.title.required') }}
+          </label>
+          <div class="flex-box margin-top-13">
+            <button class="add-button" type="submit">
+              {{ $t('AddTask') }}
+            </button>
+            <div class="align-self-center" @click="clearField()">
+              <DeleteIcon />
+            </div>
+          </div>
+        </div>
+      </form>
+      <div v-for="task in todoList" :key="task.id">
+        <TaskCard :card-data="task" />
+      </div>
+
+      <div v-if="isSearching" class="load-overlay">
+        <div class="spin-icon">
+          <LoadingIcon />
+        </div>
       </div>
     </div>
     <div class="main-div main-div-padding">
@@ -77,7 +113,9 @@ import NoTaskLogo from '../assets/svg/noTask.svg';
 import FilterComponent from './buttons/FilterComponent.vue';
 import DeleteIcon from './buttons/DeleteIcon.vue';
 import LoadingIcon from './buttons/LoadingIcon.vue';
+
 export default {
+  name: 'IndexPage',
   components: {
     DeleteIcon,
     FilterComponent,
@@ -186,7 +224,12 @@ body {
 }
 .add-button {
   margin-right: 19px;
-  margin-top: 13px;
+  background: white;
+  color: $button-background;
+  border: 1px solid $border-primary;
+  border-radius: 5px;
+  padding: 9px 18px;
+  cursor: pointer;
 }
 .center-item {
   display: flex;
@@ -196,8 +239,7 @@ body {
   display: grid;
   row-gap: 34px;
   column-gap: 54px;
-
-  padding: 10px;
+  grid-template-columns: auto auto auto;
 }
 
 .wrapper {

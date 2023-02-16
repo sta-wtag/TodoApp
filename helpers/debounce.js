@@ -4,9 +4,7 @@ const debounce = (func, timeout) => {
   return () => {
     clearTimeout(timer);
     timer = setTimeout(() => {
-      // if (!timer) {
       func.apply(this);
-      // }
 
       timer = undefined;
     }, timeout);

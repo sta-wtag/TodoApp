@@ -1,20 +1,19 @@
 <template>
-  <div class="main-div relative-position">
+  <div class="main-div main-div-padding relative-position">
     <div class="title-text">{{ $t('PageTitle') }}</div>
     <div class="space-between flex-box margin-top-28 margin-bottom-34">
-      <div>
-        <button
-          class="create-button text-button flex-box"
-          :disabled="isSearching"
-          @click="showAddTodoCard"
-        >
-          <PlusIcon class="align-self-center margin-right-5" />
-          {{ $t('create') }}
-        </button>
-      </div>
+      <button
+        class="create-button text-button"
+        data-testid="create-button"
+        :disabled="isSearching"
+        @click="showAddTodoCard"
+      >
+        <PlusIcon class="align-self-center margin-right-5" />
+        {{ $t('create') }}
+      </button>
       <FilterComponent :options="filterOptions" />
     </div>
-    <div class="list-div">
+    <div class="list-div grid-template-column">
       <form v-if="showAddCard" @submit.prevent="checkForm">
         <div class="card">
           <textarea id="taskTitle" v-model="taskDescription"></textarea>
@@ -34,72 +33,35 @@
       <div v-for="task in todoList" :key="task.id">
         <TaskCard :card-data="task" />
       </div>
-
       <div v-if="isSearching" class="load-overlay">
         <div class="spin-icon">
           <LoadingIcon />
         </div>
       </div>
     </div>
-    <div class="main-div main-div-padding">
-      <div class="title-text">{{ $t('PageTitle') }}</div>
-      <div class="space-between flex-box margin-top-28 margin-bottom-34">
-        <button
-          class="create-button text-button"
-          data-testid="create-button"
-          :disabled="isSearching"
-          @click="showAddTodoCard"
-        >
-          <PlusIcon class="align-self-center margin-right-5" />
-          {{ $t('create') }}
-        </button>
-        <FilterComponent :options="filterOptions" />
-      </div>
-      <div class="list-div grid-template-column">
-        <form v-if="showAddCard" @submit.prevent="checkForm">
-          <div class="card">
-            <textarea id="taskTitle" v-model="taskDescription"></textarea>
-            <label v-if="titleInputError" for="taskTitle">
-              {{ $t('validation.todo.title.required') }}
-            </label>
-            <div class="flex-box">
-              <button class="add-button" type="submit">
-                {{ $t('AddTask') }}
-              </button>
-              <div class="margin-top-13" @click="clearField()">
-                <DeleteIcon />
-              </div>
-            </div>
-          </div>
-        </form>
-        <div v-for="task in todoList" :key="task.id">
-          <TaskCard :card-data="task" />
+    <div class="center-item">
+      <button
+        v-if="loadMoreTask"
+        class="load-button text-button"
+        @click="loadMore"
+      >
+        {{ $t('load-more') }}
+      </button>
+      <button
+        v-if="showLessTask"
+        class="load-button text-button"
+        @click="showLess"
+      >
+        {{ $t('show-less') }}
+      </button>
+    </div>
+    <div v-if="hasNoTask" class="wrapper">
+      <div class="content">
+        <div class="center-item">
+          <NoTaskLogo />
         </div>
-      </div>
-      <div class="center-item">
-        <button
-          v-if="loadMoreTask"
-          class="load-button text-button"
-          @click="loadMore"
-        >
-          {{ $t('load-more') }}
-        </button>
-        <button
-          v-if="showLessTask"
-          class="load-button text-button"
-          @click="showLess"
-        >
-          {{ $t('show-less') }}
-        </button>
-      </div>
-      <div v-if="hasNoTask" class="wrapper">
-        <div class="content">
-          <div class="center-item">
-            <NoTaskLogo />
-          </div>
-          <div class="info-text margin-top-32">
-            {{ $t('NoTask') }}
-          </div>
+        <div class="info-text margin-top-32">
+          {{ $t('NoTask') }}
         </div>
       </div>
     </div>

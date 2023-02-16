@@ -124,9 +124,18 @@ export default {
     checkForm(e) {
       e.preventDefault();
 
-      if (this.taskDescription.length <= 0) {
+      if (this.taskDescription.trim().length <= 0) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
+
+        return;
+      }
+
+      const pattern = /[^a-z\d]/;
+
+      if (pattern.test(this.taskDescription)) {
+        this.titleInputError = true;
+        this.titleErrorMsg = 'Invalid Input';
 
         return;
       }

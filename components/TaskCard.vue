@@ -85,23 +85,21 @@ export default {
     ...mapGetters({ requestInProcess: 'todos/getCompleteRequest' }),
 
     formatDate() {
-      console.log(this.task?.createdAt);
-
-      if (!this.task?.createdAt) return;
+      if (!this.task?.created_at) return;
 
       return (
         this.$t('CreatedAt') +
         ':  ' +
-        this.$helper.formatDate(this.task.createdAt)
+        this.$helper.formatDate(this.task.created_at)
       );
     },
     duration() {
-      if (!this.task?.completedAt) return;
+      if (!this.task?.completed_at) return;
 
       return (
         this.$t('Completed') +
         '   ' +
-        this.$helper.getDuration(this.task.createdAt, this.task.completedAt)
+        this.$helper.getDuration(this.task.created_at, this.task.completed_at)
       );
     },
   },

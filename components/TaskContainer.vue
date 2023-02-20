@@ -118,7 +118,8 @@ export default {
       return !this.hasNoTask && this.page >= this.totalPage && this.page !== 1;
     },
   },
-  mounted() {
+  async mounted() {
+    await this.$store.dispatch('todos/setTodoList');
     this.$store.dispatch('todos/setTotalPage');
 
     if (this.filterOptions && this.filterOptions.length > 0) {

@@ -1,5 +1,4 @@
 import { uuid } from 'uuidv4';
-
 import {
   LIMIT,
   COMPLETE_TASK,
@@ -7,6 +6,10 @@ import {
   INCOMPLETE_TASK,
   PER_PAGE,
 } from '../constants';
+import Database from '../helpers/database';
+
+const database = new Database();
+const supabase = database.supabase;
 
 export const state = () => ({
   limit: LIMIT,
@@ -59,9 +62,32 @@ export const getters = {
 };
 
 export const actions = {
-  addTask: ({ state, commit }, val) => {
-    commit('addTask', val);
-    commit('setListPerPage');
+  addTask: async ({ state, commit }, val) => {
+    try {
+      const task = {
+        status: false,
+        description: val,
+        completed_at: null,
+        created_at: new Date(),
+      };
+      const { data: todo, error } = await supabase
+        .from('Todos')
+        .insert(task)
+        .single();
+
+      if (error) {
+        return;
+      }
+
+      // handle for when no todos are returned
+      if (todos === null) {
+        return;
+      }
+
+      // store response to allTodos
+      commit('addTask', todo);
+      commit('setListPerPage');
+    } catch (err) {}
   },
   deleteTask: ({ state, commit }, val) => {
     commit('setCompleteRequest', true);
@@ -118,6 +144,26 @@ export const actions = {
   setTotalPage: ({ commit }) => {
     commit('setTotalPage');
   },
+  setTodoList: async ({ commit }) => {
+    try {
+      const { data: todos, error } = await supabase
+        .from('Todos')
+        .select()
+        .order('id');
+
+      if (error) {
+        return;
+      }
+
+      // handle for when no todos are returned
+      if (todos === null) {
+        return;
+      }
+
+      // store response to allTodos
+      commit('setTodoList', todos);
+    } catch (err) {}
+  },
   filterTaskList: ({ commit, state }, val) => {
     commit('filterTaskList', val);
   },
@@ -139,18 +185,13 @@ export const actions = {
 };
 
 export const mutations = {
+  setTodoList: (state, val) => {
+    state.taskList = val;
+  },
   addTask: (state, val) => {
-    const task = {
-      id: uuid(),
-      done: false,
-      description: val,
-      completedAt: null,
-      createdAt: new Date(),
-    };
-
     state.filterOptions.forEach((element) => (element.status = false));
     state.filterOptions[0].status = true;
-    state.taskList = [task, ...state.taskList];
+    state.taskList = [val, ...state.taskList];
   },
   setCompleteRequest: (state, val) => {
     state.completeRequest = val;
@@ -159,7 +200,6 @@ export const mutations = {
     state.totalPage = Math.ceil(state.taskListPerPage.length / state.limit);
   },
   deleteTask: (state, val) => {
-    console.log(val.id);
     const list = state.taskList;
 
     state.taskList = list.filter((task) => task.id !== val.id);

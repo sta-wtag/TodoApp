@@ -11,12 +11,12 @@
           v-if="showSearchInput"
           id="searchInputField"
           v-model="searchText"
-          class="margin-right-1 input-search text-search"
+          class="margin-right-5 input-search text-search"
           @keyup.prevent="debounced"
         />
         <div
           id="search-icon"
-          class="align-self-center margin-right-1"
+          class="align-self-center margin-right-5"
           @click="setSearch"
         >
           <SearchIcon />

@@ -247,7 +247,7 @@ body {
     cursor: pointer;
   }
 }
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 500px) {
   .grid-template-column {
     grid-template-columns: auto;
   }

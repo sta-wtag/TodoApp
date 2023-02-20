@@ -135,7 +135,7 @@ export default {
       if (this.taskDescription.trim().length <= 0) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
-        swal('Field is empty', {
+        swal(this.$t('alert.message.error'), {
           buttons: false,
           className: 'error',
           iconHtml: '<img src="https://picsum.photos/100/100">',
@@ -150,7 +150,7 @@ export default {
     addTask() {
       this.$store.dispatch('todos/addTask', this.taskDescription);
       this.$store.dispatch('todos/setTotalPage');
-      swal('Changes are saved successfully', {
+      swal(this.$t('alert.message.success'), {
         buttons: false,
         className: 'success',
         iconHtml: '<img src="https://picsum.photos/100/100">',

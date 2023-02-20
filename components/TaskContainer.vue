@@ -2,14 +2,14 @@
   <div class="flex-box flex-direction-column height-full">
     <div class="main-div-padding relative-position">
       <div class="title-text">{{ $t('PageTitle') }}</div>
-      <div class="space-between flex-box margin-top-28 margin-bottom-34">
+      <div class="space-between flex-box margin-top-7 margin-bottom-9">
         <button
           class="create-button text-button"
           data-testid="create-button"
           :disabled="isSearching"
           @click="showAddTodoCard"
         >
-          <PlusIcon class="align-self-center margin-right-5" />
+          <PlusIcon class="align-self-center margin-right-1" />
           {{ $t('create') }}
         </button>
         <FilterComponent
@@ -24,7 +24,7 @@
             <label v-if="titleInputError" for="taskTitle">
               {{ $t('validation.todo.title.required') }}
             </label>
-            <div class="flex-box margin-top-13">
+            <div class="flex-box margin-top-3">
               <button class="add-button" type="submit">
                 {{ $t('AddTask') }}
               </button>
@@ -65,7 +65,7 @@
         <div class="center-item">
           <NoTaskLogo />
         </div>
-        <div class="info-text margin-top-32">
+        <div class="info-text margin-top-8">
           {{ $t('NoTask') }}
         </div>
       </div>

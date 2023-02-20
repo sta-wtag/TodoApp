@@ -7,7 +7,7 @@
     </div>
     <form @submit.prevent="checkForm">
       <div class="card align-content-space-between">
-        <div class="margin-bottom-24">
+        <div class="margin-bottom-6">
           <div
             v-if="showEditIcon && task !== null"
             class="text-description text-concat"
@@ -25,7 +25,7 @@
               {{ $t('validation.todo.title.required') }}
             </label>
           </div>
-          <div class="text-caption margin-top-9">
+          <div class="text-caption margin-top-2">
             {{ formatDate }}
           </div>
         </div>

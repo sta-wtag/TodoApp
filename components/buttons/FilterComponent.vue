@@ -2,7 +2,7 @@
   <div class="flex-box">
     <div v-for="option in options" :key="option.id">
       <button
-        class="margin-left-19 text-button"
+        class="margin-left-5 text-button"
         :class="option.status ? 'selected-option' : 'unselected-option'"
         :disabled="isSearching"
         @click.prevent="filterList(option)"

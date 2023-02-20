@@ -4,7 +4,7 @@
       <div class="icon-anim"></div>
       <div class="flex-box">
         <SplashIcon class="align-self-center" />
-        <div class="splash-text margin-left-28">TODOS</div>
+        <div class="splash-text margin-left-7">TODOS</div>
       </div>
     </div>
   </div>

@@ -172,9 +172,10 @@ export default {
 
       this.addTask();
     },
-    addTask() {
+    async addTask() {
       this.$store.dispatch('todos/addTask', this.taskDescription);
       this.$store.dispatch('todos/setTotalPage');
+      await this.$store.dispatch('todos/setTodoList');
       swal('Changes are saved successfully', {
         buttons: false,
         className: 'success',

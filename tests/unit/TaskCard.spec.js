@@ -5,7 +5,6 @@ import NuxtI18n from 'vue-i18n';
 import localVue from '../utils/vueInstanceFactory';
 import i18Mock from '../utils/i18Mock';
 import { todos } from '../utils/storeHelper';
-// import lang from '../../store/lang';
 import { helper } from '../../helpers/helper';
 import TaskCard from '../../components/TaskCard.vue';
 

@@ -1,36 +1,38 @@
 <template>
   <div class="header">
-    <div class="flex-box">
-      <NavLogo class="align-self-center" />
-      <span class="header-text header-text-small">Todos</span>
-    </div>
-
-    <div class="display-only">
-      <input
-        v-if="showSearchInput"
-        id="searchInputField"
-        v-model="searchText"
-        class="margin-right-19 input-search text-search"
-        @keyup.prevent="debounced"
-      />
-      <div
-        id="search-icon"
-        class="align-self-center margin-right-19"
-        @click="setSearch"
-      >
-        <SearchIcon />
+    <div class="header-padding flex-box space-between">
+      <div class="flex-box">
+        <NavLogo class="align-self-center" />
+        <span class="header-text header-text-small">Todos</span>
       </div>
 
-      <select class="text-button" @change="switchLanguage">
-        <option value="" disabled>{{ $t('SelectLanguage') }}</option>
-        <option
-          v-for="locale in locales"
-          :key="locale.code"
-          :value="locale.code"
+      <div class="display-only">
+        <input
+          v-if="showSearchInput"
+          id="searchInputField"
+          v-model="searchText"
+          class="margin-right-19 input-search text-search"
+          @keyup.prevent="debounced"
+        />
+        <div
+          id="search-icon"
+          class="align-self-center margin-right-19"
+          @click="setSearch"
         >
-          {{ locale.name }}
-        </option>
-      </select>
+          <SearchIcon />
+        </div>
+
+        <select class="text-button" @change="switchLanguage">
+          <option value="" disabled>{{ $t('SelectLanguage') }}</option>
+          <option
+            v-for="locale in locales"
+            :key="locale.code"
+            :value="locale.code"
+          >
+            {{ locale.name }}
+          </option>
+        </select>
+      </div>
     </div>
   </div>
 </template>
@@ -123,15 +125,18 @@ select {
   border: 3px solid #d1d8ff;
   border-radius: 5px;
 }
-
+.header {
+  text-align: center;
+  background-color: white;
+  border-bottom: 1px solid $border-primary;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 1;
+}
 @media only screen and (min-width: 768px) {
-  .header {
-    text-align: center;
-    display: flex;
-    padding: 15px 150px;
-    background-color: white;
-    justify-content: space-between;
-    border-bottom: 1px solid $border-primary;
+  .header-padding {
+    margin: 15px 150px;
   }
 
   .display-only {
@@ -149,13 +154,8 @@ select {
   }
 }
 @media only screen and (max-width: 400px) {
-  .header {
-    text-align: center;
-    display: flex;
-    padding: 15px 16px;
-    background-color: white;
-    justify-content: space-between;
-    border-bottom: 1px solid $border-primary;
+  .header-padding {
+    margin: 15px 16px;
   }
   .display-only {
     display: none;

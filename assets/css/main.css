@@ -4,7 +4,22 @@
   font-weight: normal;
   font-style: normal;
 }
-
+.min-height{
+  min-height: 100vh;
+  overflow: hidden;
+}
+.height-full {
+  height: 100%
+}
+.height-screen {
+  height:100vh;
+}
+.flex-direction-column {
+  flex-direction: column;
+}
+.justify-self-center {
+  justify-self: center;
+}
 @media only screen and (max-width: 400px) {
   
 .title-text {

@@ -1,62 +1,64 @@
 <template>
-  <div class="main-div main-div-padding relative-position">
-    <div class="title-text">{{ $t('PageTitle') }}</div>
-    <div class="space-between flex-box margin-top-28 margin-bottom-34">
-      <button
-        class="create-button text-button"
-        data-testid="create-button"
-        :disabled="isSearching"
-        @click="showAddTodoCard"
-      >
-        <PlusIcon class="align-self-center margin-right-5" />
-        {{ $t('create') }}
-      </button>
-      <FilterComponent :options="filterOptions" />
-    </div>
-    <div class="list-div grid-template-column">
-      <form v-if="showAddCard" @submit.prevent="checkForm">
-        <div class="card">
-          <textarea id="taskTitle" v-model="taskDescription"></textarea>
-          <label v-if="titleInputError" for="taskTitle">
-            {{ $t('validation.todo.title.required') }}
-          </label>
-          <div class="flex-box margin-top-13">
-            <button class="add-button" type="submit">
-              {{ $t('AddTask') }}
-            </button>
-            <div class="align-self-center" @click="clearField()">
-              <DeleteIcon />
+  <div class="flex-box flex-direction-column height-full">
+    <div class="main-div-padding relative-position first">
+      <div class="title-text">{{ $t('PageTitle') }}</div>
+      <div class="space-between flex-box margin-top-28 margin-bottom-34">
+        <button
+          class="create-button text-button"
+          data-testid="create-button"
+          :disabled="isSearching"
+          @click="showAddTodoCard"
+        >
+          <PlusIcon class="align-self-center margin-right-5" />
+          {{ $t('create') }}
+        </button>
+        <FilterComponent :options="filterOptions" />
+      </div>
+      <div class="list-div grid-template-column">
+        <form v-if="showAddCard" @submit.prevent="checkForm">
+          <div class="card">
+            <textarea id="taskTitle" v-model="taskDescription"></textarea>
+            <label v-if="titleInputError" for="taskTitle">
+              {{ $t('validation.todo.title.required') }}
+            </label>
+            <div class="flex-box margin-top-13">
+              <button class="add-button" type="submit">
+                {{ $t('AddTask') }}
+              </button>
+              <div class="align-self-center" @click="clearField()">
+                <DeleteIcon />
+              </div>
             </div>
           </div>
+        </form>
+        <div v-for="task in todoList" :key="task.id">
+          <TaskCard :card-data="task" />
         </div>
-      </form>
-      <div v-for="task in todoList" :key="task.id">
-        <TaskCard :card-data="task" />
+        <div v-if="isSearching" class="load-overlay">
+          <div class="spin-icon">
+            <LoadingIcon />
+          </div>
+        </div>
       </div>
-      <div v-if="isSearching" class="load-overlay">
-        <div class="spin-icon">
-          <LoadingIcon />
-        </div>
+      <div class="center-item">
+        <button
+          v-if="loadMoreTask"
+          class="load-button text-button"
+          @click="loadMore"
+        >
+          {{ $t('load-more') }}
+        </button>
+        <button
+          v-if="showLessTask"
+          class="load-button text-button"
+          @click="showLess"
+        >
+          {{ $t('show-less') }}
+        </button>
       </div>
     </div>
-    <div class="center-item">
-      <button
-        v-if="loadMoreTask"
-        class="load-button text-button"
-        @click="loadMore"
-      >
-        {{ $t('load-more') }}
-      </button>
-      <button
-        v-if="showLessTask"
-        class="load-button text-button"
-        @click="showLess"
-      >
-        {{ $t('show-less') }}
-      </button>
-    </div>
-    <div v-if="hasNoTask" class="wrapper">
-      <div class="content">
+    <div v-if="hasNoTask && !showAddCard" class="flex-grow-1">
+      <div class="wrapper">
         <div class="center-item">
           <NoTaskLogo />
         </div>
@@ -181,14 +183,10 @@ export default {
 };
 </script>
 <style lang="scss">
-html,
-body {
-  margin: 0px;
-  width: 100%;
-  height: 100%;
+.flex-grow-1 {
+  flex-grow: 1;
 }
-.main-div {
-  height: 100vh;
+.primary-background {
   background-color: $base-color;
 }
 .add-button {
@@ -211,14 +209,9 @@ body {
   grid-template-columns: auto auto auto;
 }
 
-.wrapper {
-  align-items: center;
-  display: flex;
-  height: calc(100% - (70px + 70px));
-}
 .content {
+  align-self: center;
   margin: auto;
-  width: 500px;
 }
 
 .load-button {
@@ -232,11 +225,16 @@ body {
 }
 
 @media only screen and (min-width: 768px) {
+  .wrapper {
+    position: absolute;
+    top: 45%;
+    left: 40%;
+  }
   .grid-template-column {
     grid-template-columns: auto auto auto;
   }
   .main-div-padding {
-    padding: 62px 149px;
+    padding: 0px 149px;
   }
   .create-button {
     background: $primary-text;

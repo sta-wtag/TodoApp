@@ -1,23 +1,6 @@
 import { jest } from '@jest/globals';
 import { uuid } from 'uuidv4';
 import { LIMIT } from '../../constants.js';
-// export const settings = {
-//   namespaced: true,
-//   state: {
-//     users: null,
-//     currentUser: null,
-//     weekdays: null,
-//   },
-//   getters: {
-//     currentAppUser() {},
-//   },
-
-//   actions: {
-//     fetchUserById: jest.fn(),
-//     updateUser: jest.fn(),
-//     addSchedules: jest.fn(),
-//   },
-// };
 
 export const todos = {
   namespaced: true,

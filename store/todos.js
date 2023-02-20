@@ -145,6 +145,7 @@ export const actions = {
     commit('setTotalPage');
   },
   setTodoList: async ({ commit }) => {
+    commit('setCompleteRequest', true);
     try {
       const { data: todos, error } = await supabase
         .from('Todos')
@@ -162,6 +163,7 @@ export const actions = {
 
       // store response to allTodos
       commit('setTodoList', todos);
+      commit('setCompleteRequest', false);
     } catch (err) {}
   },
   filterTaskList: ({ commit, state }, val) => {

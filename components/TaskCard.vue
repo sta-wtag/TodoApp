@@ -10,7 +10,7 @@
         <div class="margin-bottom-24">
           <div
             v-if="showEditIcon && task !== null"
-            class="text-description"
+            class="text-description text-concat"
             :class="{ 'text-done': task.done }"
           >
             {{ task.description }}
@@ -197,9 +197,6 @@ export default {
 };
 </script>
 <style lang="scss">
-textarea {
-  height: 80px;
-}
 .load-overlay {
   width: 100%;
   height: 100%;

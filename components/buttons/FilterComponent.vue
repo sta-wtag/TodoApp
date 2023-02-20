@@ -33,6 +33,7 @@ export default {
       this.$store.dispatch('todos/setActiveFilterOption', option);
       this.$store.dispatch('todos/filterTaskList');
       this.$store.dispatch('todos/setTotalPage');
+      this.$emit('closeAddCard');
     },
   },
 };

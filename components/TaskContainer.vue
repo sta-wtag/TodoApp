@@ -1,6 +1,6 @@
 <template>
   <div class="flex-box flex-direction-column height-full">
-    <div class="main-div-padding relative-position first">
+    <div class="main-div-padding relative-position">
       <div class="title-text">{{ $t('PageTitle') }}</div>
       <div class="space-between flex-box margin-top-28 margin-bottom-34">
         <button
@@ -12,7 +12,10 @@
           <PlusIcon class="align-self-center margin-right-5" />
           {{ $t('create') }}
         </button>
-        <FilterComponent :options="filterOptions" />
+        <FilterComponent
+          :options="filterOptions"
+          @closeAddCard="closeAddCard"
+        />
       </div>
       <div class="list-div grid-template-column">
         <form v-if="showAddCard" @submit.prevent="checkForm">
@@ -57,7 +60,7 @@
         </button>
       </div>
     </div>
-    <div v-if="hasNoTask && !showAddCard" class="flex-grow-1">
+    <div v-if="hasNoTask" class="flex-grow-1">
       <div class="wrapper">
         <div class="center-item">
           <NoTaskLogo />
@@ -128,6 +131,9 @@ export default {
     this.$store.dispatch('todos/filterTaskList');
   },
   methods: {
+    closeAddCard() {
+      this.showAddCard = false;
+    },
     async showAddTodoCard() {
       await this.$store.dispatch('todos/setSearchText', '');
       this.$store.dispatch('todos/setShowSearchField', false);
@@ -174,6 +180,7 @@ export default {
       this.taskDescription = '';
     },
     loadMore() {
+      this.showAddCard = false;
       this.$store.dispatch('todos/increaseLimit');
     },
     showLess() {
@@ -204,9 +211,10 @@ export default {
 }
 .list-div {
   display: grid;
+
+  grid-template-columns: repeat(auto-fill, 186px);
   row-gap: 34px;
   column-gap: 54px;
-  grid-template-columns: auto auto auto;
 }
 
 .content {

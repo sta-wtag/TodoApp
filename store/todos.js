@@ -127,7 +127,7 @@ export const actions = {
       setTimeout(() => {
         commit('setSearchText', val);
         resolve();
-      }, 1000);
+      }, 500);
     });
   },
   setActiveFilterOption: ({ commit }, val) => {

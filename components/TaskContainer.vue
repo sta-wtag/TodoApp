@@ -18,7 +18,7 @@
         />
       </div>
       <div class="list-div grid-template-column">
-        <form v-if="showAddCard" @submit.prevent="checkForm">
+        <form v-if="showAddCard" @submit.prevent="submitForm">
           <div class="card">
             <textarea id="taskTitle" v-model="taskDescription"></textarea>
             <label v-if="titleInputError" for="taskTitle">
@@ -74,12 +74,13 @@
 </template>
 <script>
 import { mapGetters, mapState } from 'vuex';
-import swal from 'sweetalert';
-import PlusIcon from '../assets/svg/plusIcon.svg';
-import NoTaskLogo from '../assets/svg/noTask.svg';
-import FilterComponent from './buttons/FilterComponent.vue';
-import DeleteIcon from './buttons/DeleteIcon.vue';
-import LoadingIcon from './buttons/LoadingIcon.vue';
+import { LIMIT, SUCCESS, ERROR } from '../constants';
+import FilterComponent from '@/components/buttons/FilterComponent.vue';
+import DeleteIcon from '@/components/buttons/DeleteIcon.vue';
+import PlusIcon from '@/assets/svg/plusIcon.svg';
+import NoTaskLogo from '@/assets/svg/noTask.svg';
+import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
+import global from '@/mixins/global';
 
 export default {
   name: 'IndexPage',
@@ -90,6 +91,7 @@ export default {
     PlusIcon,
     LoadingIcon,
   },
+  mixins: [global],
   data: () => ({
     titleInputError: false,
     titleErrorMsg: '',
@@ -115,7 +117,12 @@ export default {
       return !this.hasNoTask && this.page < this.totalPage;
     },
     showLessTask() {
-      return !this.hasNoTask && this.page >= this.totalPage && this.page !== 1;
+      return (
+        !this.hasNoTask &&
+        this.page >= this.totalPage &&
+        this.page !== 1 &&
+        this.todoList.length > LIMIT
+      );
     },
   },
   mounted() {
@@ -139,23 +146,14 @@ export default {
       this.$store.dispatch('todos/setShowSearchField', false);
       this.showAddCard = true;
     },
-    checkForm(e) {
+    submitForm(e) {
       e.preventDefault();
-      // Sanitize the user input by removing any HTML tags
-      const sanitizedInput = this.taskDescription.replace(/<[^>]+>/g, '');
+      this.taskDescription = this.sanitizeInput(this.taskDescription);
 
-      // Set the sanitized input as the value of the input element
-      this.taskDescription = sanitizedInput;
-
-      if (this.taskDescription.trim().length <= 0) {
+      if (!this.$helper.checkForm(this.taskDescription)) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
-        swal(this.$t('alert.message.error'), {
-          buttons: false,
-          className: 'error',
-          iconHtml: '<img src="https://picsum.photos/100/100">',
-          timer: 3000,
-        });
+        this.triggerToast(ERROR);
 
         return;
       }
@@ -165,12 +163,7 @@ export default {
     addTask() {
       this.$store.dispatch('todos/addTask', this.taskDescription);
       this.$store.dispatch('todos/setTotalPage');
-      swal(this.$t('alert.message.success'), {
-        buttons: false,
-        className: 'success',
-        iconHtml: '<img src="https://picsum.photos/100/100">',
-        timer: 3000,
-      });
+      this.triggerToast(SUCCESS);
       this.clearField();
     },
     clearField() {

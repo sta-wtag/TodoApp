@@ -9,7 +9,7 @@
       <div class="display-only">
         <input
           v-if="showSearchInput"
-          id="searchInputField"
+          ref="searchInputField"
           v-model="searchText"
           class="margin-right-5 input-search text-search"
           @keyup.prevent="debounced"
@@ -62,6 +62,13 @@ export default {
       showSearchInput: 'todos/getShowSearchField',
     }),
   },
+  watch: {
+    showSearchInput(val) {
+      if (!val) {
+        this.searchText = '';
+      }
+    },
+  },
   mounted() {
     this.$i18n.setLocale(this.currentLocale.code);
     this.debounced = debounce(this.searchTask, 500);
@@ -81,10 +88,11 @@ export default {
     },
     async setSearch() {
       this.search = !this.search;
+
       await this.$store.dispatch('todos/setShowSearchField', this.search);
 
-      if (document.getElementById('searchInputField')) {
-        document.getElementById('searchInputField').focus();
+      if (this.$refs.searchInputField) {
+        this.$refs.searchInputField.focus();
       }
     },
   },

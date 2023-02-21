@@ -138,7 +138,6 @@ export default {
     submitForm(e) {
       e.preventDefault();
       this.taskDescription = this.sanitizeInput(this.taskDescription);
-      console.log(this.taskDescription);
 
       if (!this.$helper.checkForm(this.taskDescription)) {
         this.titleInputError = true;

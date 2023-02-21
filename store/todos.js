@@ -61,7 +61,8 @@ export const getters = {
 export const actions = {
   addTask: ({ state, commit }, val) => {
     commit('addTask', val);
-    commit('setListPerPage');
+    commit('setActiveFilterOption', state.filterOptions[0]);
+    commit('filterTaskList');
   },
   deleteTask: ({ state, commit }, val) => {
     commit('setCompleteRequest', true);
@@ -70,7 +71,7 @@ export const actions = {
       // return to the location where is was dispatched after being resolved
       setTimeout(() => {
         commit('deleteTask', val);
-        commit('setListPerPage');
+        commit('filterTaskList');
         commit('setCompleteRequest', false);
         resolve();
       }, 1000);
@@ -82,7 +83,7 @@ export const actions = {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         commit('changeTaskState', val);
-        commit('setListPerPage');
+        commit('filterTaskList');
         commit('setCompleteRequest', false);
         resolve();
       }, 1000);
@@ -91,9 +92,7 @@ export const actions = {
   setCompleteRequest: ({ state, commit }, val) => {
     commit('setCompleteRequest', val);
   },
-  setListPerPage: ({ commit }) => {
-    commit('setListPerPage');
-  },
+
   setShowSearchField: ({ commit }, val) => {
     return new Promise((resolve, reject) => {
       commit('setShowSearchField', val);
@@ -184,9 +183,7 @@ export const mutations = {
     state.perPage = PER_PAGE;
     state.page = 1;
   },
-  setListPerPage(state, val) {
-    state.taskListPerPage = state.taskList;
-  },
+
   setSearchText(state, val) {
     state.searchText = val;
   },
@@ -197,6 +194,7 @@ export const mutations = {
     state.showSearchField = val;
   },
   filterTaskList(state) {
+    state.taskListPerPage = state.taskList;
     state.filterOptions.map((option) => (option.status = false));
     const option = state.filterOptions.find(
       (option) => option.id === state.activeFilterOption.id

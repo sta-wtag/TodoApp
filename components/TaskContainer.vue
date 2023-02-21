@@ -71,13 +71,13 @@
 </template>
 <script>
 import { mapGetters, mapState } from 'vuex';
+import { LIMIT } from '../constants';
 import FilterComponent from '@/components/buttons/FilterComponent.vue';
 import DeleteIcon from '@/components/buttons/DeleteIcon.vue';
 import PlusIcon from '@/assets/svg/plusIcon.svg';
 import NoTaskLogo from '@/assets/svg/noTask.svg';
 import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
 import global from '@/mixins/global';
-
 export default {
   name: 'IndexPage',
   components: {
@@ -112,7 +112,12 @@ export default {
       return !this.hasNoTask && this.page < this.totalPage;
     },
     showLessTask() {
-      return !this.hasNoTask && this.page >= this.totalPage && this.page !== 1;
+      return (
+        !this.hasNoTask &&
+        this.page >= this.totalPage &&
+        this.page !== 1 &&
+        this.todoList.length > LIMIT
+      );
     },
   },
   mounted() {

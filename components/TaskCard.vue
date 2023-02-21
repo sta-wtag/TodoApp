@@ -5,7 +5,7 @@
         <LoadingIcon />
       </div>
     </div>
-    <form @submit.prevent="checkForm">
+    <form @submit.prevent="submitForm">
       <div class="card align-content-space-between">
         <div class="margin-bottom-24">
           <div

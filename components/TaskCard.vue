@@ -42,7 +42,12 @@
               >
                 <EditIcon />
               </button>
-              <button v-else type="submit" data-testid="save-button">
+              <button
+                v-else
+                type="submit"
+                class="add-button"
+                data-testid="save-button"
+              >
                 {{ $t('Save') }}
               </button>
             </div>

@@ -132,7 +132,7 @@ export default {
       if (this.requestInProcess) return;
 
       this.loading = false;
-      this.alert();
+      this.triggerToast(SUCCESS);
     },
     async deleteTask() {
       if (!this.showEditIcon) {
@@ -147,7 +147,7 @@ export default {
       if (this.requestInProcess) return;
 
       this.loading = false;
-      this.alert();
+      this.triggerToast(SUCCESS);
     },
     submitForm(e) {
       e.preventDefault();

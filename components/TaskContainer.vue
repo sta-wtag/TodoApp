@@ -71,14 +71,15 @@
 </template>
 <script>
 import { mapGetters, mapState } from 'vuex';
-import swal from 'sweetalert';
-import { LIMIT } from '../constants';
+import { LIMIT, SUCCESS, ERROR } from '../constants';
+
 import FilterComponent from '@/components/buttons/FilterComponent.vue';
 import DeleteIcon from '@/components/buttons/DeleteIcon.vue';
 import PlusIcon from '@/assets/svg/plusIcon.svg';
 import NoTaskLogo from '@/assets/svg/noTask.svg';
 import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
 import global from '@/mixins/global';
+
 export default {
   name: 'IndexPage',
   components: {
@@ -135,17 +136,11 @@ export default {
     submitForm(e) {
       e.preventDefault();
       this.taskDescription = this.sanitizeInput(this.taskDescription);
-      console.log(this.taskDescription);
 
       if (!this.$helper.checkForm(this.taskDescription)) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
-        swal(this.$t('alert.message.error'), {
-          buttons: false,
-          className: 'error',
-          iconHtml: '<img src="https://picsum.photos/100/100">',
-          timer: 3000,
-        });
+        this.triggerToast(ERROR);
 
         return;
       }
@@ -155,12 +150,7 @@ export default {
     addTask() {
       this.$store.dispatch('todos/addTask', this.taskDescription);
       this.$store.dispatch('todos/setTotalPage');
-      swal(this.$t('alert.message.success'), {
-        buttons: false,
-        className: 'success',
-        iconHtml: '<img src="https://picsum.photos/100/100">',
-        timer: 3000,
-      });
+      this.triggerToast(SUCCESS);
       this.clearField();
     },
     clearField() {

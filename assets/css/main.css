@@ -165,23 +165,31 @@ textarea {
 .relative-position {
   position: relative;
 }
- .success {
+.swal-basic {
   position:absolute;
   height: 55px;
-  background-color: #0BC475;
   top:90px;
   left:0px;
   right:0px;
   border-radius: 5px;
 }
-.error {
+ .success {
   position:absolute;
   height: 55px;
-  background-color: #E85F5F;
   top:90px;
   left:0px;
   right:0px;
   border-radius: 5px;
+  background-color: #0BC475;
+}
+.error {
+  position:absolute;
+  height: 55px;
+  top:90px;
+  left:0px;
+  right:0px;
+  border-radius: 5px;
+  background-color: #E85F5F;
 }
 .swal-text {
   font-family: 'Roboto';

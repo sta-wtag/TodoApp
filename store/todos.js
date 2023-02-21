@@ -59,11 +59,16 @@ export const getters = {
 };
 
 export const actions = {
+  // AddTask Operation
+
   addTask: ({ state, commit }, val) => {
     commit('addTask', val);
-    commit('setActiveFilterOption', state.filterOptions[0]);
+    commit('setActiveFilterOption', state.filterOptions[0]); // set filter option to All
     commit('filterTaskList');
   },
+
+  // DeleteTask Operation
+
   deleteTask: ({ state, commit }, val) => {
     commit('setCompleteRequest', true);
 
@@ -72,11 +77,15 @@ export const actions = {
       setTimeout(() => {
         commit('deleteTask', val);
         commit('filterTaskList');
+        commit('setTotalPage'); // total page changes after deleting task
         commit('setCompleteRequest', false);
         resolve();
       }, 1000);
     });
   },
+
+  // Mark Task Done Operation
+
   changeTaskState: ({ state, commit }, val) => {
     commit('setCompleteRequest', true);
 
@@ -89,9 +98,14 @@ export const actions = {
       }, 1000);
     });
   },
+
+  // Managing loading state
+
   setCompleteRequest: ({ state, commit }, val) => {
     commit('setCompleteRequest', val);
   },
+
+  // Managing search  state
 
   setShowSearchField: ({ commit }, val) => {
     return new Promise((resolve, reject) => {
@@ -99,6 +113,13 @@ export const actions = {
       resolve();
     });
   },
+
+  setIsSearching: ({ commit }, val) => {
+    commit('setIsSearching', val);
+  },
+
+  // Edit Task Operation
+
   editTask: ({ state, commit }, val, id) => {
     commit('setCompleteRequest', true);
 
@@ -110,18 +131,28 @@ export const actions = {
       }, 1000);
     });
   },
+
+  // manage pagination
+
   increaseLimit: ({ commit }) => {
     commit('increaseLimit');
   },
+
   resetLimit: ({ commit }) => {
     commit('resetLimit');
   },
+
   setTotalPage: ({ commit }) => {
     commit('setTotalPage');
   },
+
+  // filter task operation
+
   filterTaskList: ({ commit, state }, val) => {
     commit('filterTaskList', val);
   },
+
+  // Search Input set
 
   setSearchText: ({ commit }, val) => {
     return new Promise((resolve, reject) => {
@@ -131,15 +162,16 @@ export const actions = {
       }, 500);
     });
   },
+
+  // set filter state
+
   setActiveFilterOption: ({ commit }, val) => {
     commit('setActiveFilterOption', val);
-  },
-  setIsSearching: ({ commit }, val) => {
-    commit('setIsSearching', val);
   },
 };
 
 export const mutations = {
+  // AddTask Operation
   addTask: (state, val) => {
     const task = {
       id: uuid(),
@@ -153,27 +185,42 @@ export const mutations = {
     state.filterOptions[0].status = true;
     state.taskList = [task, ...state.taskList];
   },
+
+  // Managing loading state
+
   setCompleteRequest: (state, val) => {
     state.completeRequest = val;
   },
-  setTotalPage: (state, val) => {
-    state.totalPage = Math.ceil(state.taskListPerPage.length / state.limit);
-  },
+
+  // DeleteTask Operation
+
   deleteTask: (state, val) => {
     const list = state.taskList;
 
     state.taskList = list.filter((task) => task.id !== val.id);
   },
+
+  // Mark task done
+
   changeTaskState(state, val) {
     const task = state.taskList.find((task) => task.id === val.id);
 
     task.done = !task.done;
     task.completedAt = new Date();
   },
+
+  // EditTask Operation
+
   editTask(state, val) {
     const task = state.taskList.find((task) => task.id === val.id);
 
     task.description = val.description;
+  },
+
+  // manage pagination
+
+  setTotalPage: (state, val) => {
+    state.totalPage = Math.ceil(state.taskListPerPage.length / state.limit);
   },
   increaseLimit(state, val) {
     state.page++;
@@ -184,15 +231,20 @@ export const mutations = {
     state.page = 1;
   },
 
+  // Search Input set
+
   setSearchText(state, val) {
     state.searchText = val;
   },
+
+  // set filter state
+
   setActiveFilterOption(state, val) {
     state.activeFilterOption = val;
   },
-  setShowSearchField(state, val) {
-    state.showSearchField = val;
-  },
+
+  // filter task operation
+
   filterTaskList(state) {
     state.taskListPerPage = state.taskList;
     state.filterOptions.map((option) => (option.status = false));
@@ -232,7 +284,14 @@ export const mutations = {
       );
     }
   },
+
+  // Managing search  state
+
   setIsSearching: (state, val) => {
     state.isSearching = val;
+  },
+
+  setShowSearchField(state, val) {
+    state.showSearchField = val;
   },
 };

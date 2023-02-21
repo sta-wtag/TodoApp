@@ -5,7 +5,7 @@
         <LoadingIcon />
       </div>
     </div>
-    <form @submit.prevent="checkForm">
+    <form @submit.prevent="submitForm">
       <div class="card align-content-space-between">
         <div class="margin-bottom-6">
           <div
@@ -133,7 +133,7 @@ export default {
       if (this.requestInProcess) return;
 
       this.loading = false;
-      this.alert();
+      this.triggerToast(SUCCESS);
     },
     async deleteTask() {
       if (!this.showEditIcon) {
@@ -148,7 +148,7 @@ export default {
       if (this.requestInProcess) return;
 
       this.loading = false;
-      this.alert();
+      this.triggerToast(SUCCESS);
     },
     submitForm(e) {
       e.preventDefault();

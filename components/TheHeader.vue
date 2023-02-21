@@ -60,6 +60,13 @@ export default {
       showSearchInput: 'todos/getShowSearchField',
     }),
   },
+  watch: {
+    showSearchInput(val) {
+      if (!val) {
+        this.searchText = '';
+      }
+    },
+  },
   mounted() {
     this.$i18n.setLocale(this.currentLocale.code);
     this.debounced = debounce(this.searchTask, 500);

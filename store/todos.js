@@ -195,26 +195,35 @@ export const mutations = {
   // DeleteTask Operation
 
   deleteTask: (state, val) => {
-    const list = state.taskList;
+    return new Promise((resolve, reject) => {
+      const list = state.taskList;
 
-    state.taskList = list.filter((task) => task.id !== val.id);
+      state.taskList = list.filter((task) => task.id !== val.id);
+      resolve();
+    });
   },
 
   // Mark task done
 
   changeTaskState(state, val) {
-    const task = state.taskList.find((task) => task.id === val.id);
+    return new Promise((resolve, reject) => {
+      const task = state.taskList.find((task) => task.id === val.id);
 
-    task.done = !task.done;
-    task.completedAt = new Date();
+      task.done = !task.done;
+      task.completedAt = new Date();
+      resolve();
+    });
   },
 
   // EditTask Operation
 
   editTask(state, val) {
-    const task = state.taskList.find((task) => task.id === val.id);
+    return new Promise((resolve, reject) => {
+      const task = state.taskList.find((task) => task.id === val.id);
 
-    task.description = val.description;
+      task.description = val.description;
+      resolve();
+    });
   },
 
   // manage pagination

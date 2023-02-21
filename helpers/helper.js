@@ -12,6 +12,13 @@ const helper = {
       return format(new Date(val), 'dd.MM.yyyy');
     }
   },
+  checkForm(textInput) {
+    if (textInput.trim().length <= 0) {
+      return false;
+    }
+
+    return true;
+  },
 };
 export default ({ app }, inject) => {
   inject('helper', helper);

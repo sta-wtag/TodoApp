@@ -5,7 +5,7 @@
         <LoadingIcon />
       </div>
     </div>
-    <form @submit.prevent="checkForm">
+    <form @submit.prevent="submitForm">
       <div class="card">
         <div
           v-if="showEditIcon && task !== null"

@@ -15,10 +15,10 @@
       <FilterComponent :options="filterOptions" />
     </div>
     <div class="list-div">
-      <form v-if="showAddCard" @submit.prevent="checkForm">
+      <form v-if="showAddCard" @submit.prevent="submitForm">
         <div class="card">
-          <textarea id="taskTitle" v-model="taskDescription"></textarea>
-          <label v-if="titleInputError" for="taskTitle">
+          <textarea id="taskDescription" v-model="taskDescription"></textarea>
+          <label v-if="titleInputError" for="taskDescription">
             {{ $t('validation.todo.title.required') }}
           </label>
           <div class="flex-box">
@@ -76,6 +76,8 @@ import DeleteIcon from '@/components/buttons/DeleteIcon.vue';
 import PlusIcon from '@/assets/svg/plusIcon.svg';
 import NoTaskLogo from '@/assets/svg/noTask.svg';
 import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
+import global from '@/mixins/global';
+
 export default {
   name: 'IndexPage',
   components: {
@@ -85,6 +87,7 @@ export default {
     PlusIcon,
     LoadingIcon,
   },
+  mixins: [global],
   data: () => ({
     titleInputError: false,
     titleErrorMsg: '',
@@ -123,15 +126,12 @@ export default {
       this.$store.dispatch('todos/setShowSearchField', false);
       this.showAddCard = true;
     },
-    checkForm(e) {
+    submitForm(e) {
       e.preventDefault();
-      // Sanitize the user input by removing any HTML tags
-      const sanitizedInput = this.taskDescription.replace(/<[^>]+>/g, '');
+      this.taskDescription = this.sanitizeInput(this.taskDescription);
+      console.log(this.taskDescription);
 
-      // Set the sanitized input as the value of the input element
-      this.taskDescription = sanitizedInput;
-
-      if (this.taskDescription.trim().length <= 0) {
+      if (!this.$helper.checkForm(this.taskDescription)) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
 

@@ -95,7 +95,10 @@ export const actions = {
     commit('setListPerPage');
   },
   setShowSearchField: ({ commit }, val) => {
-    commit('setShowSearchField', val);
+    return new Promise((resolve, reject) => {
+      commit('setShowSearchField', val);
+      resolve();
+    });
   },
   editTask: ({ state, commit }, val, id) => {
     commit('setCompleteRequest', true);
@@ -126,7 +129,7 @@ export const actions = {
       setTimeout(() => {
         commit('setSearchText', val);
         resolve();
-      }, 1000);
+      }, 500);
     });
   },
   setActiveFilterOption: ({ commit }, val) => {

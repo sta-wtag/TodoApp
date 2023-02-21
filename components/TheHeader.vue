@@ -15,7 +15,7 @@
       </div>
       <input
         v-if="showSearchInput"
-        id="searchInputField"
+        ref="searchInputField"
         v-model="searchText"
         class="margin-right-19"
         @keyup.prevent="debounced"
@@ -79,10 +79,11 @@ export default {
     },
     async setSearch() {
       this.search = !this.search;
+
       await this.$store.dispatch('todos/setShowSearchField', this.search);
 
-      if (document.getElementById('searchInputField')) {
-        document.getElementById('searchInputField').focus();
+      if (this.$refs.searchInputField) {
+        this.$refs.searchInputField.focus();
       }
     },
   },

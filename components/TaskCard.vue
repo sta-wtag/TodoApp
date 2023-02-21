@@ -58,9 +58,12 @@ import DeleteIcon from '@/assets/svg/Delete.svg';
 import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
 import EditIcon from '@/assets/svg/Edit.svg';
 import TickIcon from '@/assets/svg/Tick.svg';
+import global from '@/mixins/global';
+
 export default {
   name: 'TaskCard',
   components: { LoadingIcon, EditIcon, TickIcon, DeleteIcon },
+  mixins: [global],
   props: {
     cardData: {
       type: Object,
@@ -132,15 +135,12 @@ export default {
 
       this.loading = false;
     },
-    checkForm(e) {
+    submitForm(e) {
       e.preventDefault();
-      // Sanitize the user input by removing any HTML tags
-      const sanitizedInput = this.taskDescription.replace(/<[^>]+>/g, '');
+      this.taskDescription = this.sanitizeInput(this.taskDescription);
+      console.log(this.taskDescription);
 
-      // Set the sanitized input as the value of the input element
-      this.taskDescription = sanitizedInput;
-
-      if (this.taskDescription.trim().length <= 0) {
+      if (!this.$helper.checkForm(this.taskDescription)) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
 

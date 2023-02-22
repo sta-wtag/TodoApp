@@ -1,65 +1,11 @@
 <template>
   <div class="flex-box flex-direction-column height-full">
-    <div class="main-div-padding relative-position">
-      <div class="title-text">{{ $t('PageTitle') }}</div>
-      <div class="space-between flex-box margin-top-7 margin-bottom-9">
-        <button
-          class="create-button text-button"
-          data-testid="create-button"
-          :disabled="isSearching"
-          @click="showAddTodoCard"
-        >
-          <PlusIcon class="align-self-center margin-right-1" />
-          {{ $t('create') }}
-        </button>
-        <FilterComponent
-          :options="filterOptions"
-          @closeAddCard="closeAddCard"
-        />
-      </div>
-      <div class="list-div grid-template-column">
-        <form v-if="showAddCard" @submit.prevent="submitForm">
-          <div class="card">
-            <textarea id="taskTitle" v-model="taskDescription"></textarea>
-            <label v-if="titleInputError" for="taskTitle">
-              {{ $t('validation.todo.title.required') }}
-            </label>
-            <div class="flex-box margin-top-3">
-              <button class="add-button" type="submit">
-                {{ $t('AddTask') }}
-              </button>
-              <div class="align-self-center" @click="clearField()">
-                <DeleteIcon />
-              </div>
-            </div>
-          </div>
-        </form>
-        <div v-for="task in todoList" :key="task.id">
-          <TaskCard :card-data="task" />
-        </div>
-        <div v-if="isSearching" class="load-overlay">
-          <div class="spin-icon">
-            <LoadingIcon />
-          </div>
-        </div>
-      </div>
-      <div class="center-item">
-        <button
-          v-if="loadMoreTask"
-          class="load-button text-button"
-          @click="loadMore"
-        >
-          {{ $t('load-more') }}
-        </button>
-        <button
-          v-if="showLessTask"
-          class="load-button text-button"
-          @click="showLess"
-        >
-          {{ $t('show-less') }}
-        </button>
+    <div v-if="requestInProcess" class="load-overlay">
+      <div class="spin-icon">
+        <LoadingIcon />
       </div>
     </div>
+<<<<<<< HEAD
     <div v-if="hasNoTask" class="flex-grow-1">
       <div class="wrapper">
         <div class="center-item">
@@ -67,6 +13,77 @@
         </div>
         <div class="info-text margin-top-8">
           {{ $t('NoTask') }}
+=======
+    <div v-else class="flex-box flex-direction-column height-full">
+      <div class="main-div-padding relative-position">
+        <div class="title-text">{{ $t('PageTitle') }}</div>
+        <div class="space-between flex-box margin-top-7 margin-bottom-9">
+          <button
+            class="create-button text-button"
+            data-testid="create-button"
+            :disabled="isSearching"
+            @click="showAddTodoCard"
+          >
+            <PlusIcon class="align-self-center margin-right-1" />
+            {{ $t('create') }}
+          </button>
+          <FilterComponent
+            :options="filterOptions"
+            @closeAddCard="closeAddCard"
+          />
+        </div>
+        <div class="list-div grid-template-column">
+          <form v-if="showAddCard" @submit.prevent="checkForm">
+            <div class="card">
+              <textarea id="taskTitle" v-model="taskDescription"></textarea>
+              <label v-if="titleInputError" for="taskTitle">
+                {{ $t('validation.todo.title.required') }}
+              </label>
+              <div class="flex-box margin-top-3">
+                <button class="add-button" type="submit">
+                  {{ $t('AddTask') }}
+                </button>
+                <div class="align-self-center" @click="clearField()">
+                  <DeleteIcon />
+                </div>
+              </div>
+            </div>
+          </form>
+          <div v-for="task in todoList" :key="task.id">
+            <TaskCard :card-data="task" />
+          </div>
+          <div v-if="isSearching" class="load-overlay">
+            <div class="spin-icon">
+              <LoadingIcon />
+            </div>
+          </div>
+        </div>
+        <div class="center-item">
+          <button
+            v-if="loadMoreTask"
+            class="load-button text-button"
+            @click="loadMore"
+          >
+            {{ $t('load-more') }}
+          </button>
+          <button
+            v-if="showLessTask"
+            class="load-button text-button"
+            @click="showLess"
+          >
+            {{ $t('show-less') }}
+          </button>
+        </div>
+      </div>
+      <div v-if="hasNoTask" class="flex-grow-1">
+        <div class="wrapper">
+          <div class="center-item">
+            <NoTaskLogo />
+          </div>
+          <div class="info-text margin-top-8">
+            {{ $t('NoTask') }}
+          </div>
+>>>>>>> parent of 5534b5c (Merge branch 'features/styleTaskList' into features/integrateSupabase)
         </div>
       </div>
     </div>
@@ -74,13 +91,12 @@
 </template>
 <script>
 import { mapGetters, mapState } from 'vuex';
-import { LIMIT, SUCCESS, ERROR } from '../constants';
-import FilterComponent from '@/components/buttons/FilterComponent.vue';
-import DeleteIcon from '@/components/buttons/DeleteIcon.vue';
-import PlusIcon from '@/assets/svg/plusIcon.svg';
-import NoTaskLogo from '@/assets/svg/noTask.svg';
-import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
-import global from '@/mixins/global';
+import swal from 'sweetalert';
+import PlusIcon from '../assets/svg/plusIcon.svg';
+import NoTaskLogo from '../assets/svg/noTask.svg';
+import FilterComponent from './buttons/FilterComponent.vue';
+import DeleteIcon from './buttons/DeleteIcon.vue';
+import LoadingIcon from './buttons/LoadingIcon.vue';
 
 export default {
   name: 'IndexPage',
@@ -91,7 +107,6 @@ export default {
     PlusIcon,
     LoadingIcon,
   },
-  mixins: [global],
   data: () => ({
     titleInputError: false,
     titleErrorMsg: '',
@@ -118,12 +133,7 @@ export default {
       return !this.hasNoTask && this.page < this.totalPage;
     },
     showLessTask() {
-      return (
-        !this.hasNoTask &&
-        this.page >= this.totalPage &&
-        this.page !== 1 &&
-        this.todoList.length > LIMIT
-      );
+      return !this.hasNoTask && this.page >= this.totalPage && this.page !== 1;
     },
   },
 
@@ -144,31 +154,48 @@ export default {
     closeAddCard() {
       this.showAddCard = false;
     },
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of 5534b5c (Merge branch 'features/styleTaskList' into features/integrateSupabase)
     async showAddTodoCard() {
       await this.$store.dispatch('todos/setSearchText', '');
       this.$store.dispatch('todos/setShowSearchField', false);
       this.showAddCard = true;
     },
-    submitForm(e) {
+    checkForm(e) {
       e.preventDefault();
-      this.taskDescription = this.sanitizeInput(this.taskDescription);
+      // Sanitize the user input by removing any HTML tags
+      const sanitizedInput = this.taskDescription.replace(/<[^>]+>/g, '');
 
-      if (!this.$helper.checkForm(this.taskDescription)) {
+      // Set the sanitized input as the value of the input element
+      this.taskDescription = sanitizedInput;
+
+      if (this.taskDescription.trim().length <= 0) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
-        this.triggerToast(ERROR);
+        swal('Field is empty', {
+          buttons: false,
+          className: 'error',
+          iconHtml: '<img src="https://picsum.photos/100/100">',
+          timer: 3000,
+        });
 
         return;
       }
 
       this.addTask();
     },
-    addTask() {
+    async addTask() {
       this.$store.dispatch('todos/addTask', this.taskDescription);
       this.$store.dispatch('todos/setTotalPage');
-      // await this.$store.dispatch('todos/setTodoList');
-      this.triggerToast(SUCCESS);
+      await this.$store.dispatch('todos/setTodoList');
+      swal('Changes are saved successfully', {
+        buttons: false,
+        className: 'success',
+        iconHtml: '<img src="https://picsum.photos/100/100">',
+        timer: 3000,
+      });
       this.clearField();
     },
     clearField() {

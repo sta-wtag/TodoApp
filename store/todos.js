@@ -62,7 +62,6 @@ export const getters = {
 };
 
 export const actions = {
-  // AddTask Operation
   addTask: async ({ state, commit }, val) => {
     try {
       const task = {
@@ -88,13 +87,8 @@ export const actions = {
       // store response to allTodos
 
       commit('setTodoList');
-      commit('setActiveFilterOption', state.filterOptions[0]); // set filter option to All
-      commit('filterTaskList');
     } catch (err) {}
   },
-
-  // DeleteTask Operation
-
   deleteTask: ({ state, commit }, val) => {
     commit('setCompleteRequest', true);
 
@@ -102,47 +96,33 @@ export const actions = {
       // return to the location where is was dispatched after being resolved
       setTimeout(() => {
         commit('deleteTask', val);
-        commit('filterTaskList');
-        commit('setTotalPage'); // total page changes after deleting task
+        commit('setListPerPage');
         commit('setCompleteRequest', false);
         resolve();
       }, 1000);
     });
   },
-
-  // Mark Task Done Operation
-
   changeTaskState: ({ state, commit }, val) => {
     commit('setCompleteRequest', true);
 
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         commit('changeTaskState', val);
-        commit('filterTaskList');
+        commit('setListPerPage');
         commit('setCompleteRequest', false);
         resolve();
       }, 1000);
     });
   },
-
-  // Managing loading state
-
   setCompleteRequest: ({ state, commit }, val) => {
     commit('setCompleteRequest', val);
   },
-
-  // Managing search  state
-
+  setListPerPage: ({ commit }) => {
+    commit('setListPerPage');
+  },
   setShowSearchField: ({ commit }, val) => {
     commit('setShowSearchField', val);
   },
-
-  setIsSearching: ({ commit }, val) => {
-    commit('setIsSearching', val);
-  },
-
-  // Edit Task Operation
-
   editTask: ({ state, commit }, val, id) => {
     commit('setCompleteRequest', true);
 
@@ -155,17 +135,12 @@ export const actions = {
       }, 1000);
     });
   },
-
-  // manage pagination
-
   increaseLimit: ({ commit }) => {
     commit('increaseLimit');
   },
-
   resetLimit: ({ commit }) => {
     commit('resetLimit');
   },
-
   setTotalPage: ({ commit }) => {
     commit('setTotalPage');
   },
@@ -192,14 +167,9 @@ export const actions = {
       commit('setCompleteRequest', false);
     } catch (err) {}
   },
-
-  // filter task operation
-
   filterTaskList: ({ commit, state }, val) => {
     commit('filterTaskList', val);
   },
-
-  // Search Input set
 
   setSearchText: ({ commit }, val) => {
     return new Promise((resolve, reject) => {
@@ -209,11 +179,11 @@ export const actions = {
       }, 500);
     });
   },
-
-  // set filter state
-
   setActiveFilterOption: ({ commit }, val) => {
     commit('setActiveFilterOption', val);
+  },
+  setIsSearching: ({ commit }, val) => {
+    commit('setIsSearching', val);
   },
 };
 
@@ -221,57 +191,32 @@ export const mutations = {
   setTodoList: (state, val) => {
     state.taskList = val;
   },
-  // AddTask Operation
   addTask: (state, val) => {
     state.filterOptions.forEach((element) => (element.status = false));
     state.filterOptions[0].status = true;
     state.taskList = [val, ...state.taskList];
   },
-
-  // Managing loading state
-
   setCompleteRequest: (state, val) => {
     state.completeRequest = val;
   },
-
-  // DeleteTask Operation
-
-  deleteTask: (state, val) => {
-    return new Promise((resolve, reject) => {
-      const list = state.taskList;
-
-      state.taskList = list.filter((task) => task.id !== val.id);
-      resolve();
-    });
-  },
-
-  // Mark task done
-
-  changeTaskState(state, val) {
-    return new Promise((resolve, reject) => {
-      const task = state.taskList.find((task) => task.id === val.id);
-
-      task.done = !task.done;
-      task.completedAt = new Date();
-      resolve();
-    });
-  },
-
-  // EditTask Operation
-
-  editTask(state, val) {
-    return new Promise((resolve, reject) => {
-      const task = state.taskList.find((task) => task.id === val.id);
-
-      task.description = val.description;
-      resolve();
-    });
-  },
-
-  // manage pagination
-
   setTotalPage: (state, val) => {
     state.totalPage = Math.ceil(state.taskListPerPage.length / state.limit);
+  },
+  deleteTask: (state, val) => {
+    const list = state.taskList;
+
+    state.taskList = list.filter((task) => task.id !== val.id);
+  },
+  changeTaskState(state, val) {
+    const task = state.taskList.find((task) => task.id === val.id);
+
+    task.done = !task.done;
+    task.completedAt = new Date();
+  },
+  editTask(state, val) {
+    const task = state.taskList.find((task) => task.id === val.id);
+
+    task.description = val.description;
   },
   increaseLimit(state, val) {
     state.page++;
@@ -281,23 +226,19 @@ export const mutations = {
     state.perPage = PER_PAGE;
     state.page = 1;
   },
-
-  // Search Input set
-
+  setListPerPage(state, val) {
+    state.taskListPerPage = state.taskList;
+  },
   setSearchText(state, val) {
     state.searchText = val;
   },
-
-  // set filter state
-
   setActiveFilterOption(state, val) {
     state.activeFilterOption = val;
   },
-
-  // filter task operation
-
+  setShowSearchField(state, val) {
+    state.showSearchField = val;
+  },
   filterTaskList(state) {
-    state.taskListPerPage = state.taskList;
     state.filterOptions.map((option) => (option.status = false));
     const option = state.filterOptions.find(
       (option) => option.id === state.activeFilterOption.id
@@ -335,14 +276,7 @@ export const mutations = {
       );
     }
   },
-
-  // Managing search  state
-
   setIsSearching: (state, val) => {
     state.isSearching = val;
-  },
-
-  setShowSearchField(state, val) {
-    state.showSearchField = val;
   },
 };

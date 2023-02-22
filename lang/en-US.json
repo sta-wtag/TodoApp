@@ -18,7 +18,5 @@
             "required": "Invalid Field"
         }
     }
-},
-"alert.message.success": "Changes are saved successfully",
-"alert.message.error": "Something went wrong !"
+}
 }

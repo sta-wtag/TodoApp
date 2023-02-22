@@ -17,14 +17,9 @@ export const helper = {
     return formatDistance(subDays(date2, 0), date1, { addSuffix: true });
   },
   formatDate(val) {
-    return val ? format(new Date(val), 'dd.MM.yyyy') : undefined;
-  },
-  checkForm(textInput) {
-    if (textInput.trim().length <= 0) {
-      return false;
+    if (val) {
+      return format(new Date(val), 'dd.MM.yyyy');
     }
-
-    return true;
   },
 };
 export default ({ app }, inject) => {

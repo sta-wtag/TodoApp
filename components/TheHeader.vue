@@ -8,7 +8,7 @@
     <div class="flex-box">
       <input
         v-if="showSearchInput"
-        id="searchInputField"
+        ref="searchInputField"
         v-model="searchText"
         class="margin-right-19 input-search text-search"
         @keyup.prevent="debounced"

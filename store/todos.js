@@ -71,7 +71,7 @@ export const actions = {
         completed_at: null,
         created_at: new Date(),
       };
-      const { data: _todo, error } = await supabase
+      const { data: todos, error } = await supabase
         .from('Todos')
         .insert(task)
         .single();
@@ -87,7 +87,7 @@ export const actions = {
 
       // store response to allTodos
 
-      commit('addTask', val);
+      commit('setTodoList');
       commit('setActiveFilterOption', state.filterOptions[0]); // set filter option to All
       commit('filterTaskList');
     } catch (err) {}

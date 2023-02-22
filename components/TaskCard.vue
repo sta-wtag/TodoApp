@@ -5,7 +5,7 @@
         <LoadingIcon />
       </div>
     </div>
-    <form @submit.prevent="checkForm">
+    <form @submit.prevent="submitForm">
       <div class="card align-content-space-between">
         <div class="margin-bottom-24">
           <div
@@ -60,13 +60,17 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import { SUCCESS, ERROR } from '../constants';
 import DeleteIcon from '@/assets/svg/Delete.svg';
 import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
 import EditIcon from '@/assets/svg/Edit.svg';
 import TickIcon from '@/assets/svg/Tick.svg';
+import global from '@/mixins/global';
+
 export default {
   name: 'TaskCard',
   components: { LoadingIcon, EditIcon, TickIcon, DeleteIcon },
+  mixins: [global],
   props: {
     cardData: {
       type: Object,
@@ -121,13 +125,13 @@ export default {
         this.showEditIcon = true;
       }
 
-      this.loading = true;
+      this.loading = true; // loading state set to true
       await this.$store.dispatch('todos/changeTaskState', this.task);
 
       if (this.requestInProcess) return;
 
       this.loading = false;
-      this.alert();
+      this.triggerToast(SUCCESS);
     },
     async deleteTask() {
       if (!this.showEditIcon) {
@@ -142,25 +146,16 @@ export default {
       if (this.requestInProcess) return;
 
       this.loading = false;
-      this.alert();
+      this.triggerToast(SUCCESS);
     },
-    checkForm(e) {
+    submitForm(e) {
       e.preventDefault();
-      // Sanitize the user input by removing any HTML tags
-      const sanitizedInput = this.taskDescription.replace(/<[^>]+>/g, '');
+      this.taskDescription = this.sanitizeInput(this.taskDescription);
 
-      // Set the sanitized input as the value of the input element
-      this.taskDescription = sanitizedInput;
-
-      if (this.taskDescription.trim().length <= 0) {
+      if (!this.$helper.checkForm(this.taskDescription)) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
-        swal('alert.message.error', {
-          buttons: false,
-          className: 'error',
-          iconHtml: '<img src="https://picsum.photos/100/100">',
-          timer: 3000,
-        });
+        this.triggerToast(ERROR);
 
         return;
       }
@@ -182,14 +177,7 @@ export default {
 
       this.showEditIcon = true;
       this.loading = false;
-      this.alert();
-    },
-    alert() {
-      swal(this.$t('alert.message.success'), {
-        buttons: false,
-        className: 'success',
-        timer: 3000,
-      });
+      this.triggerToast(SUCCESS);
     },
   },
 };

@@ -92,6 +92,9 @@ export default {
       if (this.search) {
         this.$nextTick(() => {
           // $nextTick allows you to execute code after you have changed some data and Vue.js has updated the virtual DOM based on your data change, but before the browser has rendered that change on the page.
+          // Let's say you changed some data; Vue then updates the vDOM based on that data change (the changes are not yet rendered to the screen by the browser).
+          // If you used nextTick at this point, your callback would get called immediately, and the browser would update the page after that callback finished executing.
+          // If you instead used setTimeout, then the browser would have a chance to update the page, and then your callback would get called.
           this.$refs.searchInputField.focus();
         });
       }

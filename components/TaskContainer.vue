@@ -207,9 +207,6 @@ export default {
 }
 .list-div {
   display: grid;
-  // grid-template-columns: repeat(auto-fill, 186px);
-  row-gap: 34px;
-  column-gap: 54px;
 }
 
 .content {
@@ -229,7 +226,9 @@ export default {
 
 @media only screen and (min-width: 1200px) {
   .grid-template-column {
-    grid-template-columns: auto auto auto;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    row-gap: 34px;
+    column-gap: 54px;
   }
   .main-div-padding {
     padding: 0px 149px;
@@ -243,9 +242,11 @@ export default {
     cursor: pointer;
   }
 }
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
   .grid-template-column {
-    grid-template-columns: auto auto auto;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    row-gap: 34px;
+    column-gap: 54px;
   }
   .main-div-padding {
     padding: 0px 149px;
@@ -259,12 +260,14 @@ export default {
     cursor: pointer;
   }
 }
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 768px) and (max-width: 991px) {
   .grid-template-column {
-    grid-template-columns: auto auto auto;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    row-gap: 34px;
+    column-gap: 54px;
   }
   .main-div-padding {
-    padding: 0px 100px;
+    padding: 0px 90px;
   }
   .create-button {
     background: $primary-text;
@@ -275,12 +278,14 @@ export default {
     cursor: pointer;
   }
 }
-@media only screen and (max-width: 766px) {
+@media only screen and (max-width: 767px) and (min-width: 577px) {
   .grid-template-column {
-    grid-template-columns: auto auto auto;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    row-gap: 14px;
+    column-gap: 24px;
   }
   .main-div-padding {
-    padding: 0px 100px;
+    padding: 0px 60px;
   }
   .create-button {
     background: $primary-text;
@@ -292,9 +297,11 @@ export default {
   }
 }
 
-@media only screen and (max-width: 576px) {
+@media only screen and (max-width: 576px) and (min-width: 376px) {
   .grid-template-column {
-    grid-template-columns: auto;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    row-gap: 18px;
+    column-gap: 28px;
   }
   .main-div-padding {
     padding: 0px 18px;
@@ -312,6 +319,8 @@ export default {
 @media only screen and (max-width: 375px) {
   .grid-template-column {
     grid-template-columns: auto;
+    row-gap: 18px;
+    column-gap: 28px;
   }
   .main-div-padding {
     padding: 0px 18px;

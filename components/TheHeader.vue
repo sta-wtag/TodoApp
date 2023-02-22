@@ -22,7 +22,7 @@
           <SearchIcon />
         </div>
 
-        <select class="text-button" @change="switchLanguage">
+        <select class="text-button lang-selector" @change="switchLanguage">
           <option value="" disabled>{{ $t('SelectLanguage') }}</option>
           <option
             v-for="locale in locales"
@@ -105,14 +105,6 @@ export default {
 };
 </script>
 <style lang="scss">
-select {
-  padding: 0px 12px;
-  border: 1px solid $border-primary;
-  border-radius: 5px;
-  background-color: white;
-  color: $button-background;
-}
-
 @keyframes example {
   0% {
     right: 0px;
@@ -132,13 +124,7 @@ select {
   animation-name: example;
   animation-duration: 1s;
 }
-.input-search {
-  width: 518px;
-  height: 36px;
-  padding: 0px 12px;
-  border: 3px solid #d1d8ff;
-  border-radius: 5px;
-}
+
 .header {
   text-align: center;
   background-color: white;
@@ -167,6 +153,20 @@ select {
     color: $primary-text;
     margin-left: 14px;
   }
+  .input-search {
+    width: 518px;
+    height: 36px;
+    padding: 0px 12px;
+    border: 3px solid #d1d8ff;
+    border-radius: 5px;
+  }
+  select {
+    padding: 0px 12px;
+    border: 1px solid $border-primary;
+    border-radius: 5px;
+    background-color: white;
+    color: $button-background;
+  }
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
   .header-padding {
@@ -185,6 +185,20 @@ select {
     text-align: left;
     color: $primary-text;
     margin-left: 14px;
+  }
+  .input-search {
+    width: 318px;
+    height: 36px;
+    padding: 0px 12px;
+    border: 3px solid #d1d8ff;
+    border-radius: 5px;
+  }
+  select {
+    padding: 0px 12px;
+    border: 1px solid $border-primary;
+    border-radius: 5px;
+    background-color: white;
+    color: $button-background;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -205,6 +219,20 @@ select {
     color: $primary-text;
     margin-left: 14px;
   }
+  .input-search {
+    width: 250px;
+    height: 36px;
+    padding: 0px 12px;
+    border: 3px solid #d1d8ff;
+    border-radius: 5px;
+  }
+  select {
+    padding: 0px 12px;
+    border: 1px solid $border-primary;
+    border-radius: 5px;
+    background-color: white;
+    color: $button-background;
+  }
 }
 @media only screen and (max-width: 767px) and (min-width: 577px) {
   .header-padding {
@@ -224,6 +252,20 @@ select {
     color: $primary-text;
     margin-left: 14px;
   }
+  .input-search {
+    width: 120px;
+    height: 36px;
+    padding: 0px 12px;
+    border: 3px solid #d1d8ff;
+    border-radius: 5px;
+  }
+  select {
+    padding: 0px 12px;
+    border: 1px solid $border-primary;
+    border-radius: 5px;
+    background-color: white;
+    color: $button-background;
+  }
 }
 
 @media only screen and (max-width: 576px) and (min-width: 376px) {
@@ -231,7 +273,7 @@ select {
     margin: 15px 16px;
   }
   .display-only {
-    display: none;
+    display: flex;
   }
   .header-text-small {
     font-family: Roboto;
@@ -242,6 +284,14 @@ select {
     text-align: left;
     color: $primary-text;
     margin-left: 14px;
+  }
+  select {
+    width: 20px;
+    padding: 0px 12px;
+    border: 1px solid $border-primary;
+    border-radius: 5px;
+    background-color: white;
+    color: $button-background;
   }
 }
 @media only screen and (max-width: 375px) {
@@ -249,7 +299,7 @@ select {
     margin: 15px 16px;
   }
   .display-only {
-    display: none;
+    display: flex;
   }
   .header-text-small {
     font-family: Roboto;
@@ -260,6 +310,21 @@ select {
     text-align: left;
     color: $primary-text;
     margin-left: 14px;
+  }
+  .input-search {
+    width: 80px;
+    height: 36px;
+    padding: 0px 12px;
+    border: 3px solid #d1d8ff;
+    border-radius: 5px;
+  }
+  select {
+    width: 20px;
+    padding: 0px 12px;
+    border: 1px solid $border-primary;
+    border-radius: 5px;
+    background-color: white;
+    color: $button-background;
   }
 }
 </style>

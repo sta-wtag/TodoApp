@@ -148,6 +148,7 @@ export const actions = {
     commit('setTotalPage');
   },
   setTodoList: async ({ commit }) => {
+    console.log('fshjfhj');
     commit('setCompleteRequest', true);
     try {
       const { data: todos, error } = await supabase

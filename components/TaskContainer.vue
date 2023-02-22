@@ -60,12 +60,15 @@
         </button>
       </div>
     </div>
-    <div v-if="hasNoTask" class="flex-grow-1">
-      <div class="wrapper">
+    <div
+      v-if="hasNoTask"
+      class="flex-grow-1 flex-box flex-direction-column center-item"
+    >
+      <div class="">
         <div class="center-item">
           <NoTaskLogo />
         </div>
-        <div class="info-text margin-top-8">
+        <div class="info-text margin-top-8 text-center">
           {{ $t('NoTask') }}
         </div>
       </div>
@@ -204,8 +207,7 @@ export default {
 }
 .list-div {
   display: grid;
-
-  grid-template-columns: repeat(auto-fill, 186px);
+  // grid-template-columns: repeat(auto-fill, 186px);
   row-gap: 34px;
   column-gap: 54px;
 }
@@ -225,12 +227,7 @@ export default {
   margin: 57px 0px;
 }
 
-@media only screen and (min-width: 768px) {
-  .wrapper {
-    position: absolute;
-    top: 45%;
-    left: 40%;
-  }
+@media only screen and (min-width: 1200px) {
   .grid-template-column {
     grid-template-columns: auto auto auto;
   }
@@ -246,12 +243,78 @@ export default {
     cursor: pointer;
   }
 }
-@media only screen and (max-width: 500px) {
+@media only screen and (min-width: 992px) {
+  .grid-template-column {
+    grid-template-columns: auto auto auto;
+  }
+  .main-div-padding {
+    padding: 0px 149px;
+  }
+  .create-button {
+    background: $primary-text;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 9px 20px;
+    cursor: pointer;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .grid-template-column {
+    grid-template-columns: auto auto auto;
+  }
+  .main-div-padding {
+    padding: 0px 100px;
+  }
+  .create-button {
+    background: $primary-text;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 9px 20px;
+    cursor: pointer;
+  }
+}
+@media only screen and (max-width: 766px) {
+  .grid-template-column {
+    grid-template-columns: auto auto auto;
+  }
+  .main-div-padding {
+    padding: 0px 100px;
+  }
+  .create-button {
+    background: $primary-text;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 9px 20px;
+    cursor: pointer;
+  }
+}
+
+@media only screen and (max-width: 576px) {
   .grid-template-column {
     grid-template-columns: auto;
   }
   .main-div-padding {
-    padding: 0px 30px;
+    padding: 0px 18px;
+  }
+  .create-button {
+    background: $primary-text;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 9px 12px;
+    cursor: pointer;
+    display: flex;
+  }
+}
+@media only screen and (max-width: 375px) {
+  .grid-template-column {
+    grid-template-columns: auto;
+  }
+  .main-div-padding {
+    padding: 0px 18px;
   }
   .create-button {
     background: $primary-text;

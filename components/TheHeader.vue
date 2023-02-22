@@ -83,21 +83,8 @@ export default {
       this.search = !this.search;
       await this.$store.dispatch('todos/setShowSearchField', this.search);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> parent of b40413b (Merge branch 'features/styleTaskCard' into features/styleTaskList)
-      await this.$store.dispatch('todos/setShowSearchField', this.search);
-
       if (this.$refs.searchInputField) {
         this.$refs.searchInputField.focus();
-<<<<<<< HEAD
-=======
-      if (document.getElementById('searchInputField')) {
-        document.getElementById('searchInputField').focus();
->>>>>>> parent of 5534b5c (Merge branch 'features/styleTaskList' into features/integrateSupabase)
-=======
->>>>>>> parent of b40413b (Merge branch 'features/styleTaskCard' into features/styleTaskList)
       }
     },
   },

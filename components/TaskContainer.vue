@@ -5,15 +5,6 @@
         <LoadingIcon />
       </div>
     </div>
-<<<<<<< HEAD
-    <div v-if="hasNoTask" class="flex-grow-1">
-      <div class="wrapper">
-        <div class="center-item">
-          <NoTaskLogo />
-        </div>
-        <div class="info-text margin-top-8">
-          {{ $t('NoTask') }}
-=======
     <div v-else class="flex-box flex-direction-column height-full">
       <div class="main-div-padding relative-position">
         <div class="title-text">{{ $t('PageTitle') }}</div>
@@ -83,7 +74,6 @@
           <div class="info-text margin-top-8">
             {{ $t('NoTask') }}
           </div>
->>>>>>> parent of 5534b5c (Merge branch 'features/styleTaskList' into features/integrateSupabase)
         </div>
       </div>
     </div>

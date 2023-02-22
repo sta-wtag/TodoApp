@@ -78,19 +78,22 @@ export default {
     },
     async searchTask() {
       this.$store.dispatch('todos/setIsSearching', true);
-      await this.$store.dispatch('todos/setSearchText', this.searchText);
+      await this.$store.dispatch('todos/setSearchText', this.searchText); // await used to mimic api call and show
       this.$store.dispatch('todos/filterTaskList');
       this.$store.dispatch('todos/setIsSearching', false);
       this.$store.dispatch('todos/resetLimit');
       this.$store.dispatch('todos/setTotalPage');
     },
-    async setSearch() {
+    setSearch() {
       this.search = !this.search;
 
-      await this.$store.dispatch('todos/setShowSearchField', this.search);
+      this.$store.dispatch('todos/setShowSearchField', this.search);
 
-      if (this.$refs.searchInputField) {
-        this.$refs.searchInputField.focus();
+      if (this.search) {
+        this.$nextTick(() => {
+          // $nextTick allows you to execute code after you have changed some data and Vue.js has updated the virtual DOM based on your data change, but before the browser has rendered that change on the page.
+          this.$refs.searchInputField.focus();
+        });
       }
     },
   },

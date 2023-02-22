@@ -1,17 +1,24 @@
 <template>
-  <div class="main-div">
+  <div class="main-div relative-position">
     <div class="title-text">{{ $t('PageTitle') }}</div>
     <div class="space-between flex-box margin-top-28 margin-bottom-34">
       <div>
-        <button @click="showAddTodoCard()">{{ $t('create') }}</button>
+        <button
+          class="create-button text-button flex-box"
+          :disabled="isSearching"
+          @click="showAddTodoCard"
+        >
+          <PlusIcon class="align-self-center margin-right-5" />
+          {{ $t('create') }}
+        </button>
       </div>
       <FilterComponent :options="filterOptions" />
     </div>
     <div class="list-div">
-      <form v-if="showAddCard" @submit.prevent="checkForm">
+      <form v-if="showAddCard" @submit.prevent="submitForm">
         <div class="card">
-          <textarea id="taskTitle" v-model="taskDescription"></textarea>
-          <label v-if="titleInputError" for="taskTitle">
+          <textarea id="taskDescription" v-model="taskDescription"></textarea>
+          <label v-if="titleInputError" for="taskDescription">
             {{ $t('validation.todo.title.required') }}
           </label>
           <div class="flex-box">
@@ -26,6 +33,12 @@
       </form>
       <div v-for="task in todoList" :key="task.id">
         <TaskCard :card-data="task" />
+      </div>
+
+      <div v-if="isSearching" class="load-overlay">
+        <div class="spin-icon">
+          <LoadingIcon />
+        </div>
       </div>
     </div>
     <div class="center-item">
@@ -58,12 +71,23 @@
 </template>
 <script>
 import { mapGetters, mapState } from 'vuex';
+import { LIMIT } from '../constants';
 import FilterComponent from '@/components/buttons/FilterComponent.vue';
 import DeleteIcon from '@/components/buttons/DeleteIcon.vue';
+import PlusIcon from '@/assets/svg/plusIcon.svg';
 import NoTaskLogo from '@/assets/svg/noTask.svg';
+import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
+import global from '@/mixins/global';
 export default {
   name: 'IndexPage',
-  components: { DeleteIcon, FilterComponent, NoTaskLogo },
+  components: {
+    DeleteIcon,
+    FilterComponent,
+    NoTaskLogo,
+    PlusIcon,
+    LoadingIcon,
+  },
+  mixins: [global],
   data: () => ({
     titleInputError: false,
     titleErrorMsg: '',
@@ -79,6 +103,7 @@ export default {
     ...mapState('todos', {
       perPage: 'perPage',
       page: 'page',
+      isSearching: 'isSearching',
     }),
     hasNoTask() {
       return this.todoList && this.todoList.length <= 0;
@@ -87,21 +112,31 @@ export default {
       return !this.hasNoTask && this.page < this.totalPage;
     },
     showLessTask() {
-      return !this.hasNoTask && this.page >= this.totalPage && this.page !== 1;
+      return (
+        !this.hasNoTask &&
+        this.page >= this.totalPage &&
+        this.page !== 1 &&
+        this.todoList.length > LIMIT
+      );
     },
   },
   mounted() {
     this.$store.dispatch('todos/setTotalPage');
-    this.$store.dispatch('todos/filterTaskList', this.filterOptions[0]);
+    this.$store.dispatch('todos/setActiveFilterOption', this.filterOptions[0]);
+    this.$store.dispatch('todos/filterTaskList');
   },
   methods: {
     showAddTodoCard() {
+      this.$store.dispatch('todos/setSearchText', '');
+      this.$store.dispatch('todos/setShowSearchField', false);
       this.showAddCard = true;
     },
-    checkForm(e) {
+    submitForm(e) {
       e.preventDefault();
+      this.taskDescription = this.sanitizeInput(this.taskDescription);
+      console.log(this.taskDescription);
 
-      if (this.taskDescription.length <= 0) {
+      if (!this.$helper.checkForm(this.taskDescription)) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
 
@@ -170,6 +205,15 @@ body {
 
 .load-button {
   background: $button-background;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 9px 18px;
+  cursor: pointer;
+  margin: 57px 0px;
+}
+.create-button {
+  background: $primary-text;
   color: white;
   border: none;
   border-radius: 5px;

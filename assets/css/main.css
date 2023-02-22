@@ -67,6 +67,7 @@
   border-radius: 5px;
   border: 1px solid #dde2ff;
   background-color: white;
+  z-index: -1
 }
 
 .chip {
@@ -85,6 +86,10 @@
 
 .space-between {
   justify-content: space-between;
+}
+
+.align-self-center {
+  align-self: center;
 }
 
 textarea {
@@ -136,6 +141,13 @@ textarea {
   margin-left: 19px;
 }
 
+.margin-right-19 {
+  margin-right: 19px;
+}
+
+.margin-right-5 {
+  margin-right: 5px;
+}
 .relative-position {
   position: relative;
 }

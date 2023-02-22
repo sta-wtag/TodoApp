@@ -120,7 +120,7 @@ export default {
         this.showEditIcon = true;
       }
 
-      this.loading = true;
+      this.loading = true; // loading state set to true
       await this.$store.dispatch('todos/changeTaskState', this.task);
 
       if (this.requestInProcess) return;

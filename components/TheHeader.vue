@@ -80,19 +80,25 @@ export default {
     },
     async searchTask() {
       this.$store.dispatch('todos/setIsSearching', true);
-      await this.$store.dispatch('todos/setSearchText', this.searchText);
+      await this.$store.dispatch('todos/setSearchText', this.searchText); // await used to mimic api call and show
       this.$store.dispatch('todos/filterTaskList');
       this.$store.dispatch('todos/setIsSearching', false);
       this.$store.dispatch('todos/resetLimit');
       this.$store.dispatch('todos/setTotalPage');
     },
-    async setSearch() {
+    setSearch() {
       this.search = !this.search;
 
-      await this.$store.dispatch('todos/setShowSearchField', this.search);
+      this.$store.dispatch('todos/setShowSearchField', this.search);
 
-      if (this.$refs.searchInputField) {
-        this.$refs.searchInputField.focus();
+      if (this.search) {
+        this.$nextTick(() => {
+          // $nextTick allows you to execute code after you have changed some data and Vue.js has updated the virtual DOM based on your data change, but before the browser has rendered that change on the page.
+          // Let's say you changed some data; Vue then updates the vDOM based on that data change (the changes are not yet rendered to the screen by the browser).
+          // If you used nextTick at this point, your callback would get called immediately, and the browser would update the page after that callback finished executing.
+          // If you instead used setTimeout, then the browser would have a chance to update the page, and then your callback would get called.
+          this.$refs.searchInputField.focus();
+        });
       }
     },
   },

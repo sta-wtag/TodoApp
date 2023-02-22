@@ -144,8 +144,8 @@ export default {
     closeAddCard() {
       this.showAddCard = false;
     },
-    async showAddTodoCard() {
-      await this.$store.dispatch('todos/setSearchText', '');
+    showAddTodoCard() {
+      this.$store.dispatch('todos/setSearchText', '');
       this.$store.dispatch('todos/setShowSearchField', false);
       this.showAddCard = true;
     },

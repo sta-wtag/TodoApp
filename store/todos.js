@@ -108,10 +108,7 @@ export const actions = {
   // Managing search  state
 
   setShowSearchField: ({ commit }, val) => {
-    return new Promise((resolve, reject) => {
-      commit('setShowSearchField', val);
-      resolve();
-    });
+    commit('setShowSearchField', val);
   },
 
   setIsSearching: ({ commit }, val) => {

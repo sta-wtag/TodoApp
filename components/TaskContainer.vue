@@ -145,9 +145,12 @@ export default {
       this.showAddCard = false;
     },
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> parent of 5534b5c (Merge branch 'features/styleTaskList' into features/integrateSupabase)
+=======
+>>>>>>> parent of b40413b (Merge branch 'features/styleTaskCard' into features/styleTaskList)
     async showAddTodoCard() {
       await this.$store.dispatch('todos/setSearchText', '');
       this.$store.dispatch('todos/setShowSearchField', false);

@@ -19,7 +19,7 @@
       </div>
       <div class="list-div grid-template-column">
         <form v-if="showAddCard" @submit.prevent="submitForm">
-          <div class="card">
+          <div class="card padding-4">
             <textarea id="taskTitle" v-model="taskDescription"></textarea>
             <label v-if="titleInputError" for="taskTitle">
               {{ $t('validation.todo.title.required') }}

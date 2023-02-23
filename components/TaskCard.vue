@@ -6,7 +6,7 @@
       </div>
     </div>
     <form @submit.prevent="submitForm">
-      <div class="card align-content-space-between">
+      <div class="card padding-4 align-content-space-between">
         <div class="margin-bottom-6">
           <div
             v-if="showEditIcon && task !== null"
@@ -19,7 +19,7 @@
             <textarea
               id="title"
               v-model="taskDescription"
-              class="text-area"
+              class="width-full"
             ></textarea>
             <label v-if="titleInputError" for="title">
               {{ $t('validation.todo.title.required') }}
@@ -30,13 +30,18 @@
           </div>
         </div>
         <div class="space-between flex-box width-full">
-          <div class="flex-gap-8 card-button text-button">
+          <div class="flex-gap-8 text-button">
             <div v-if="task && !task.done" class="flex-gap-8">
-              <button value="update" @click.prevent="markDone">
+              <button
+                value="update"
+                class="card-button"
+                @click.prevent="markDone"
+              >
                 <TickIcon />
               </button>
               <button
                 v-if="showEditIcon"
+                class="card-button"
                 value="edit"
                 @click.prevent="showEditIcon = false"
               >
@@ -51,7 +56,7 @@
                 {{ $t('Save') }}
               </button>
             </div>
-            <button @click.prevent="deleteTask">
+            <button class="card-button" @click.prevent="deleteTask">
               <DeleteIcon />
             </button>
           </div>
@@ -221,11 +226,15 @@ export default {
   display: flex;
   gap: 26px;
 }
-.card-button button {
+.card-button {
   background: none;
   color: inherit;
   border: none;
   padding: 0;
   cursor: pointer;
+}
+
+.width-full {
+  width: 100%;
 }
 </style>

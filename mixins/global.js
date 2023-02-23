@@ -11,8 +11,6 @@ export default {
     triggerToast(type) {
       const styles = type === SUCCESS ? 'success' : 'error';
 
-      console.log(styles);
-
       swal(
         type === SUCCESS
           ? $nuxt.$t('alert.message.success')

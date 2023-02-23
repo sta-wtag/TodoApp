@@ -99,8 +99,6 @@ export default {
     ...mapGetters({ requestInProcess: 'todos/getCompleteRequest' }),
 
     formatDate() {
-      console.log(this.task?.createdAt);
-
       if (!this.task?.createdAt) return;
 
       return (

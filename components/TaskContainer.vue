@@ -1,6 +1,11 @@
 <template>
-  <div class="flex-box flex-direction-column height-full">
-    <div class="main-div-padding relative-position">
+  <div class="flex-box flex-direction-column height-full relative-position">
+    <div v-if="isSearching" class="load-overlay">
+      <div class="spin-icon">
+        <LoadingIcon />
+      </div>
+    </div>
+    <div class="main-div-padding">
       <div class="title-text">{{ $t('PageTitle') }}</div>
       <div class="space-between flex-box home-button">
         <button
@@ -36,11 +41,6 @@
         </form>
         <div v-for="task in todoList" :key="task.id">
           <TaskCard :card-data="task" />
-        </div>
-        <div v-if="isSearching" class="load-overlay">
-          <div class="spin-icon">
-            <LoadingIcon />
-          </div>
         </div>
       </div>
       <div class="center-item">

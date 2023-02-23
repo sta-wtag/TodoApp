@@ -1,11 +1,18 @@
 <template>
   <div class="header">
-    <div>
-      <NavLogo />
+    <div class="flex-box">
+      <NavLogo class="align-self-center" />
       <span class="header-text">Todos</span>
     </div>
 
     <div class="flex-box">
+      <input
+        v-if="showSearchInput"
+        ref="searchInputField"
+        v-model="searchText"
+        class="margin-right-19 input-search text-search"
+        @keyup.prevent="debounced"
+      />
       <div
         id="search-icon"
         class="align-self-center margin-right-19"
@@ -13,15 +20,8 @@
       >
         <SearchIcon />
       </div>
-      <input
-        v-if="showSearchInput"
-        ref="searchInputField"
-        v-model="searchText"
-        class="margin-right-19"
-        @keyup.prevent="debounced"
-      />
 
-      <select @change="switchLanguage">
+      <select class="text-button" @change="switchLanguage">
         <option value="" disabled>{{ $t('SelectLanguage') }}</option>
         <option
           v-for="locale in locales"
@@ -103,18 +103,27 @@ export default {
 };
 </script>
 <style lang="scss">
+select {
+  padding: 0px 12px;
+  border: 1px solid $border-primary;
+  border-radius: 5px;
+  background-color: white;
+  color: $button-background;
+}
+
 .header {
   text-align: center;
   display: flex;
   padding: 15px 150px;
   background-color: white;
   justify-content: space-between;
+  border-bottom: 1px solid $border-primary;
 }
 .header-text {
   font-family: Roboto;
   font-size: 36px;
   font-weight: 700;
-  line-height: 42px;
+  line-height: 42.19px;
   letter-spacing: 0em;
   text-align: left;
   color: $primary-text;
@@ -138,5 +147,12 @@ export default {
   position: relative;
   animation-name: example;
   animation-duration: 1s;
+}
+.input-search {
+  width: 518px;
+  height: 36px;
+  padding: 0px 12px;
+  border: 3px solid #d1d8ff;
+  border-radius: 5px;
 }
 </style>

@@ -5,27 +5,33 @@
         <LoadingIcon />
       </div>
     </div>
-    <form @submit.prevent="checkForm">
-      <div class="card">
-        <div
-          v-if="showEditIcon"
-          class="text-description"
-          :class="{ 'text-done': task.done }"
-        >
-          {{ task.description }}
+    <form @submit.prevent="submitForm">
+      <div class="card align-content-space-between">
+        <div class="margin-bottom-24">
+          <div
+            v-if="showEditIcon && task !== null"
+            class="text-description"
+            :class="{ 'text-done': task.done }"
+          >
+            {{ task.description }}
+          </div>
+          <div v-else>
+            <textarea
+              id="title"
+              v-model="taskDescription"
+              class="text-area"
+            ></textarea>
+            <label v-if="titleInputError" for="title">
+              {{ $t('validation.todo.title.required') }}
+            </label>
+          </div>
+          <div class="text-caption margin-top-9">
+            {{ formatDate }}
+          </div>
         </div>
-        <div v-else>
-          <textarea id="title" v-model="taskDescription"></textarea>
-          <label v-if="titleInputError" for="title">
-            {{ $t('validation.todo.title.required') }}
-          </label>
-        </div>
-        <div class="text-caption margin-top-9 margin-bottom-24">
-          {{ formatDate }}
-        </div>
-        <div class="space-between flex-box">
+        <div class="space-between flex-box width-full">
           <div class="flex-gap-8 card-button text-button">
-            <div v-if="!task.done" class="flex-gap-8">
+            <div v-if="!task?.done" class="flex-gap-8">
               <button value="update" @click.prevent="markDone">
                 <TickIcon />
               </button>
@@ -54,6 +60,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import { SUCCESS, ERROR } from '../constants';
 import DeleteIcon from '@/assets/svg/Delete.svg';
 import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
 import EditIcon from '@/assets/svg/Edit.svg';
@@ -82,6 +89,8 @@ export default {
     ...mapGetters({ requestInProcess: 'todos/getCompleteRequest' }),
 
     formatDate() {
+      if (!this.task?.createdAt) return;
+
       return (
         this.$t('CreatedAt') +
         ':  ' +
@@ -89,6 +98,8 @@ export default {
       );
     },
     duration() {
+      if (!this.task?.completedAt) return;
+
       return (
         this.$t('Completed') +
         '   ' +
@@ -120,6 +131,7 @@ export default {
       if (this.requestInProcess) return;
 
       this.loading = false;
+      this.triggerToast(SUCCESS);
     },
     async deleteTask() {
       if (!this.showEditIcon) {
@@ -134,6 +146,7 @@ export default {
       if (this.requestInProcess) return;
 
       this.loading = false;
+      this.triggerToast(SUCCESS);
     },
     submitForm(e) {
       e.preventDefault();
@@ -142,6 +155,7 @@ export default {
       if (!this.$helper.checkForm(this.taskDescription)) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
+        this.triggerToast(ERROR);
 
         return;
       }
@@ -163,11 +177,15 @@ export default {
 
       this.showEditIcon = true;
       this.loading = false;
+      this.triggerToast(SUCCESS);
     },
   },
 };
 </script>
 <style lang="scss">
+textarea {
+  height: 80px;
+}
 .load-overlay {
   width: 100%;
   height: 100%;
@@ -196,7 +214,7 @@ export default {
 }
 .flex-gap-8 {
   display: flex;
-  gap: 8px;
+  gap: 26px;
 }
 .card-button button {
   background: none;

@@ -123,6 +123,7 @@ export const actions = {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         commit('editTask', val, id);
+        commit('setListPerPage');
         commit('setCompleteRequest', false);
         resolve();
       }, 1000);
@@ -175,7 +176,7 @@ export const mutations = {
       done: false,
       description: val,
       completedAt: null,
-      createdAt: new Date().toDateString(),
+      createdAt: new Date(),
     };
 
     state.filterOptions.forEach((element) => (element.status = false));

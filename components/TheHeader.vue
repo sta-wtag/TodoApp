@@ -105,26 +105,6 @@ export default {
 };
 </script>
 <style lang="scss">
-@keyframes example {
-  0% {
-    right: 0px;
-  }
-  25% {
-    right: 100px;
-  }
-  50% {
-    right: 200px;
-  }
-  100% {
-    right: 500px;
-  }
-}
-.search-icon {
-  position: relative;
-  animation-name: example;
-  animation-duration: 1s;
-}
-
 .header {
   text-align: center;
   background-color: white;

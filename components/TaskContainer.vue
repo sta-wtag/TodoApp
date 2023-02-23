@@ -71,13 +71,15 @@
 </template>
 <script>
 import { mapGetters, mapState } from 'vuex';
-import { LIMIT } from '../constants';
+import { LIMIT, SUCCESS, ERROR } from '../constants';
+
 import FilterComponent from '@/components/buttons/FilterComponent.vue';
 import DeleteIcon from '@/components/buttons/DeleteIcon.vue';
 import PlusIcon from '@/assets/svg/plusIcon.svg';
 import NoTaskLogo from '@/assets/svg/noTask.svg';
 import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
 import global from '@/mixins/global';
+
 export default {
   name: 'IndexPage',
   components: {
@@ -134,11 +136,11 @@ export default {
     submitForm(e) {
       e.preventDefault();
       this.taskDescription = this.sanitizeInput(this.taskDescription);
-      console.log(this.taskDescription);
 
       if (!this.$helper.checkForm(this.taskDescription)) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
+        this.triggerToast(ERROR);
 
         return;
       }
@@ -148,6 +150,7 @@ export default {
     addTask() {
       this.$store.dispatch('todos/addTask', this.taskDescription);
       this.$store.dispatch('todos/setTotalPage');
+      this.triggerToast(SUCCESS);
       this.clearField();
     },
     clearField() {
@@ -219,6 +222,5 @@ body {
   border-radius: 5px;
   padding: 9px 20px;
   cursor: pointer;
-  margin: 57px 0px;
 }
 </style>

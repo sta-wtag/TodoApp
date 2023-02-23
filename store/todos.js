@@ -123,6 +123,7 @@ export const actions = {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         commit('editTask', val, id);
+        commit('setListPerPage');
         commit('setCompleteRequest', false);
         resolve();
       }, 1000);

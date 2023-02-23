@@ -5,10 +5,10 @@
         <LoadingIcon />
       </div>
     </div>
-    <form @submit.prevent="checkForm">
+    <form @submit.prevent="submitForm">
       <div class="card">
         <div
-          v-if="showEditIcon"
+          v-if="showEditIcon && task !== null"
           class="text-description"
           :class="{ 'text-done': task.done }"
         >
@@ -25,7 +25,7 @@
         </div>
         <div class="space-between flex-box">
           <div class="flex-gap-8 card-button text-button">
-            <div v-if="!task.done" class="flex-gap-8">
+            <div v-if="!task?.done" class="flex-gap-8">
               <button value="update" @click.prevent="markDone">
                 <TickIcon />
               </button>
@@ -54,11 +54,13 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import { SUCCESS, ERROR } from '../constants';
 import DeleteIcon from '@/assets/svg/Delete.svg';
 import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
 import EditIcon from '@/assets/svg/Edit.svg';
 import TickIcon from '@/assets/svg/Tick.svg';
 import global from '@/mixins/global';
+
 
 export default {
   name: 'TaskCard',
@@ -82,6 +84,8 @@ export default {
     ...mapGetters({ requestInProcess: 'todos/getCompleteRequest' }),
 
     formatDate() {
+      if (!this.task?.createdAt) return;
+
       return (
         this.$t('CreatedAt') +
         ':  ' +
@@ -89,6 +93,8 @@ export default {
       );
     },
     duration() {
+      if (!this.task?.completedAt) return;
+
       return (
         this.$t('Completed') +
         '   ' +
@@ -120,6 +126,7 @@ export default {
       if (this.requestInProcess) return;
 
       this.loading = false;
+      this.triggerToast(SUCCESS);
     },
     async deleteTask() {
       if (!this.showEditIcon) {
@@ -134,6 +141,7 @@ export default {
       if (this.requestInProcess) return;
 
       this.loading = false;
+      this.triggerToast(SUCCESS);
     },
     submitForm(e) {
       e.preventDefault();
@@ -142,6 +150,7 @@ export default {
       if (!this.$helper.checkForm(this.taskDescription)) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
+        this.triggerToast(ERROR);
 
         return;
       }
@@ -163,6 +172,7 @@ export default {
 
       this.showEditIcon = true;
       this.loading = false;
+      this.triggerToast(SUCCESS);
     },
   },
 };

@@ -263,6 +263,15 @@ textarea {
 .padding-4 {
   padding: 16px
 }
+/* .text-concat {
+  position: relative;
+  display: inline-block;
+  word-wrap: break-word;
+  overflow: hidden;
+  min-height: 56px; 
+  max-height: 56px;
+  text-align:justify;
+} */
 
 @media only screen and (min-width: 1200px) {
 
@@ -293,15 +302,7 @@ textarea {
     flex-direction: column;
     z-index: -1;
   }
-  .text-concat {
-    position: relative;
-    display: inline-block;
-    word-wrap: break-word;
-    overflow: hidden;
-    min-height: 56px; 
-    max-height: 56px;
-    text-align:justify;
-  }
+ 
  
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
@@ -335,15 +336,7 @@ textarea {
     z-index: -1;
   }
 
-  .text-concat {
-    position: relative;
-    display: inline-block;
-    word-wrap: break-word;
-    overflow: hidden;
-    min-height: 56px; 
-    max-height: 56px;
-    text-align:justify;
-  }
+  
  
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -377,15 +370,7 @@ textarea {
     z-index: -1;
   }
 
-  .text-concat {
-    position: relative;
-    display: inline-block;
-    word-wrap: break-word;
-    overflow: hidden;
-    min-height: 56px; 
-    max-height: 56px;
-    text-align:justify;
-  }
+  
  
 }
 @media only screen and (max-width: 767px) and (min-width: 577px) {
@@ -419,15 +404,7 @@ textarea {
     z-index: -1;
   }
 
-  .text-concat {
-    position: relative;
-    display: inline-block;
-    word-wrap: break-word;
-    overflow: hidden;
-    min-height: 56px; 
-    max-height: 56px;
-    text-align:justify;
-  }
+ 
  
 }
 
@@ -463,15 +440,7 @@ textarea {
     z-index: -1;
   }
 
-  .text-concat {
-    position: relative;
-    display: inline-block;
-    word-wrap: break-word;
-    overflow: hidden;
-    min-height: 56px; 
-    max-height: 56px;
-    text-align:justify;
-  }
+
   
 }
 @media only screen and (max-width: 375px) {
@@ -504,17 +473,8 @@ textarea {
     flex-wrap: wrap;
     flex-direction: column;
     z-index: -1;
-
   }
 
-  .text-concat {
-    position: relative;
-    display: inline-block;
-    word-wrap: break-word;
-    overflow: hidden;
-    min-height: 56px; 
-    max-height: 56px;
-    text-align:justify;
-  }
+
   
 }

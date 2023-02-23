@@ -20,6 +20,7 @@
               id="title"
               v-model="taskDescription"
               class="width-full"
+              maxlength="100"
             ></textarea>
             <label v-if="titleInputError" for="title">
               {{ $t('validation.todo.title.required') }}

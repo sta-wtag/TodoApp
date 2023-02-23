@@ -283,14 +283,12 @@ textarea {
     flex-wrap: wrap;
     flex-direction: column;
     z-index: -1;
-    max-width:500px;
   }
   .text-concat {
     position: relative;
     display: inline-block;
     word-wrap: break-word;
     overflow: hidden;
-    max-width:500px;
     min-height: 56px; 
     max-height: 56px;
     text-align:justify;
@@ -327,7 +325,6 @@ textarea {
     flex-wrap: wrap;
     flex-direction: column;
     z-index: -1;
-    /* max-width:382px; */
   }
 
   .text-concat {
@@ -335,7 +332,6 @@ textarea {
     display: inline-block;
     word-wrap: break-word;
     overflow: hidden;
-    /* max-width:382px; */
     min-height: 56px; 
     max-height: 56px;
     text-align:justify;
@@ -372,7 +368,6 @@ textarea {
     flex-wrap: wrap;
     flex-direction: column;
     z-index: -1;
-    /* max-width:382px; */
   }
 
   .text-concat {
@@ -380,7 +375,6 @@ textarea {
     display: inline-block;
     word-wrap: break-word;
     overflow: hidden;
-    /* max-width:382px; */
     min-height: 56px; 
     max-height: 56px;
     text-align:justify;
@@ -417,7 +411,6 @@ textarea {
     flex-wrap: wrap;
     flex-direction: column;
     z-index: -1;
-    /* max-width:382px; */
   }
 
   .text-concat {
@@ -425,7 +418,6 @@ textarea {
     display: inline-block;
     word-wrap: break-word;
     overflow: hidden;
-    /* max-width:382px; */
     min-height: 56px; 
     max-height: 56px;
     text-align:justify;
@@ -463,7 +455,6 @@ textarea {
     flex-wrap: wrap;
     flex-direction: column;
     z-index: -1;
-    /* max-width:310px; */
   }
 
   .text-concat {
@@ -471,7 +462,6 @@ textarea {
     display: inline-block;
     word-wrap: break-word;
     overflow: hidden;
-    /* max-width:310px; */
     min-height: 56px; 
     max-height: 56px;
     text-align:justify;
@@ -509,7 +499,7 @@ textarea {
     flex-wrap: wrap;
     flex-direction: column;
     z-index: -1;
-    /* max-width:300px; */
+
   }
 
   .text-concat {
@@ -517,7 +507,6 @@ textarea {
     display: inline-block;
     word-wrap: break-word;
     overflow: hidden;
-    /* max-width:300px; */
     min-height: 56px; 
     max-height: 56px;
     text-align:justify;

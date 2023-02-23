@@ -2,7 +2,7 @@
   <div class="flex-box flex-direction-column height-full">
     <div class="main-div-padding relative-position">
       <div class="title-text">{{ $t('PageTitle') }}</div>
-      <div class="space-between flex-box margin-top-7 margin-bottom-9">
+      <div class="space-between flex-box home-button">
         <button
           class="create-button text-button"
           data-testid="create-button"
@@ -241,6 +241,10 @@ export default {
     padding: 9px 20px;
     cursor: pointer;
   }
+  .home-button {
+    margin-top: 28px;
+    margin-bottom: 36px;
+  }
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
   .grid-template-column {
@@ -258,6 +262,10 @@ export default {
     border-radius: 5px;
     padding: 9px 20px;
     cursor: pointer;
+  }
+  .home-button {
+    margin-top: 28px;
+    margin-bottom: 36px;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -277,10 +285,14 @@ export default {
     padding: 9px 20px;
     cursor: pointer;
   }
+  .home-button {
+    margin-top: 28px;
+    margin-bottom: 36px;
+  }
 }
 @media only screen and (max-width: 767px) and (min-width: 577px) {
   .grid-template-column {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     row-gap: 14px;
     column-gap: 24px;
   }
@@ -294,6 +306,10 @@ export default {
     border-radius: 5px;
     padding: 9px 20px;
     cursor: pointer;
+  }
+  .home-button {
+    margin-top: 28px;
+    margin-bottom: 36px;
   }
 }
 
@@ -315,6 +331,10 @@ export default {
     cursor: pointer;
     display: flex;
   }
+  .home-button {
+    margin-top: 14px;
+    margin-bottom: 24px;
+  }
 }
 @media only screen and (max-width: 375px) {
   .grid-template-column {
@@ -333,6 +353,10 @@ export default {
     padding: 9px 12px;
     cursor: pointer;
     display: flex;
+  }
+  .home-button {
+    margin-top: 14px;
+    margin-bottom: 24px;
   }
 }
 </style>

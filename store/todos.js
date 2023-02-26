@@ -63,7 +63,7 @@ export const actions = {
 
   addTask: ({ state, commit }, val) => {
     commit('addTask', val);
-    commit('setActiveFilterOption', state.filterOptions[0]); // set filter option to All
+    // set filter option to All
     commit('filterTaskList');
   },
 

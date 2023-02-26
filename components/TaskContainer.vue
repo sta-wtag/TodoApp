@@ -68,8 +68,20 @@
         <div class="center-item">
           <NoTaskLogo />
         </div>
-        <div class="info-text margin-top-8 text-center">
+        <div v-if="hasNoTask" class="info-text margin-top-8 text-center">
           {{ $t('NoTask') }}
+        </div>
+        <div
+          v-if="hasNoCompletedTask"
+          class="info-text margin-top-8 text-center"
+        >
+          {{ $t('NoCompleteTask') }}
+        </div>
+        <div
+          v-if="hasNoIncompleteTask"
+          class="info-text margin-top-8 text-center"
+        >
+          {{ $t('NoIncompleteTask') }}
         </div>
       </div>
     </div>
@@ -107,6 +119,7 @@ export default {
       totalPage: 'getTotalPage',
       filterOptions: 'getFilterOptions',
       requestInProcess: 'getCompleteRequest',
+      activeFilter: 'getActiveFilterOption',
     }),
     ...mapState('todos', {
       perPage: 'perPage',
@@ -114,7 +127,29 @@ export default {
       isSearching: 'isSearching',
     }),
     hasNoTask() {
-      return this.todoList && this.todoList.length <= 0;
+      return (
+        this.todoList &&
+        this.todoList.length <= 0 &&
+        this.activeFilter?.title === 'All'
+      );
+    },
+    hasNoIncompleteTask() {
+      console.log(this.activeFilter.title);
+
+      return (
+        this.todoList &&
+        this.todoList.length <= 0 &&
+        this.activeFilter?.title === 'Incomplete'
+      );
+    },
+    hasNoCompletedTask() {
+      console.log(this.activeFilter.title);
+
+      return (
+        this.todoList &&
+        this.todoList.length <= 0 &&
+        this.activeFilter?.title === 'Complete'
+      );
     },
     loadMoreTask() {
       return !this.hasNoTask && this.page < this.totalPage;

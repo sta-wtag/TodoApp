@@ -69,19 +69,7 @@
           <NoTaskLogo />
         </div>
         <div v-if="hasNoTask" class="info-text margin-top-8 text-center">
-          {{ $t('NoTask') }}
-        </div>
-        <div
-          v-if="hasNoCompletedTask"
-          class="info-text margin-top-8 text-center"
-        >
-          {{ $t('NoCompleteTask') }}
-        </div>
-        <div
-          v-if="hasNoIncompleteTask"
-          class="info-text margin-top-8 text-center"
-        >
-          {{ $t('NoIncompleteTask') }}
+          {{ noTaskMessage }}
         </div>
       </div>
     </div>
@@ -127,31 +115,16 @@ export default {
       isSearching: 'isSearching',
     }),
     hasNoTask() {
-      console.log(this.activeFilter?.title, '1');
-
-      return (
-        this.todoList &&
-        this.todoList.length <= 0 &&
-        this.activeFilter?.title === 'All'
-      );
+      return this.todoList && this.todoList.length <= 0;
     },
-    hasNoIncompleteTask() {
-      console.log(this.activeFilter?.title, '2');
+    noTaskMessage() {
+      if (this.activeFilter?.title === 'All') {
+        return this.$t('NoTask');
+      } else if (this.activeFilter?.title === 'Incomplete') {
+        return this.$t('NoIncompleteTask');
+      }
 
-      return (
-        this.todoList &&
-        this.todoList.length <= 0 &&
-        this.activeFilter?.title === 'Incomplete'
-      );
-    },
-    hasNoCompletedTask() {
-      console.log(this.activeFilter?.title, '3');
-
-      return (
-        this.todoList &&
-        this.todoList.length <= 0 &&
-        this.activeFilter?.title === 'Complete'
-      );
+      return this.$t('NoCompleteTask');
     },
     loadMoreTask() {
       return !this.hasNoTask && this.page < this.totalPage;

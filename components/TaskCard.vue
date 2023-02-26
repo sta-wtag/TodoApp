@@ -8,13 +8,23 @@
     <form @submit.prevent="submitForm">
       <div class="card padding-4 align-content-space-between">
         <div class="margin-bottom-6">
-          <div
-            v-if="showEditIcon && task !== null"
-            class="text-description text-concat"
-            :class="{ 'text-done': task.done }"
-          >
-            {{ task.description }}
+          <div v-if="showEditIcon && task !== null" class="description-height">
+            <div
+              class="text-description text-truncate text-width-max"
+              :class="{ 'text-done': task.done }"
+            >
+              <div ref="taskDescription">{{ task.description }}</div>
+            </div>
+            <span
+              v-show="seeMore"
+              id="seeMore"
+              class="see-more text-small margin-top-2"
+              @click="openModal(task.description)"
+            >
+              see more
+            </span>
           </div>
+
           <div v-else>
             <textarea
               id="title"
@@ -26,6 +36,7 @@
               {{ $t('validation.todo.title.required') }}
             </label>
           </div>
+
           <div class="text-caption margin-top-2">
             {{ formatDate }}
           </div>
@@ -95,6 +106,7 @@ export default {
     taskDescription: '',
     titleErrorMsg: '',
     loading: false,
+    descriptionDiv: null,
   }),
   computed: {
     ...mapGetters({ requestInProcess: 'todos/getCompleteRequest' }),
@@ -117,11 +129,26 @@ export default {
         this.$helper.getDuration(this.task.createdAt, this.task.completedAt)
       );
     },
+    seeMore() {
+      if (
+        (this.descriptionDiv &&
+          this.descriptionDiv.scrollWidth > this.descriptionDiv.offsetWidth) ||
+        (this.descriptionDiv &&
+          this.descriptionDiv.offsetHeight < this.descriptionDiv.scrollHeight)
+      ) {
+        return true;
+      }
+
+      return false;
+    },
   },
 
   created() {
     this.task = this.cardData;
     this.taskDescription = this.task ? this.task.description : '';
+  },
+  mounted() {
+    this.descriptionDiv = this.$refs.taskDescription;
   },
   methods: {
     async markDone() {
@@ -235,5 +262,11 @@ export default {
 
 .width-full {
   width: 100%;
+}
+.see-more {
+  color: $primary-text;
+}
+.description-height {
+  min-height: 81px;
 }
 </style>

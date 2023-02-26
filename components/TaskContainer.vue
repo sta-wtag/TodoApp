@@ -25,11 +25,7 @@
       <div class="list-div grid-template-column">
         <form v-if="showAddCard" @submit.prevent="submitForm">
           <div class="card padding-4">
-            <textarea
-              id="taskTitle"
-              v-model="taskDescription"
-              maxlength="100"
-            ></textarea>
+            <textarea id="taskTitle" v-model="taskDescription"></textarea>
             <label v-if="titleInputError" for="taskTitle">
               {{ $t('validation.todo.title.required') }}
             </label>
@@ -253,8 +249,8 @@ export default {
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
   .grid-template-column {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    row-gap: 34px;
-    column-gap: 54px;
+    row-gap: 10px;
+    column-gap: 10px;
   }
   .main-div-padding {
     padding: 0px 149px;
@@ -274,9 +270,9 @@ export default {
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .grid-template-column {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    row-gap: 34px;
-    column-gap: 54px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 10px;
+    column-gap: 10px;
   }
   .main-div-padding {
     padding: 0px 90px;
@@ -325,6 +321,7 @@ export default {
   }
   .main-div-padding {
     padding: 0px 18px;
+    padding-bottom: 20px;
   }
   .create-button {
     background: $primary-text;
@@ -342,12 +339,13 @@ export default {
 }
 @media only screen and (max-width: 375px) {
   .grid-template-column {
-    grid-template-columns: auto;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
     row-gap: 18px;
-    column-gap: 28px;
+    // column-gap: 28px;
   }
   .main-div-padding {
     padding: 0px 18px;
+    padding-bottom: 20px;
   }
   .create-button {
     background: $primary-text;
@@ -361,6 +359,18 @@ export default {
   .home-button {
     margin-top: 14px;
     margin-bottom: 24px;
+  }
+}
+
+@media only screen and (max-width: 280px) {
+  .grid-template-column {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    row-gap: 10px;
+    // column-gap: 28px;
+  }
+  .main-div-padding {
+    padding: 0px 18px;
+    padding-bottom: 20px;
   }
 }
 </style>

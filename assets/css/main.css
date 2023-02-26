@@ -240,38 +240,30 @@ textarea {
   border-radius: 5px;
 }
 
-.swal-text {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 18px;
-  line-height: 21px;
-  margin:0px;
-  color:white;
-}
+
 .swal-text:last-child {
-  margin-bottom:15px ;
+  /* margin-bottom:15px ; */
 }
 
 .swal-text:first-child {
   margin-top:15px ;
 }
-.swal-overlay {
+/* .swal-overlay {
   background-color: transparent;
-}
+} */
 
 .padding-4 {
   padding: 16px
 }
-/* .text-concat {
-  position: relative;
-  display: inline-block;
-  word-wrap: break-word;
-  overflow: hidden;
+.text-truncate {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
   min-height: 56px; 
   max-height: 56px;
-  text-align:justify;
-} */
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+  word-wrap: break-all;
+}
 
 @media only screen and (min-width: 1200px) {
 
@@ -302,8 +294,21 @@ textarea {
     flex-direction: column;
     z-index: -1;
   }
- 
- 
+ .text-width-max {
+  max-width: 250px;
+ }
+ .swal-text {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 21px;
+  margin:0px;
+
+}
+.text-modal {
+  width: 500px;
+}
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
 
@@ -336,8 +341,21 @@ textarea {
     z-index: -1;
   }
 
+  .text-width-max {
+    max-width: 200px;
+   }
+   .swal-text {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 21px;
+    margin:0px;
   
- 
+  }
+  .text-modal {
+    width: 500px;
+  }
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
 
@@ -370,8 +388,21 @@ textarea {
     z-index: -1;
   }
 
+  .text-width-max {
+    max-width: 250px;
+   }
+   .swal-text {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 21px;
+    margin:0px;
   
- 
+  }
+  .text-modal {
+    width: 500px;
+  }
 }
 @media only screen and (max-width: 767px) and (min-width: 577px) {
 
@@ -404,8 +435,21 @@ textarea {
     z-index: -1;
   }
 
- 
- 
+  .text-width-max {
+    max-width: 250px;
+   }
+   .swal-text {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 21px;
+    margin:0px;
+  
+  }
+  .text-modal {
+    width: 500px;
+  }
 }
 
 @media only screen and (max-width: 576px) and (min-width: 376px) {
@@ -413,7 +457,7 @@ textarea {
   .success {
     position:absolute;
     height: 55px;
-    top:90px;
+    top:50;
     left:0px;
     right:0px;
     border-radius: 5px;
@@ -422,7 +466,7 @@ textarea {
   .error {
     position:absolute;
     height: 55px;
-    top:90px;
+    top:50%;
     left:0px;
     right:0px;
     border-radius: 5px;
@@ -430,7 +474,6 @@ textarea {
   }
 
   .card {
-
     border-radius: 5px;
     border: 1px solid #dde2ff;
     background-color: white;
@@ -440,8 +483,21 @@ textarea {
     z-index: -1;
   }
 
-
+  .text-width-max {
+    max-width: 300px;
+   }
+   .swal-text {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 21px;
+    margin:0px;
   
+  }
+  .text-modal {
+    width: 200px;
+  }
 }
 @media only screen and (max-width: 375px) {
 
@@ -449,7 +505,7 @@ textarea {
     position:absolute;
     width: 80%;
     height: 45px;
-    top:90px;
+    top:50%;
     left:0px;
     right:0px;
     border-radius: 5px;
@@ -458,7 +514,7 @@ textarea {
   .error {
     position:absolute;
     height: 55px;
-    top:90px;
+    top:50%;
     left:0px;
     right:0px;
     border-radius: 5px;
@@ -475,6 +531,18 @@ textarea {
     z-index: -1;
   }
 
-
-  
+  .text-width-max {
+    max-width: 200px;
+   }
+   .swal-text {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 21px;
+    margin:0px;
+  }
+  .text-modal {
+    width: 250px;
+  }
 }

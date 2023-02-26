@@ -61,12 +61,21 @@ export default {
     left: 0px;
   }
 }
-@media only screen and (max-width: 375px) {
+@media only screen and (max-width: 375px) and (min-width: 281px) {
   .wrapper-div {
     padding-top: 88px;
     position: absolute;
     top: 0px;
     right: 0px;
+    bottom: 0px;
+    left: 0px;
+  }
+}
+@media only screen and (max-width: 280px) {
+  .wrapper-div {
+    padding-top: 88px;
+    position: absolute;
+    top: 0px;
     bottom: 0px;
     left: 0px;
   }

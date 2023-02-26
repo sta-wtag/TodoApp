@@ -1,6 +1,7 @@
 import swal from 'sweetalert';
 
-import { SUCCESS, ERROR } from '@/constants.js';
+import { SUCCESS, ERROR, SWALCOLORS } from '@/constants.js';
+
 export default {
   methods: {
     sanitizeInput(textInput) {
@@ -8,9 +9,18 @@ export default {
 
       return sanitizedInput;
     },
+
+    SwalOverlayColor(overlay, textColor) {
+      setTimeout(function () {
+        $('.swal-overlay').css({ 'background-color': SWALCOLORS[overlay] });
+        $('.swal-text').css({ color: SWALCOLORS[textColor] });
+        $('.swal-button').css({ 'background-color': SWALCOLORS.purple });
+      }, 0);
+    },
     triggerToast(type) {
       const styles = type === SUCCESS ? 'success' : 'error';
 
+      this.SwalOverlayColor('transparent', 'white');
       swal(
         type === SUCCESS
           ? $nuxt.$t('alert.message.success')
@@ -22,6 +32,14 @@ export default {
           timer: 3000,
         }
       );
+    },
+    openModal(taskDescription) {
+      this.SwalOverlayColor('greyOverlay', 'black');
+      swal(taskDescription, {
+        className: 'text-modal',
+        iconHtml: '<img src="https://picsum.photos/100/100">',
+        showCancelButton: false,
+      });
     },
   },
 };

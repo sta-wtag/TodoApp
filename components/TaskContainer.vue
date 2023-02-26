@@ -127,6 +127,8 @@ export default {
       isSearching: 'isSearching',
     }),
     hasNoTask() {
+      console.log(this.activeFilter?.title, '1');
+
       return (
         this.todoList &&
         this.todoList.length <= 0 &&
@@ -134,7 +136,7 @@ export default {
       );
     },
     hasNoIncompleteTask() {
-      console.log(this.activeFilter.title);
+      console.log(this.activeFilter?.title, '2');
 
       return (
         this.todoList &&
@@ -143,7 +145,7 @@ export default {
       );
     },
     hasNoCompletedTask() {
-      console.log(this.activeFilter.title);
+      console.log(this.activeFilter?.title, '3');
 
       return (
         this.todoList &&

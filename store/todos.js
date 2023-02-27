@@ -6,10 +6,6 @@ import {
   INCOMPLETE_TASK,
   PER_PAGE,
 } from '../constants';
-import Database from '../helpers/database';
-
-const database = new Database();
-const supabase = database.supabase;
 
 export const state = () => ({
   limit: LIMIT,

@@ -63,31 +63,9 @@ export const getters = {
 
 export const actions = {
   addTask: async ({ state, commit }, val) => {
-    try {
-      const task = {
-        status: false,
-        description: val,
-        completed_at: null,
-        created_at: new Date(),
-      };
-      const { data: todos, error } = await supabase
-        .from('Todos')
-        .insert(task)
-        .single();
-
-      if (error) {
-        return;
-      }
-
-      // handle for when no todos are returned
-      if (todos === null) {
-        return;
-      }
-
-      // store response to allTodos
-
-      commit('setTodoList');
-    } catch (err) {}
+    commit('addTask', val);
+    // set filter option to All
+    commit('filterTaskList');
   },
   deleteTask: ({ state, commit }, val) => {
     commit('setCompleteRequest', true);
@@ -132,7 +110,6 @@ export const actions = {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         commit('editTask', val, id);
-        commit('setListPerPage');
         commit('setCompleteRequest', false);
         resolve();
       }, 1000);

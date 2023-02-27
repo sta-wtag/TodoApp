@@ -5,38 +5,55 @@
         <LoadingIcon />
       </div>
     </div>
-    <form @submit.prevent="checkForm">
-      <div class="card align-content-space-between">
+    <form @submit.prevent="submitForm">
+      <div class="card padding-4 align-content-space-between">
         <div class="margin-bottom-6">
-          <div
-            v-if="showEditIcon && task !== null"
-            class="text-description text-concat"
-            :class="{ 'text-done': task.done }"
-          >
-            {{ task.description }}
+          <div v-if="showEditIcon && task !== null" class="description-height">
+            <div
+              class="text-description text-truncate text-width-max"
+              :class="{ 'text-done': task.done }"
+            >
+              <div ref="taskDescription">{{ task.description }}</div>
+            </div>
+            <span
+              v-show="seeMore"
+              id="seeMore"
+              class="see-more text-small margin-top-2"
+              @click="openModal(task.description)"
+            >
+              see more
+            </span>
           </div>
+
           <div v-else>
             <textarea
               id="title"
               v-model="taskDescription"
-              class="text-area"
+              class="width-full"
+              maxlength="100"
             ></textarea>
             <label v-if="titleInputError" for="title">
               {{ $t('validation.todo.title.required') }}
             </label>
           </div>
+
           <div class="text-caption margin-top-2">
             {{ formatDate }}
           </div>
         </div>
         <div class="space-between flex-box width-full">
-          <div class="flex-gap-8 card-button text-button">
+          <div class="flex-gap-8 text-button">
             <div v-if="task && !task.done" class="flex-gap-8">
-              <button value="update" @click.prevent="markDone">
+              <button
+                value="update"
+                class="card-button"
+                @click.prevent="markDone"
+              >
                 <TickIcon />
               </button>
               <button
                 v-if="showEditIcon"
+                class="card-button"
                 value="edit"
                 @click.prevent="showEditIcon = false"
               >
@@ -46,7 +63,7 @@
                 {{ $t('Save') }}
               </button>
             </div>
-            <button @click.prevent="deleteTask">
+            <button class="card-button" @click.prevent="deleteTask">
               <DeleteIcon />
             </button>
           </div>
@@ -80,12 +97,13 @@ export default {
     taskDescription: '',
     titleErrorMsg: '',
     loading: false,
+    descriptionDiv: null,
   }),
   computed: {
     ...mapGetters({ requestInProcess: 'todos/getCompleteRequest' }),
 
     formatDate() {
-      if (!this.task?.created_at) return;
+      if (!this.task?.createdAt) return;
 
       return (
         this.$t('CreatedAt') +
@@ -102,11 +120,26 @@ export default {
         this.$helper.getDuration(this.task.created_at, this.task.completed_at)
       );
     },
+    seeMore() {
+      if (
+        (this.descriptionDiv &&
+          this.descriptionDiv.scrollWidth > this.descriptionDiv.offsetWidth) ||
+        (this.descriptionDiv &&
+          this.descriptionDiv.offsetHeight < this.descriptionDiv.scrollHeight)
+      ) {
+        return true;
+      }
+
+      return false;
+    },
   },
 
   created() {
     this.task = this.cardData;
     this.taskDescription = this.task ? this.task.description : '';
+  },
+  mounted() {
+    this.descriptionDiv = this.$refs.taskDescription;
   },
   methods: {
     async markDone() {
@@ -226,11 +259,21 @@ export default {
   display: flex;
   gap: 26px;
 }
-.card-button button {
+.card-button {
   background: none;
   color: inherit;
   border: none;
   padding: 0;
   cursor: pointer;
+}
+
+.width-full {
+  width: 100%;
+}
+.see-more {
+  color: $primary-text;
+}
+.description-height {
+  min-height: 81px;
 }
 </style>

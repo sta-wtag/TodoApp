@@ -103,6 +103,8 @@ export default {
     showAddCard: false,
     taskDescription: '',
     loading: true,
+    noCompletedTask: false,
+    noIncompleteTask: false,
   }),
   computed: {
     ...mapGetters('todos', {
@@ -110,6 +112,8 @@ export default {
       totalPage: 'getTotalPage',
       filterOptions: 'getFilterOptions',
       requestInProcess: 'getCompleteRequest',
+      activeFilter: 'getActiveFilterOption',
+      totalTaskList: 'getTodoList',
     }),
     ...mapState('todos', {
       perPage: 'perPage',
@@ -117,8 +121,25 @@ export default {
       isSearching: 'isSearching',
     }),
     hasNoTask() {
-      return this.todoList && this.todoList.length <= 0;
+      return (
+        this.todoList &&
+        this.todoList.length <= 0 &&
+        this.totalTaskList &&
+        this.totalTaskList.length <= 0
+      );
     },
+    hasNoFilteredTask() {
+      return (
+        this.todoList &&
+        this.todoList.length <= 0 &&
+        this.totalTaskList &&
+        this.totalTaskList.length > 0
+      );
+    },
+    noTaskMessage() {
+      return this.$t('NoTask');
+    },
+
     loadMoreTask() {
       return !this.hasNoTask && this.page < this.totalPage;
     },
@@ -126,10 +147,19 @@ export default {
       return !this.hasNoTask && this.page >= this.totalPage && this.page !== 1;
     },
   },
-
-  async mounted() {
-    await this.$store.dispatch('todos/setTodoList');
-    await this.$store.dispatch('todos/setTotalPage');
+  watch: {
+    activeFilter(option) {
+      if (option?.title === 'Complete') {
+        this.noCompletedTask = true;
+        this.noIncompleteTask = false;
+      } else if (option?.title === 'Incomplete') {
+        this.noIncompleteTask = true;
+        this.noCompletedTask = false;
+      }
+    },
+  },
+  mounted() {
+    this.$store.dispatch('todos/setTotalPage');
 
     if (this.filterOptions && this.filterOptions.length > 0) {
       this.$store.dispatch(
@@ -223,10 +253,6 @@ export default {
 }
 .list-div {
   display: grid;
-
-  grid-template-columns: repeat(auto-fill, 186px);
-  row-gap: 34px;
-  column-gap: 54px;
 }
 
 .content {
@@ -244,14 +270,11 @@ export default {
   margin: 57px 0px;
 }
 
-@media only screen and (min-width: 768px) {
-  .wrapper {
-    position: absolute;
-    top: 45%;
-    left: 40%;
-  }
+@media only screen and (min-width: 1200px) {
   .grid-template-column {
-    grid-template-columns: auto auto auto;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    row-gap: 34px;
+    column-gap: 54px;
   }
   .main-div-padding {
     padding: 0px 149px;
@@ -264,13 +287,87 @@ export default {
     padding: 9px 20px;
     cursor: pointer;
   }
+  .home-button {
+    margin-top: 28px;
+    margin-bottom: 36px;
+  }
 }
-@media only screen and (max-width: 500px) {
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
   .grid-template-column {
-    grid-template-columns: auto;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    row-gap: 10px;
+    column-gap: 10px;
   }
   .main-div-padding {
-    padding: 0px 30px;
+    padding: 0px 149px;
+  }
+  .create-button {
+    background: $primary-text;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 9px 20px;
+    cursor: pointer;
+  }
+  .home-button {
+    margin-top: 28px;
+    margin-bottom: 36px;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .grid-template-column {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 10px;
+    column-gap: 10px;
+  }
+  .main-div-padding {
+    padding: 0px 90px;
+  }
+  .create-button {
+    background: $primary-text;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 9px 20px;
+    cursor: pointer;
+  }
+  .home-button {
+    margin-top: 28px;
+    margin-bottom: 36px;
+  }
+}
+@media only screen and (max-width: 767px) and (min-width: 577px) {
+  .grid-template-column {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 14px;
+    column-gap: 24px;
+  }
+  .main-div-padding {
+    padding: 0px 60px;
+  }
+  .create-button {
+    background: $primary-text;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 9px 20px;
+    cursor: pointer;
+  }
+  .home-button {
+    margin-top: 28px;
+    margin-bottom: 36px;
+  }
+}
+
+@media only screen and (max-width: 576px) and (min-width: 376px) {
+  .grid-template-column {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    row-gap: 18px;
+    column-gap: 28px;
+  }
+  .main-div-padding {
+    padding: 0px 18px;
+    padding-bottom: 20px;
   }
   .create-button {
     background: $primary-text;
@@ -280,6 +377,46 @@ export default {
     padding: 9px 12px;
     cursor: pointer;
     display: flex;
+  }
+  .home-button {
+    margin-top: 14px;
+    margin-bottom: 24px;
+  }
+}
+@media only screen and (max-width: 375px) {
+  .grid-template-column {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    row-gap: 18px;
+    // column-gap: 28px;
+  }
+  .main-div-padding {
+    padding: 0px 18px;
+    padding-bottom: 20px;
+  }
+  .create-button {
+    background: $primary-text;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 9px 12px;
+    cursor: pointer;
+    display: flex;
+  }
+  .home-button {
+    margin-top: 14px;
+    margin-bottom: 24px;
+  }
+}
+
+@media only screen and (max-width: 280px) {
+  .grid-template-column {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    row-gap: 10px;
+    // column-gap: 28px;
+  }
+  .main-div-padding {
+    padding: 0px 18px;
+    padding-bottom: 20px;
   }
 }
 </style>

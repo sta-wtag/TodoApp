@@ -170,6 +170,14 @@ textarea {
   border: 3px solid #d1d8ff;
   border-radius: 5px;
   height:80px;
+  box-sizing: border-box; 
+  /* 
+  The default is normally content-box which uses 
+  the element's inner width only. Most browsers supply 
+  their own default border and padding styles for textarea, 
+  but not always box-sizing, so the result may be that width: 100%; 
+  means the parent's width plus the browser's default border and padding, 
+  which, if those are non-zero, is obviously more than the width of the parent container. */
 }
 
 .text-small {
@@ -247,23 +255,310 @@ textarea {
   right:0px;
   border-radius: 5px;
 }
-.swal-text {
+
+
+.swal-text:last-child {
+  /* margin-bottom:15px ; */
+}
+
+.swal-text:first-child {
+  margin-top:15px ;
+}
+/* .swal-overlay {
+  background-color: transparent;
+} */
+
+.padding-4 {
+  padding: 16px
+}
+.text-truncate {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  min-height: 56px; 
+  max-height: 56px;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+  word-wrap: break-all;
+}
+
+@media only screen and (min-width: 1200px) {
+
+  .success {
+    position:absolute;
+    height: 55px;
+    top:90px;
+    left:0px;
+    right:0px;
+    border-radius: 5px;
+    background-color: #0BC475;
+  }
+  .error {
+    position:absolute;
+    height: 55px;
+    top:90px;
+    left:0px;
+    right:0px;
+    border-radius: 5px;
+    background-color: #E85F5F;
+  }
+  .card {
+    border-radius: 5px;
+    border: 1px solid #dde2ff;
+    background-color: white;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    z-index: -1;
+  }
+ .text-width-max {
+  max-width: 250px;
+ }
+ .swal-text {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 700;
   font-size: 18px;
   line-height: 21px;
   margin:0px;
-  color:White
+
 }
-.swal-text:last-child {
-  margin-bottom:15px ;
+.text-modal {
+  width: 500px;
+}
+}
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+
+  .success {
+    position:absolute;
+    height: 55px;
+    top:90px;
+    left:0px;
+    right:0px;
+    border-radius: 5px;
+    background-color: #0BC475;
+  }
+  .error {
+    position:absolute;
+    height: 55px;
+    top:90px;
+    left:0px;
+    right:0px;
+    border-radius: 5px;
+    background-color: #E85F5F;
+  }
+
+  .card {
+    border-radius: 5px;
+    border: 1px solid #dde2ff;
+    background-color: white;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    z-index: -1;
+  }
+
+  .text-width-max {
+    max-width: 200px;
+   }
+   .swal-text {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 21px;
+    margin:0px;
+  
+  }
+  .text-modal {
+    width: 500px;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+
+  .success {
+    position:absolute;
+    height: 55px;
+    top:90px;
+    left:0px;
+    right:0px;
+    border-radius: 5px;
+    background-color: #0BC475;
+  }
+  .error {
+    position:absolute;
+    height: 55px;
+    top:90px;
+    left:0px;
+    right:0px;
+    border-radius: 5px;
+    background-color: #E85F5F;
+  }
+
+  .card {
+    border-radius: 5px;
+    border: 1px solid #dde2ff;
+    background-color: white;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    z-index: -1;
+  }
+
+  .text-width-max {
+    max-width: 250px;
+   }
+   .swal-text {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 21px;
+    margin:0px;
+  
+  }
+  .text-modal {
+    width: 500px;
+  }
+}
+@media only screen and (max-width: 767px) and (min-width: 577px) {
+
+  .success {
+    position:absolute;
+    height: 55px;
+    top:90px;
+    left:0px;
+    right:0px;
+    border-radius: 5px;
+    background-color: #0BC475;
+  }
+  .error {
+    position:absolute;
+    height: 55px;
+    top:90px;
+    left:0px;
+    right:0px;
+    border-radius: 5px;
+    background-color: #E85F5F;
+  }
+
+  .card {
+    border-radius: 5px;
+    border: 1px solid #dde2ff;
+    background-color: white;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    z-index: -1;
+  }
+
+  .text-width-max {
+    max-width: 250px;
+   }
+   .swal-text {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 21px;
+    margin:0px;
+  
+  }
+  .text-modal {
+    width: 500px;
+  }
 }
 
-.swal-text:first-child {
-  margin-top:15px ;
-}
-.swal-overlay {
-  background-color: transparent;
-}
+@media only screen and (max-width: 576px) and (min-width: 376px) {
 
+  .success {
+    position:absolute;
+    height: 55px;
+    top:50;
+    left:0px;
+    right:0px;
+    border-radius: 5px;
+    background-color: #0BC475;
+  }
+  .error {
+    position:absolute;
+    height: 55px;
+    top:50%;
+    left:0px;
+    right:0px;
+    border-radius: 5px;
+    background-color: #E85F5F;
+  }
+
+  .card {
+    border-radius: 5px;
+    border: 1px solid #dde2ff;
+    background-color: white;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    z-index: -1;
+  }
+
+  .text-width-max {
+    max-width: 300px;
+   }
+   .swal-text {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 21px;
+    margin:0px;
+  
+  }
+  .text-modal {
+    width: 200px;
+  }
+}
+@media only screen and (max-width: 375px) {
+
+  .success {
+    position:absolute;
+    width: 80%;
+    height: 45px;
+    top:50%;
+    left:0px;
+    right:0px;
+    border-radius: 5px;
+    background-color: #0BC475;
+  }
+  .error {
+    position:absolute;
+    height: 55px;
+    top:50%;
+    left:0px;
+    right:0px;
+    border-radius: 5px;
+    background-color: #E85F5F;
+  }
+
+  .card {
+    border-radius: 5px;
+    border: 1px solid #dde2ff;
+    background-color: white;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    z-index: -1;
+  }
+
+  .text-width-max {
+    max-width: 200px;
+   }
+   .swal-text {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 21px;
+    margin:0px;
+  }
+  .text-modal {
+    width: 250px;
+  }
+}

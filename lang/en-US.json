@@ -1,24 +1,26 @@
 {
-  "create": "Create",
-  "PageTitle": "Add Tasks",
-  "AddTask": "Add Task",
-  "All": "All",
-  "Incomplete":"Incomplete",
-  "Complete": "Complete",
-  "NoTask": "You didn’t add any task. Please, add one.",
-  "NoCompleteTask": "No Complete Task",
-  "NoIncompleteTask": "No Incomplete Task",
-  "Save": "Save",
-  "CreatedAt": "Created At",
-  "CompletedIn": "Completed in",
-  "SelectLanguage": "Select Language",
-  "load-more": "Load More",
-  "show-less": "Show Less",
-  "validation": {
-    "todo": {
-        "title": {
-            "required": "Invalid Field"
-        }
-    }
-}
-}
+    "create": "Create",
+    "PageTitle": "Add Tasks",
+    "AddTask": "Add Task",
+    "All": "All",
+    "Incomplete":"Incomplete",
+    "Complete": "Complete",
+    "NoTask": "You didn’t add any task. Please, add one.",
+    "NoCompleteTask": "No Complete Task",
+    "NoIncompleteTask": "No Incomplete Task",
+    "Save": "Save",
+    "CreatedAt": "Created At",
+    "CompletedIn": "Completed in",
+    "SelectLanguage": "Select Language",
+    "load-more": "Load More",
+    "show-less": "Show Less",
+    "validation": {
+      "todo": {
+          "title": {
+              "required": "Invalid Field"
+          }
+      }
+  },
+  "alert.message.success": "Changes are saved successfully",
+  "alert.message.error": "Something went wrong !"
+  }

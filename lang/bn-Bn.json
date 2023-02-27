@@ -1,32 +1,33 @@
 {
-  "create": "তৈরি কর",
-  "PageTitle": "টাস্ক যোগ করুন",
-  "AddTask": "টাস্ক যোগ করুন",
-  "All": "সব",
-  "Incomplete":"অসম্পূর্ণ",
-  "Complete": "সম্পূর্ণ",
-  "NoTask": "আপনি কোনো টাস্ক যোগ করেননি। অনুগ্রহ করে, একটি যোগ করুন.",
-  "NoCompleteTask": "কোনো সম্পূর্ণ কাজ নেই",
-  "NoIncompleteTask": "কোনো অসম্পূর্ণ কাজ নেই",
-  "Save": "সংরক্ষণ করুন",
-  "language": "ভাষা",
-  "SelectLanguage": "ভাষা নির্বাচন করুন",
-  "search": "অনুসন্ধান করুন",
-  "min": "ন্যূনতম",
-  "max": "সর্বোচ্চ",
-  "CreatedAt": "তৈরীর তারিখ",
-  "Completed": "সম্পন্ন হতে সময় লেগেছে",
-  "characters": "অক্ষর",
-  "not-found": "কোন {item} পাওয়া যায়নি",
-  "load-more": "আরও লোড করুন",
-  "show-less": "কম প্রদর্শন করুন",
-  "loading": "লোড হচ্ছে",
-  "validation": {
-      "todo": {
-          "title": {
-              "required": "অবৈধ ইনপুট"
-          }
-      }
+    "create": "তৈরি কর",
+    "PageTitle": "টাস্ক যোগ করুন",
+    "AddTask": "টাস্ক যোগ করুন",
+    "All": "সব",
+    "Incomplete":"অসম্পূর্ণ",
+    "Complete": "সম্পূর্ণ",
+    "NoTask": "আপনি কোনো টাস্ক যোগ করেননি। অনুগ্রহ করে, একটি যোগ করুন.",
+    "NoCompleteTask": "কোনো সম্পূর্ণ কাজ নেই",
+    "NoIncompleteTask": "কোনো অসম্পূর্ণ কাজ নেই",
+    "Save": "সংরক্ষণ করুন",
+    "language": "ভাষা",
+    "SelectLanguage": "ভাষা নির্বাচন করুন",
+    "search": "অনুসন্ধান করুন",
+    "min": "ন্যূনতম",
+    "max": "সর্বোচ্চ",
+    "CreatedAt": "তৈরীর তারিখ",
+    "Completed": "সম্পন্ন হতে সময় লেগেছে",
+    "characters": "অক্ষর",
+    "not-found": "কোন {item} পাওয়া যায়নি",
+    "load-more": "আরও লোড করুন",
+    "show-less": "কম প্রদর্শন করুন",
+    "loading": "লোড হচ্ছে",
+    "validation": {
+        "todo": {
+            "title": {
+                "required": "অবৈধ ইনপুট"
+            }
+        }
+    },
+    "alert.message.success": "পরিবর্তন সফলভাবে সংরক্ষিত হয়েছে",
+    "alert.message.error": "কিছু ভুল হয়েছে !"
   }
-
-}

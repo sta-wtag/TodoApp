@@ -176,7 +176,8 @@ export default {
       }
     },
   },
-  mounted() {
+  async mounted() {
+    await this.$store.dispatch('todos/setTodoList');
     this.$store.dispatch('todos/setTotalPage');
 
     if (this.filterOptions && this.filterOptions.length > 0) {
@@ -211,8 +212,9 @@ export default {
 
       this.addTask();
     },
-    addTask() {
-      this.$store.dispatch('todos/addTask', this.taskDescription);
+    async addTask() {
+      await this.$store.dispatch('todos/addTask', this.taskDescription);
+      this.$store.dispatch('todos/setTodoList');
       this.$store.dispatch('todos/setTotalPage');
       this.triggerToast(SUCCESS);
       this.clearField();

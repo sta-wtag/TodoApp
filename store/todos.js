@@ -65,27 +65,60 @@ export const getters = {
 export const actions = {
   // AddTask Operation
 
-  addTask: ({ state, commit }, val) => {
-    commit('addTask', val);
-    // set filter option to All
-    commit('filterTaskList');
+  addTask: async ({ state, commit }, val) => {
+    try {
+      const task = {
+        status: false,
+        description: val,
+        completed_at: null,
+        created_at: new Date(),
+      };
+      const { data: todo, error } = await supabase
+        .from('Todos')
+        .insert(task)
+        .single();
+
+      if (error) {
+        return;
+      }
+
+      // handle for when no todos are returned
+      // if (todo === null) {
+      //   return;
+      // }
+
+      // store response to allTodos
+      commit('addTask');
+      // set filter option to All
+      commit('filterTaskList');
+    } catch (err) {}
   },
 
   // DeleteTask Operation
 
-  deleteTask: ({ state, commit }, val) => {
+  deleteTask: async ({ state, commit }, val) => {
     commit('setCompleteRequest', true);
+    try {
+      const { data: todos, error } = await supabase
+        .from('Todos')
+        .delete()
+        .match({ id: val.id })
+        .execute();
 
-    return new Promise((resolve, reject) => {
-      // return to the location where is was dispatched after being resolved
-      setTimeout(() => {
-        commit('deleteTask', val);
-        commit('filterTaskList');
-        commit('setTotalPage'); // total page changes after deleting task
-        commit('setCompleteRequest', false);
-        resolve();
-      }, 1000);
-    });
+      if (error) {
+        return;
+      }
+
+      // handle for when no todos are returned
+      if (todos === null) {
+        return;
+      }
+
+      // store response to allTodos
+      commit('filterTaskList');
+      // commit('setTotalPage'); // total page changes after deleting task
+      // commit('setCompleteRequest', false);
+    } catch (err) {}
   },
 
   // Mark Task Done Operation
@@ -169,22 +202,40 @@ export const actions = {
   setActiveFilterOption: ({ commit }, val) => {
     commit('setActiveFilterOption', val);
   },
+  setTodoList: async ({ commit }) => {
+    commit('setIsSearching', true);
+    try {
+      const { data: todos, error } = await supabase
+        .from('Todos')
+        .select()
+        .order('id', { ascending: false });
+
+      if (error) {
+        return;
+      }
+
+      // handle for when no todos are returned
+      if (todos === null) {
+        return;
+      }
+
+      // store response to allTodos
+      commit('setTodoList', todos);
+      commit('setIsSearching', false);
+      commit('filterTaskList');
+    } catch (err) {}
+  },
 };
 
 export const mutations = {
+  setTodoList: (state, val) => {
+    state.taskList = val;
+  },
   // AddTask Operation
   addTask: (state, val) => {
-    const task = {
-      id: uuid(),
-      done: false,
-      description: val,
-      completedAt: null,
-      createdAt: new Date(),
-    };
-
     state.filterOptions.forEach((element) => (element.status = false));
     state.filterOptions[0].status = true;
-    state.taskList = [task, ...state.taskList];
+    // state.taskList = [task, ...state.taskList];
   },
 
   // Managing loading state
@@ -196,12 +247,11 @@ export const mutations = {
   // DeleteTask Operation
 
   deleteTask: (state, val) => {
-    return new Promise((resolve, reject) => {
-      const list = state.taskList;
-
-      state.taskList = list.filter((task) => task.id !== val.id);
-      resolve();
-    });
+    // return new Promise((resolve, reject) => {
+    //   const list = state.taskList;
+    //   state.taskList = list.filter((task) => task.id !== val.id);
+    //   resolve();
+    // });
   },
 
   // Mark task done

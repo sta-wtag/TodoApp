@@ -1,5 +1,4 @@
 import { formatDistance, subDays, format } from 'date-fns';
-// import { bn } from 'date-fns/locale';
 
 export const helper = {
   name: 'helper',
@@ -17,9 +16,14 @@ export const helper = {
     return formatDistance(subDays(date2, 0), date1, { addSuffix: true });
   },
   formatDate(val) {
-    if (val) {
-      return format(new Date(val), 'dd.MM.yyyy');
+    return val ? format(new Date(val), 'dd.MM.yyyy') : undefined;
+  },
+  checkForm(textInput) {
+    if (textInput.trim().length <= 0) {
+      return false;
     }
+
+    return true;
   },
 };
 export default ({ app }, inject) => {

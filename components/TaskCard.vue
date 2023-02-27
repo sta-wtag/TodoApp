@@ -171,8 +171,9 @@ export default {
 
       this.loading = true;
       await this.$store.dispatch('todos/deleteTask', this.task);
+      this.$store.dispatch('todos/setTodoList');
 
-      if (this.requestInProcess) return;
+      // if (this.requestInProcess) return;
 
       this.loading = false;
       this.alert();

@@ -33,7 +33,7 @@
               <button class="add-button" type="submit">
                 {{ $t('AddTask') }}
               </button>
-              <div class="align-self-center" @click="clearField()">
+              <div class="align-self-center" @click="clearField">
                 <DeleteIcon />
               </div>
             </div>
@@ -157,7 +157,9 @@ export default {
       return !this.hasNoTask && this.page < this.totalPage;
     },
     showLessTask() {
-      return !this.hasNoTask && this.page !== 1 && this.todoList.length > LIMIT;
+      return (
+        !this.hasNoTask && this.page !== 1 && this.totalTaskList.length > LIMIT
+      );
     },
   },
   watch: {

@@ -268,8 +268,6 @@ export const mutations = {
   // manage pagination
 
   setTotalPage: (state, val) => {
-    console.log('total page');
-    console.log(Math.ceil(state.taskListPerPage.length / state.limit));
     state.totalPage = Math.ceil(state.taskListPerPage.length / state.limit);
   },
   increaseLimit(state, val) {

@@ -18,7 +18,7 @@ a885c7e yesterday History 1 contributor 272 lines (248 sloc) 6.42 KB
           <div v-if="showEditIcon && task !== null" class="description-height">
             <div
               class="text-description text-truncate text-width-max"
-              :class="{ 'text-done': task.done }"
+              :class="{ 'text-done': task.status }"
             >
               <div ref="taskDescription">{{ task.description }}</div>
             </div>
@@ -50,7 +50,7 @@ a885c7e yesterday History 1 contributor 272 lines (248 sloc) 6.42 KB
         </div>
         <div class="space-between flex-box width-full">
           <div class="flex-gap-8 text-button">
-            <div v-if="task && !task.done" class="flex-gap-8">
+            <div v-if="task && !task.status" class="flex-gap-8">
               <button
                 value="update"
                 class="card-button"
@@ -79,7 +79,7 @@ a885c7e yesterday History 1 contributor 272 lines (248 sloc) 6.42 KB
               <DeleteIcon />
             </button>
           </div>
-          <div v-if="task && task.done" class="chip text-small">
+          <div v-if="task && task.status" class="chip text-small">
             {{ duration }}
           </div>
         </div>
@@ -117,21 +117,21 @@ export default {
   computed: {
     ...mapGetters({ requestInProcess: 'todos/getCompleteRequest' }),
     formatDate() {
-      if (!this.task?.createdAt) return;
+      if (!this.task?.created_at) return;
 
       return (
-        this.$t('CreatedAt') +
+        this.$t('created_at') +
         ':  ' +
-        this.$helper.formatDate(this.task.createdAt)
+        this.$helper.formatDate(this.task.created_at)
       );
     },
     duration() {
-      if (!this.task?.completedAt) return;
+      if (!this.task?.completed_at) return;
 
       return (
         this.$t('Completed') +
         '   ' +
-        this.$helper.getDuration(this.task.createdAt, this.task.completedAt)
+        this.$helper.getDuration(this.task.created_at, this.task.completed_at)
       );
     },
     seeMore() {
@@ -168,12 +168,20 @@ export default {
       }
 
       this.loading = true; // loading state set to true
-      await this.$store.dispatch('todos/changeTaskState', this.task);
+      const response = await this.$store.dispatch(
+        'todos/changeTaskState',
+        this.task
+      );
 
-      if (this.requestInProcess) return;
+      if (response.success) {
+        this.$store.dispatch('todos/setTodoList');
+
+        this.triggerToast(SUCCESS);
+      } else {
+        this.triggerToast(ERROR);
+      }
 
       this.loading = false;
-      this.triggerToast(SUCCESS);
     },
     async deleteTask() {
       if (!this.showEditIcon) {
@@ -183,12 +191,19 @@ export default {
       }
 
       this.loading = true;
-      await this.$store.dispatch('todos/deleteTask', this.task);
-      this.$store.dispatch('todos/setTodoList', this.task);
-      // if (this.requestInProcess) return;
+      const response = await this.$store.dispatch(
+        'todos/deleteTask',
+        this.task
+      );
+
+      if (response.success) {
+        this.$store.dispatch('todos/setTodoList');
+        this.triggerToast(SUCCESS);
+      } else {
+        this.triggerToast(ERROR);
+      }
 
       this.loading = false;
-      this.triggerToast(SUCCESS);
     },
     submitForm(e) {
       e.preventDefault();
@@ -211,15 +226,20 @@ export default {
         id: this.task.id,
       };
 
-      await this.$store.dispatch('todos/editTask', val);
-      this.titleInputError = false;
-      this.titleErrorMsg = '';
+      const response = await this.$store.dispatch('todos/editTask', val);
 
-      if (this.requestInProcess) return;
+      if (response.success) {
+        this.$store.dispatch('todos/setTodoList');
+        this.titleInputError = false;
+        this.titleErrorMsg = '';
 
-      this.showEditIcon = true;
+        this.showEditIcon = true;
+        this.triggerToast(SUCCESS);
+      } else {
+        this.triggerToast(ERROR);
+      }
+
       this.loading = false;
-      this.triggerToast(SUCCESS);
     },
   },
 };

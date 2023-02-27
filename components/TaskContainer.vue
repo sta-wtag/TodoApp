@@ -157,12 +157,7 @@ export default {
       return !this.hasNoTask && this.page < this.totalPage;
     },
     showLessTask() {
-      return (
-        !this.hasNoTask &&
-        this.page >= this.totalPage &&
-        this.page !== 1 &&
-        this.todoList.length > LIMIT
-      );
+      return !this.hasNoTask && this.page !== 1 && this.todoList.length > LIMIT;
     },
   },
   watch: {
@@ -213,11 +208,19 @@ export default {
       this.addTask();
     },
     async addTask() {
-      await this.$store.dispatch('todos/addTask', this.taskDescription);
-      this.$store.dispatch('todos/setTodoList');
-      this.$store.dispatch('todos/setTotalPage');
-      this.triggerToast(SUCCESS);
-      this.clearField();
+      const response = await this.$store.dispatch(
+        'todos/addTask',
+        this.taskDescription
+      );
+
+      if (response.success) {
+        this.$store.dispatch('todos/setTodoList');
+        this.$store.dispatch('todos/setTotalPage');
+        this.triggerToast(SUCCESS);
+        this.clearField();
+      } else {
+        this.triggerToast(ERROR);
+      }
     },
     clearField() {
       this.showAddCard = false;

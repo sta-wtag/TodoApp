@@ -79,25 +79,23 @@ export const actions = {
         .single();
 
       if (error) {
-        return;
+        return { success: false };
       }
-
-      // handle for when no todos are returned
-      // if (todo === null) {
-      //   return;
-      // }
 
       // store response to allTodos
       commit('addTask');
+
       // set filter option to All
       commit('filterTaskList');
+      commit('setTotalPage');
+
+      return { success: true };
     } catch (err) {}
   },
 
   // DeleteTask Operation
 
   deleteTask: async ({ state, commit }, val) => {
-    commit('setCompleteRequest', true);
     try {
       const { data: todos, error } = await supabase
         .from('Todos')
@@ -105,34 +103,45 @@ export const actions = {
         .eq('id', val.id);
 
       if (error) {
-        return;
-      }
-
-      // handle for when no todos are returned
-      if (todos === null) {
-        return;
+        return { success: false };
       }
 
       // store response to allTodos
       commit('filterTaskList');
-      // commit('setTotalPage'); // total page changes after deleting task
+      commit('setTotalPage'); // total page changes after deleting task
       // commit('setCompleteRequest', false);
+
+      return { success: true };
     } catch (err) {}
   },
 
   // Mark Task Done Operation
 
-  changeTaskState: ({ state, commit }, val) => {
+  changeTaskState: async ({ state, commit }, val) => {
     commit('setCompleteRequest', true);
+    val.status = !val.status;
+    try {
+      const { data: todos, error } = await supabase
+        .from('Todos')
+        .update({ status: val.status, completed_at: new Date() })
+        .eq('id', val.id)
+        .select()
+        .single();
 
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        commit('changeTaskState', val);
-        commit('filterTaskList');
-        commit('setCompleteRequest', false);
-        resolve();
-      }, 1000);
-    });
+      if (error) {
+        return { success: false };
+      }
+
+      // store response to allTodos
+      commit('filterTaskList');
+      // commit('setTotalPage'); // total page changes after deleting task
+      commit('setCompleteRequest', false);
+
+      return { success: true };
+    } catch (err) {}
+    // commit('changeTaskState', val);
+    // commit('filterTaskList');
+    // commit('setCompleteRequest', false);
   },
 
   // Managing loading state
@@ -153,16 +162,27 @@ export const actions = {
 
   // Edit Task Operation
 
-  editTask: ({ state, commit }, val, id) => {
+  editTask: async ({ state, commit }, val, id) => {
     commit('setCompleteRequest', true);
+    try {
+      const { data: todos, error } = await supabase
+        .from('Todos')
+        .update({ description: val.description })
+        .eq('id', val.id)
+        .select()
+        .single();
 
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        commit('editTask', val, id);
-        commit('setCompleteRequest', false);
-        resolve();
-      }, 1000);
-    });
+      if (error) {
+        return { success: false };
+      }
+
+      // store response to allTodos
+      commit('filterTaskList');
+      // commit('setTotalPage'); // total page changes after deleting task
+      commit('setCompleteRequest', false);
+
+      return { success: true };
+    } catch (err) {}
   },
 
   // manage pagination
@@ -210,18 +230,20 @@ export const actions = {
         .order('id', { ascending: false });
 
       if (error) {
-        return;
+        return { success: false };
       }
 
       // handle for when no todos are returned
       if (todos === null) {
-        return;
+        return { success: false };
       }
 
       // store response to allTodos
       commit('setTodoList', todos);
       commit('setIsSearching', false);
       commit('filterTaskList');
+
+      return { success: true };
     } catch (err) {}
   },
 };
@@ -243,42 +265,11 @@ export const mutations = {
     state.completeRequest = val;
   },
 
-  // DeleteTask Operation
-
-  deleteTask: (state, val) => {
-    // return new Promise((resolve, reject) => {
-    //   const list = state.taskList;
-    //   state.taskList = list.filter((task) => task.id !== val.id);
-    //   resolve();
-    // });
-  },
-
-  // Mark task done
-
-  changeTaskState(state, val) {
-    return new Promise((resolve, reject) => {
-      const task = state.taskList.find((task) => task.id === val.id);
-
-      task.done = !task.done;
-      task.completedAt = new Date();
-      resolve();
-    });
-  },
-
-  // EditTask Operation
-
-  editTask(state, val) {
-    return new Promise((resolve, reject) => {
-      const task = state.taskList.find((task) => task.id === val.id);
-
-      task.description = val.description;
-      resolve();
-    });
-  },
-
   // manage pagination
 
   setTotalPage: (state, val) => {
+    console.log('total page');
+    console.log(Math.ceil(state.taskListPerPage.length / state.limit));
     state.totalPage = Math.ceil(state.taskListPerPage.length / state.limit);
   },
   increaseLimit(state, val) {
@@ -324,7 +315,7 @@ export const mutations = {
     if (state.activeFilterOption.title === INCOMPLETE_TASK) {
       state.taskListPerPage = state.taskList.filter(
         (task) =>
-          task.done === false &&
+          task.status === false &&
           task.description
             .toLowerCase()
             .includes(state.searchText.toLowerCase())
@@ -336,7 +327,7 @@ export const mutations = {
     if (state.activeFilterOption.title === COMPLETE_TASK) {
       state.taskListPerPage = state.taskList.filter(
         (task) =>
-          task.done === true &&
+          task.status === true &&
           task.description
             .toLowerCase()
             .includes(state.searchText.toLowerCase())

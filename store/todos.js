@@ -102,8 +102,7 @@ export const actions = {
       const { data: todos, error } = await supabase
         .from('Todos')
         .delete()
-        .match({ id: val.id })
-        .execute();
+        .eq('id', val.id);
 
       if (error) {
         return;

@@ -1,3 +1,10 @@
+Skip to content Search or jump to… Pull requests Issues Codespaces Marketplace
+Explore @sta-wtag sta-wtag / TodoApp Public Fork your own copy of
+sta-wtag/TodoApp Code Issues Pull requests 7 Actions Projects Wiki Security
+Insights Settings TodoApp/components/TaskCard.vue @sta-wtag sta-wtag add line
+clump to task description and see more button to view details Latest commit
+a885c7e yesterday History 1 contributor 272 lines (248 sloc) 6.42 KB
+
 <template>
   <div class="relative-position">
     <div v-if="loading" class="load-overlay">
@@ -59,7 +66,12 @@
               >
                 <EditIcon />
               </button>
-              <button v-else type="submit" data-testid="save-button">
+              <button
+                v-else
+                type="submit"
+                class="add-button"
+                data-testid="save-button"
+              >
                 {{ $t('Save') }}
               </button>
             </div>
@@ -77,13 +89,16 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import DeleteIcon from '../assets/svg/Delete.svg';
-import EditIcon from '../assets/svg/Edit.svg';
-import TickIcon from '../assets/svg/Tick.svg';
-import LoadingIcon from './buttons/LoadingIcon.vue';
+import { SUCCESS, ERROR } from '../constants';
+import DeleteIcon from '@/assets/svg/Delete.svg';
+import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
+import EditIcon from '@/assets/svg/Edit.svg';
+import TickIcon from '@/assets/svg/Tick.svg';
+import global from '@/mixins/global';
 export default {
   name: 'TaskCard',
   components: { LoadingIcon, EditIcon, TickIcon, DeleteIcon },
+  mixins: [global],
   props: {
     cardData: {
       type: Object,
@@ -101,23 +116,22 @@ export default {
   }),
   computed: {
     ...mapGetters({ requestInProcess: 'todos/getCompleteRequest' }),
-
     formatDate() {
       if (!this.task?.createdAt) return;
 
       return (
         this.$t('CreatedAt') +
         ':  ' +
-        this.$helper.formatDate(this.task.created_at)
+        this.$helper.formatDate(this.task.createdAt)
       );
     },
     duration() {
-      if (!this.task?.completed_at) return;
+      if (!this.task?.completedAt) return;
 
       return (
         this.$t('Completed') +
         '   ' +
-        this.$helper.getDuration(this.task.created_at, this.task.completed_at)
+        this.$helper.getDuration(this.task.createdAt, this.task.completedAt)
       );
     },
     seeMore() {
@@ -133,7 +147,6 @@ export default {
       return false;
     },
   },
-
   created() {
     this.task = this.cardData;
     this.taskDescription = this.task ? this.task.description : '';
@@ -154,13 +167,13 @@ export default {
         this.showEditIcon = true;
       }
 
-      this.loading = true;
+      this.loading = true; // loading state set to true
       await this.$store.dispatch('todos/changeTaskState', this.task);
 
       if (this.requestInProcess) return;
 
       this.loading = false;
-      this.alert();
+      this.triggerToast(SUCCESS);
     },
     async deleteTask() {
       if (!this.showEditIcon) {
@@ -171,30 +184,20 @@ export default {
 
       this.loading = true;
       await this.$store.dispatch('todos/deleteTask', this.task);
-      this.$store.dispatch('todos/setTodoList');
 
       // if (this.requestInProcess) return;
 
       this.loading = false;
-      this.alert();
+      this.triggerToast(SUCCESS);
     },
-    checkForm(e) {
+    submitForm(e) {
       e.preventDefault();
-      // Sanitize the user input by removing any HTML tags
-      const sanitizedInput = this.taskDescription.replace(/<[^>]+>/g, '');
+      this.taskDescription = this.sanitizeInput(this.taskDescription);
 
-      // Set the sanitized input as the value of the input element
-      this.taskDescription = sanitizedInput;
-
-      if (this.taskDescription.trim().length <= 0) {
+      if (!this.$helper.checkForm(this.taskDescription)) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
-        swal('Field is empty', {
-          buttons: false,
-          className: 'error',
-          iconHtml: '<img src="https://picsum.photos/100/100">',
-          timer: 3000,
-        });
+        this.triggerToast(ERROR);
 
         return;
       }
@@ -216,14 +219,7 @@ export default {
 
       this.showEditIcon = true;
       this.loading = false;
-      this.alert();
-    },
-    alert() {
-      swal('Changes are saved successfully', {
-        buttons: false,
-        className: 'success',
-        timer: 3000,
-      });
+      this.triggerToast(SUCCESS);
     },
   },
 };
@@ -267,7 +263,6 @@ export default {
   padding: 0;
   cursor: pointer;
 }
-
 .width-full {
   width: 100%;
 }

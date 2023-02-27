@@ -68,8 +68,24 @@
         <div class="center-item">
           <NoTaskLogo />
         </div>
-        <div v-if="hasNoTask" class="info-text margin-top-8 text-center">
+        <div class="info-text margin-top-8 text-center">
           {{ noTaskMessage }}
+        </div>
+      </div>
+    </div>
+    <div
+      v-if="hasNoFilteredTask"
+      class="flex-grow-1 flex-box flex-direction-column center-item"
+    >
+      <div class="">
+        <div class="center-item">
+          <NoTaskLogo />
+        </div>
+        <div v-if="noCompletedTask" class="info-text margin-top-8 text-center">
+          {{ $t('NoCompleteTask') }}
+        </div>
+        <div v-if="noIncompleteTask" class="info-text margin-top-8 text-center">
+          {{ $t('NoIncompleteTask') }}
         </div>
       </div>
     </div>
@@ -100,6 +116,8 @@ export default {
     titleErrorMsg: '',
     showAddCard: false,
     taskDescription: '',
+    noCompletedTask: false,
+    noIncompleteTask: false,
   }),
   computed: {
     ...mapGetters('todos', {
@@ -108,6 +126,7 @@ export default {
       filterOptions: 'getFilterOptions',
       requestInProcess: 'getCompleteRequest',
       activeFilter: 'getActiveFilterOption',
+      totalTaskList: 'getTodoList',
     }),
     ...mapState('todos', {
       perPage: 'perPage',
@@ -115,17 +134,25 @@ export default {
       isSearching: 'isSearching',
     }),
     hasNoTask() {
-      return this.todoList && this.todoList.length <= 0;
+      return (
+        this.todoList &&
+        this.todoList.length <= 0 &&
+        this.totalTaskList &&
+        this.totalTaskList.length <= 0
+      );
+    },
+    hasNoFilteredTask() {
+      return (
+        this.todoList &&
+        this.todoList.length <= 0 &&
+        this.totalTaskList &&
+        this.totalTaskList.length > 0
+      );
     },
     noTaskMessage() {
-      if (this.activeFilter?.title === 'All') {
-        return this.$t('NoTask');
-      } else if (this.activeFilter?.title === 'Incomplete') {
-        return this.$t('NoIncompleteTask');
-      }
-
-      return this.$t('NoCompleteTask');
+      return this.$t('NoTask');
     },
+
     loadMoreTask() {
       return !this.hasNoTask && this.page < this.totalPage;
     },
@@ -136,6 +163,17 @@ export default {
         this.page !== 1 &&
         this.todoList.length > LIMIT
       );
+    },
+  },
+  watch: {
+    activeFilter(option) {
+      if (option?.title === 'Complete') {
+        this.noCompletedTask = true;
+        this.noIncompleteTask = false;
+      } else if (option?.title === 'Incomplete') {
+        this.noIncompleteTask = true;
+        this.noCompletedTask = false;
+      }
     },
   },
   mounted() {

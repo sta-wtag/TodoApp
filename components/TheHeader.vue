@@ -6,7 +6,7 @@
         <span class="header-text header-text-small">Todos</span>
       </div>
 
-      <div class="display-only">
+      <div class="flex-box">
         <input
           v-if="showSearchInput"
           ref="searchInputField"
@@ -22,7 +22,7 @@
           <SearchIcon />
         </div>
 
-        <select class="text-button lang-selector" @change="switchLanguage">
+        <select class="text-button" @change="switchLanguage">
           <option value="" disabled>{{ $t('SelectLanguage') }}</option>
           <option
             v-for="locale in locales"
@@ -120,8 +120,10 @@ select {
   background-color: white;
   color: $button-background;
 }
-select :focus {
-  border: none;
+
+option {
+  position: absolute;
+  left: 0;
 }
 
 @media only screen and (min-width: 1200px) {
@@ -129,9 +131,6 @@ select :focus {
     margin: 15px 150px;
   }
 
-  .display-only {
-    display: flex;
-  }
   .header-text {
     font-family: Roboto;
     font-size: 36px;
@@ -159,9 +158,6 @@ select :focus {
     margin: 15px 150px;
   }
 
-  .display-only {
-    display: flex;
-  }
   .header-text {
     font-family: Roboto;
     font-size: 36px;
@@ -189,9 +185,6 @@ select :focus {
     margin: 15px 80px;
   }
 
-  .display-only {
-    display: flex;
-  }
   .header-text {
     font-family: Roboto;
     font-size: 36px;
@@ -219,9 +212,6 @@ select :focus {
     margin: 15px 60px;
   }
 
-  .display-only {
-    display: flex;
-  }
   .header-text {
     font-family: Roboto;
     font-size: 36px;
@@ -249,9 +239,7 @@ select :focus {
   .header-padding {
     margin: 15px 16px;
   }
-  .display-only {
-    display: flex;
-  }
+
   .header-text-small {
     font-family: Roboto;
     font-size: 24px;
@@ -278,9 +266,7 @@ select :focus {
   .header-padding {
     margin: 15px 16px;
   }
-  .display-only {
-    display: flex;
-  }
+
   .header-text-small {
     font-family: Roboto;
     font-size: 24px;

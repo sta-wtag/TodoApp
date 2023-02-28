@@ -198,7 +198,8 @@ export default {
       );
 
       if (response.success) {
-        this.$store.dispatch('todos/setTodoList');
+        await this.$store.dispatch('todos/setTodoList');
+        this.$store.dispatch('todos/setTotalPage');
         this.triggerToast(SUCCESS);
       } else {
         this.triggerToast(ERROR);
@@ -231,7 +232,8 @@ export default {
 
       if (response.success) {
         this.task = response.data ? response.data : this.task;
-        this.$store.dispatch('todos/setTodoList');
+        await this.$store.dispatch('todos/setTodoList');
+        this.$store.dispatch('todos/setTotalPage');
         this.titleInputError = false;
         this.titleErrorMsg = '';
 

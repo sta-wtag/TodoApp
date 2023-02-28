@@ -25,7 +25,7 @@
     "nuxt-svg-loader": "^1.2.0",
     "sass": "^1.57.1",
     "sweetalert": "^2.1.2",
-    "uuidv4": "^6.2.13",
+    "uuidv4v4": "^6.2.13",
     "vue": "^2.7.10",
     "vue-i18n": "8",
     "vue-server-renderer": "^2.7.10"

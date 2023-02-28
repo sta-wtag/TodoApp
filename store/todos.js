@@ -1,4 +1,4 @@
-import { uuid } from 'uuidv4';
+import { v4 as uuidv4 } from 'uuid';
 import Database from '../helpers/database';
 
 import {
@@ -25,9 +25,9 @@ export const state = () => ({
   isSearching: false,
   showSearchField: false,
   filterOptions: [
-    { id: uuid(), title: 'All', status: false },
-    { id: uuid(), title: 'Incomplete', status: false },
-    { id: uuid(), title: 'Complete', status: false },
+    { id: uuidv4(), title: 'All', status: false },
+    { id: uuidv4(), title: 'Incomplete', status: false },
+    { id: uuidv4(), title: 'Complete', status: false },
   ],
   activeFilterOption: null,
 });
@@ -173,7 +173,7 @@ export const actions = {
         .single();
 
       if (error) {
-        return { success: false };
+        return { success: false, data: todo };
       }
 
       // store response to allTodos

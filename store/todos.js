@@ -87,7 +87,6 @@ export const actions = {
 
       // set filter option to All
       commit('filterTaskList');
-      commit('setTotalPage');
 
       return { success: true };
     } catch (err) {}
@@ -108,8 +107,6 @@ export const actions = {
 
       // store response to allTodos
       commit('filterTaskList');
-      commit('setTotalPage'); // total page changes after deleting task
-      // commit('setCompleteRequest', false);
 
       return { success: true };
     } catch (err) {}
@@ -222,7 +219,6 @@ export const actions = {
     commit('setActiveFilterOption', val);
   },
   setTodoList: async ({ commit }) => {
-    commit('setIsSearching', true);
     try {
       const { data: todos, error } = await supabase
         .from('Todos')
@@ -240,7 +236,6 @@ export const actions = {
 
       // store response to allTodos
       commit('setTodoList', todos);
-      commit('setIsSearching', false);
       commit('filterTaskList');
 
       return { success: true };

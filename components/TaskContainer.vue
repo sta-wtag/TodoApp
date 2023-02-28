@@ -216,7 +216,7 @@ export default {
       );
 
       if (response.success) {
-        this.$store.dispatch('todos/setTodoList');
+        await this.$store.dispatch('todos/setTodoList');
         this.$store.dispatch('todos/setTotalPage');
         this.triggerToast(SUCCESS);
         this.clearField();

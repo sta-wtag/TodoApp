@@ -174,6 +174,7 @@ export default {
       );
 
       if (response.success) {
+        this.task = response.data ? response.data : this.task;
         this.$store.dispatch('todos/setTodoList');
 
         this.triggerToast(SUCCESS);
@@ -229,6 +230,7 @@ export default {
       const response = await this.$store.dispatch('todos/editTask', val);
 
       if (response.success) {
+        this.task = response.data ? response.data : this.task;
         this.$store.dispatch('todos/setTodoList');
         this.titleInputError = false;
         this.titleErrorMsg = '';

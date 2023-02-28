@@ -121,7 +121,7 @@ export const actions = {
     commit('setCompleteRequest', true);
     val.status = !val.status;
     try {
-      const { data: todos, error } = await supabase
+      const { data: todo, error } = await supabase
         .from('Todos')
         .update({ status: val.status, completed_at: new Date() })
         .eq('id', val.id)
@@ -137,7 +137,7 @@ export const actions = {
       // commit('setTotalPage'); // total page changes after deleting task
       commit('setCompleteRequest', false);
 
-      return { success: true };
+      return { success: true, data: todo };
     } catch (err) {}
     // commit('changeTaskState', val);
     // commit('filterTaskList');
@@ -165,7 +165,7 @@ export const actions = {
   editTask: async ({ state, commit }, val, id) => {
     commit('setCompleteRequest', true);
     try {
-      const { data: todos, error } = await supabase
+      const { data: todo, error } = await supabase
         .from('Todos')
         .update({ description: val.description })
         .eq('id', val.id)
@@ -181,7 +181,7 @@ export const actions = {
       // commit('setTotalPage'); // total page changes after deleting task
       commit('setCompleteRequest', false);
 
-      return { success: true };
+      return { success: true, data: todo };
     } catch (err) {}
   },
 

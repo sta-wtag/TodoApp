@@ -131,14 +131,11 @@ export const actions = {
 
       // store response to allTodos
       commit('filterTaskList');
-      // commit('setTotalPage'); // total page changes after deleting task
+
       commit('setCompleteRequest', false);
 
       return { success: true, data: todo };
     } catch (err) {}
-    // commit('changeTaskState', val);
-    // commit('filterTaskList');
-    // commit('setCompleteRequest', false);
   },
 
   // Managing loading state
@@ -175,7 +172,6 @@ export const actions = {
 
       // store response to allTodos
       commit('filterTaskList');
-      // commit('setTotalPage'); // total page changes after deleting task
       commit('setCompleteRequest', false);
 
       return { success: true, data: todo };
@@ -251,7 +247,6 @@ export const mutations = {
   addTask: (state, val) => {
     state.filterOptions.forEach((element) => (element.status = false));
     state.filterOptions[0].status = true;
-    // state.taskList = [task, ...state.taskList];
   },
 
   // Managing loading state

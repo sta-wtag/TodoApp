@@ -90,13 +90,13 @@ a885c7e yesterday History 1 contributor 272 lines (248 sloc) 6.42 KB
 <script>
 import { mapGetters } from 'vuex';
 import { SUCCESS, ERROR } from '../constants';
-import DeleteIcon from '@/assets/svg/Delete.svg';
-import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
-import EditIcon from '@/assets/svg/Edit.svg';
-import TickIcon from '@/assets/svg/Tick.svg';
-import global from '@/mixins/global';
+import DeleteIcon from '../assets/svg/Delete.svg';
+import EditIcon from '../assets/svg/Edit.svg';
+import TickIcon from '../assets/svg/Tick.svg';
+import global from '../mixins/global';
+import LoadingIcon from './buttons/LoadingIcon.vue';
 export default {
-  name: 'TaskCard',
+  // name: 'TaskCard',
   components: { LoadingIcon, EditIcon, TickIcon, DeleteIcon },
   mixins: [global],
   props: {

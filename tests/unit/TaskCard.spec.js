@@ -6,7 +6,7 @@ import localVue from '../utils/vueInstanceFactory';
 import i18Mock from '../utils/i18Mock';
 import { todos } from '../utils/storeHelper';
 import { helper } from '../../helpers/helper';
-import TaskCard from '../../components/TaskCard.vue';
+import Taskcard from '../../components/TaskCard.vue';
 
 let store;
 
@@ -24,7 +24,7 @@ beforeEach(() => {
 });
 
 function wrapperFactory(newState = {}) {
-  const mounted = mount(TaskCard, {
+  const mounted = mount(Taskcard, {
     localVue,
     store,
     i18n,

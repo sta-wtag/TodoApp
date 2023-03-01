@@ -15,14 +15,14 @@
             >
               <div ref="taskDescription">{{ task.description }}</div>
             </div>
-            <span
+            <div
               v-show="seeMore"
               id="seeMore"
               class="see-more text-small margin-top-2"
               @click="openModal(task.description)"
             >
-              see more
-            </span>
+              {{ $t('btn.seeMore') }}
+            </div>
           </div>
 
           <div v-else>
@@ -265,6 +265,7 @@ export default {
 }
 .see-more {
   color: $primary-text;
+  cursor: pointer;
 }
 .description-height {
   min-height: 81px;

@@ -22,5 +22,6 @@
     }
 },
 "alert.message.success": "Changes are saved successfully",
-"alert.message.error": "Something went wrong !"
+"alert.message.error": "Something went wrong !",
+"btn.seeMore": "See more"
 }

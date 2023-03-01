@@ -29,5 +29,6 @@
       }
   },
   "alert.message.success": "পরিবর্তন সফলভাবে সংরক্ষিত হয়েছে",
-  "alert.message.error": "কিছু ভুল হয়েছে !"
+  "alert.message.error": "কিছু ভুল হয়েছে !",
+  "btn.seeMore": "আরো দেখুন"
 }

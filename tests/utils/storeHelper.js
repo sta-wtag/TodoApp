@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import { uuidv4 } from 'uuidv4v4';
+import { uuidv4 } from 'uuidv4';
 import { LIMIT } from '../../constants.js';
 
 export const todos = {

@@ -39,7 +39,7 @@
                 <button class="add-button" type="submit">
                   {{ $t('AddTask') }}
                 </button>
-                <div class="align-self-center" @click="clearField">
+                <div class="align-self-center" @click="clearField()">
                   <DeleteIcon />
                 </div>
               </div>

@@ -168,7 +168,7 @@ option {
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .header-padding {
-    margin: 15px 150px;
+    margin: 15px 90px;
   }
 
   .header-text {

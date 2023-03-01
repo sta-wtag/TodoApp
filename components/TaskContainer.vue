@@ -1,91 +1,104 @@
 <template>
   <div class="flex-box flex-direction-column height-full relative-position">
-    <div v-if="isSearching" class="load-overlay">
+    <div v-if="loading" class="load-overlay">
       <div class="spin-icon">
         <LoadingIcon />
       </div>
     </div>
-    <div class="main-div-padding">
-      <div class="title-text">{{ $t('PageTitle') }}</div>
-      <div class="space-between flex-box home-button">
-        <button
-          class="create-button text-button"
-          data-testid="create-button"
-          :disabled="isSearching"
-          @click="showAddTodoCard"
-        >
-          <PlusIcon class="align-self-center margin-right-1" />
-          {{ $t('create') }}
-        </button>
-        <FilterComponent
-          :options="filterOptions"
-          @closeAddCard="closeAddCard"
-        />
+    <div v-else class="relative-position">
+      <div v-if="isSearching" class="load-overlay">
+        <div class="spin-icon">
+          <LoadingIcon />
+        </div>
       </div>
-      <div class="list-div grid-template-column">
-        <form v-if="showAddCard" @submit.prevent="submitForm">
-          <div class="card padding-4">
-            <textarea id="taskTitle" v-model="taskDescription"></textarea>
-            <label v-if="titleInputError" for="taskTitle">
-              {{ $t('validation.todo.title.required') }}
-            </label>
-            <div class="flex-box margin-top-3">
-              <button class="add-button" type="submit">
-                {{ $t('AddTask') }}
-              </button>
-              <div class="align-self-center" @click="clearField">
-                <DeleteIcon />
+      <div class="main-div-padding">
+        <div class="title-text">{{ $t('PageTitle') }}</div>
+        <div class="space-between flex-box home-button">
+          <button
+            class="create-button text-button"
+            data-testid="create-button"
+            :disabled="isSearching"
+            @click="showAddTodoCard"
+          >
+            <PlusIcon class="align-self-center margin-right-1" />
+            {{ $t('create') }}
+          </button>
+          <FilterComponent
+            :options="filterOptions"
+            @closeAddCard="closeAddCard"
+          />
+        </div>
+        <div class="list-div grid-template-column">
+          <form v-if="showAddCard" @submit.prevent="submitForm">
+            <div class="card padding-4">
+              <textarea id="taskTitle" v-model="taskDescription"></textarea>
+              <label v-if="titleInputError" for="taskTitle">
+                {{ $t('validation.todo.title.required') }}
+              </label>
+              <div class="flex-box margin-top-3">
+                <button class="add-button" type="submit">
+                  {{ $t('AddTask') }}
+                </button>
+                <div class="align-self-center" @click="clearField">
+                  <DeleteIcon />
+                </div>
               </div>
             </div>
+          </form>
+          <div v-for="task in todoList" :key="task.id">
+            <TaskCard :card-data="task" />
           </div>
-        </form>
-        <div v-for="task in todoList" :key="task.id">
-          <TaskCard :card-data="task" />
         </div>
-      </div>
-      <div class="center-item">
-        <button
-          v-if="loadMoreTask"
-          class="load-button text-button"
-          @click="loadMore"
-        >
-          {{ $t('load-more') }}
-        </button>
-        <button
-          v-if="showLessTask"
-          class="load-button text-button"
-          @click="showLess"
-        >
-          {{ $t('show-less') }}
-        </button>
-      </div>
-    </div>
-    <div
-      v-if="hasNoTask"
-      class="flex-grow-1 flex-box flex-direction-column center-item"
-    >
-      <div class="">
         <div class="center-item">
-          <NoTaskLogo />
-        </div>
-        <div class="info-text margin-top-8 text-center">
-          {{ noTaskMessage }}
+          <button
+            v-if="loadMoreTask"
+            class="load-button text-button"
+            @click="loadMore"
+          >
+            {{ $t('load-more') }}
+          </button>
+          <button
+            v-if="showLessTask"
+            class="load-button text-button"
+            @click="showLess"
+          >
+            {{ $t('show-less') }}
+          </button>
         </div>
       </div>
-    </div>
-    <div
-      v-if="hasNoFilteredTask"
-      class="flex-grow-1 flex-box flex-direction-column center-item"
-    >
-      <div class="">
-        <div class="center-item">
-          <NoTaskLogo />
+      <div
+        v-if="hasNoTask"
+        class="flex-grow-1 flex-box flex-direction-column center-item"
+      >
+        <div class="">
+          <div class="center-item">
+            <NoTaskLogo />
+          </div>
+          <div class="info-text margin-top-8 text-center">
+            {{ noTaskMessage }}
+          </div>
         </div>
-        <div v-if="noCompletedTask" class="info-text margin-top-8 text-center">
-          {{ $t('NoCompleteTask') }}
-        </div>
-        <div v-if="noIncompleteTask" class="info-text margin-top-8 text-center">
-          {{ $t('NoIncompleteTask') }}
+      </div>
+      <div
+        v-if="hasNoFilteredTask"
+        class="flex-grow-1 flex-box flex-direction-column center-item"
+      >
+        <div class="">
+          <div class="center-item">
+            <NoTaskLogo />
+          </div>
+          <div
+            v-if="noCompletedTask"
+            class="info-text margin-top-8 text-center"
+          >
+            {{ $t('NoCompleteTask') }}
+          </div>
+          <div
+            v-if="noIncompleteTask"
+            class="info-text margin-top-8 text-center"
+          >
+            {{ $t('NoIncompleteTask') }}
+          </div>
         </div>
       </div>
     </div>
@@ -118,6 +131,7 @@ export default {
     taskDescription: '',
     noCompletedTask: false,
     noIncompleteTask: false,
+    loading: false,
   }),
   computed: {
     ...mapGetters('todos', {
@@ -174,6 +188,7 @@ export default {
     },
   },
   async mounted() {
+    this.loading = true;
     await this.$store.dispatch('todos/setTodoList');
     this.$store.dispatch('todos/setTotalPage');
 
@@ -185,6 +200,7 @@ export default {
     }
 
     this.$store.dispatch('todos/filterTaskList');
+    this.loading = false;
   },
   methods: {
     closeAddCard() {

@@ -73,10 +73,7 @@ export const actions = {
         completed_at: null,
         created_at: new Date(),
       };
-      const { data: todo, error } = await supabase
-        .from('Todos')
-        .insert(task)
-        .single();
+      const { error } = await supabase.from('Todos').insert(task).single();
 
       if (error) {
         return { success: false };
@@ -96,10 +93,7 @@ export const actions = {
 
   deleteTask: async ({ state, commit }, val) => {
     try {
-      const { data: todos, error } = await supabase
-        .from('Todos')
-        .delete()
-        .eq('id', val.id);
+      const { error } = await supabase.from('Todos').delete().eq('id', val.id);
 
       if (error) {
         return { success: false };

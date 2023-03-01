@@ -239,6 +239,7 @@ export const mutations = {
   },
   // AddTask Operation
   addTask: (state, val) => {
+    console.log('hey');
     state.filterOptions.forEach((element) => (element.status = false));
     state.filterOptions[0].status = true;
   },

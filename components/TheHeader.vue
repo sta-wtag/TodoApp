@@ -9,7 +9,7 @@
       <div class="flex-box">
         <input
           v-if="showSearchInput"
-          id="searchInputField"
+          ref="searchInputField"
           v-model="searchText"
           class="input-search text-search"
           @keyup.prevent="debounced"
@@ -62,6 +62,13 @@ export default {
       showSearchInput: 'todos/getShowSearchField',
     }),
   },
+  watch: {
+    showSearchInput(val) {
+      if (!val) {
+        this.searchText = '';
+      }
+    },
+  },
   mounted() {
     this.$i18n.setLocale(this.currentLocale.code);
     this.debounced = debounce(this.searchTask, 500);
@@ -79,12 +86,18 @@ export default {
       this.$store.dispatch('todos/resetLimit');
       this.$store.dispatch('todos/setTotalPage');
     },
-    async setSearch() {
+    setSearch() {
       this.search = !this.search;
-      await this.$store.dispatch('todos/setShowSearchField', this.search);
+      this.$store.dispatch('todos/setShowSearchField', this.search);
 
-      if (this.$refs.searchInputField) {
-        this.$refs.searchInputField.focus();
+      if (this.search) {
+        this.$nextTick(() => {
+          // $nextTick allows you to execute code after you have changed some data and Vue.js has updated the virtual DOM based on your data change, but before the browser has rendered that change on the page.
+          // Let's say you changed some data; Vue then updates the vDOM based on that data change (the changes are not yet rendered to the screen by the browser).
+          // If you used nextTick at this point, your callback would get called immediately, and the browser would update the page after that callback finished executing.
+          // If you instead used setTimeout, then the browser would have a chance to update the page, and then your callback would get called.
+          this.$refs.searchInputField.focus();
+        });
       }
     },
   },
@@ -106,17 +119,14 @@ select {
   background-color: white;
   color: $button-background;
 }
-
 option {
   position: absolute;
   left: 0;
 }
-
 @media only screen and (min-width: 1200px) {
   .header-padding {
     margin: 15px 150px;
   }
-
   .header-text {
     font-family: Roboto;
     font-size: 36px;
@@ -143,7 +153,6 @@ option {
   .header-padding {
     margin: 15px 150px;
   }
-
   .header-text {
     font-family: Roboto;
     font-size: 36px;
@@ -168,9 +177,8 @@ option {
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .header-padding {
-    margin: 15px 90px;
+    margin: 15px 80px;
   }
-
   .header-text {
     font-family: Roboto;
     font-size: 36px;
@@ -197,7 +205,6 @@ option {
   .header-padding {
     margin: 15px 60px;
   }
-
   .header-text {
     font-family: Roboto;
     font-size: 36px;
@@ -220,12 +227,10 @@ option {
     margin-right: 14px;
   }
 }
-
 @media only screen and (max-width: 576px) and (min-width: 376px) {
   .header-padding {
     margin: 15px 16px;
   }
-
   .header-text-small {
     font-family: Roboto;
     font-size: 24px;
@@ -252,7 +257,6 @@ option {
   .header-padding {
     margin: 15px 16px;
   }
-
   .header-text-small {
     font-family: Roboto;
     font-size: 24px;

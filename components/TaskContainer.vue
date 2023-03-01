@@ -230,6 +230,7 @@ export default {
       this.addTask();
     },
     async addTask() {
+      this.loading = true;
       const response = await this.$store.dispatch(
         'todos/addTask',
         this.taskDescription
@@ -240,6 +241,7 @@ export default {
         this.$store.dispatch('todos/setTotalPage');
         this.triggerToast(SUCCESS);
         this.clearField();
+        this.loading = false;
       } else {
         this.triggerToast(ERROR);
       }

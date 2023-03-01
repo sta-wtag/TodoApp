@@ -175,9 +175,7 @@ export default {
       return !this.hasNoTask && this.page < this.totalPage;
     },
     showLessTask() {
-      return (
-        !this.hasNoTask && this.page !== 1 && this.totalTaskList.length > LIMIT
-      );
+      return !this.hasNoTask && this.page === this.totalPage && this.page !== 1;
     },
   },
   watch: {

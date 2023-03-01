@@ -79,10 +79,10 @@ export const actions = {
         return { success: false };
       }
 
-      // store response to allTodos
-      commit('addTask');
+      state.filterOptions.forEach((element) => (element.status = false));
+      state.filterOptions[0].status = true;
+      state.activeFilterOption = state.filterOptions[0];
 
-      // set filter option to All
       commit('filterTaskList');
 
       return { success: true };
@@ -236,12 +236,6 @@ export const actions = {
 export const mutations = {
   setTodoList: (state, val) => {
     state.taskList = val;
-  },
-  // AddTask Operation
-  addTask: (state, val) => {
-    console.log('hey');
-    state.filterOptions.forEach((element) => (element.status = false));
-    state.filterOptions[0].status = true;
   },
 
   // Managing loading state

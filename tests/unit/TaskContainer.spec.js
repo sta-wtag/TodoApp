@@ -2,11 +2,10 @@ import { describe, expect, it } from '@jest/globals';
 import { mount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import NuxtI18n from 'vue-i18n';
-import localVue from '../utils/vueInstanceFactory';
-import i18Mock from '../utils/i18Mock';
-import { todos } from '../utils/storeHelper';
-
-import TaskContainer from '../../components/TaskContainer.vue';
+import TaskContainer from '@/components/TaskContainer.vue';
+import localVue from '@/tests/utils/vueInstanceFactory';
+import i18Mock from '@/tests/utils/i18Mock';
+import { todos } from '@/tests/utils/storeHelper';
 
 let store;
 

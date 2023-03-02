@@ -6,7 +6,7 @@ import {
   ALL_TASK,
   INCOMPLETE_TASK,
   PER_PAGE,
-} from '../constants';
+} from '@/constants';
 
 export const state = () => ({
   limit: LIMIT,

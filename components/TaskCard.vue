@@ -81,8 +81,8 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import { SUCCESS, ERROR } from '../constants';
-import DeleteIcon from '../assets/svg/Delete.svg';
+import { SUCCESS, ERROR } from '@/constants';
+import DeleteIcon from '@/assets/svg/Delete.svg';
 import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
 import EditIcon from '@/assets/svg/Edit.svg';
 import TickIcon from '@/assets/svg/Tick.svg';

@@ -93,7 +93,7 @@
 </template>
 <script>
 import { mapGetters, mapState } from 'vuex';
-import { LIMIT, SUCCESS, ERROR } from '../constants';
+import { LIMIT, SUCCESS, ERROR } from '@/constants';
 import FilterComponent from '@/components/buttons/FilterComponent.vue';
 import DeleteIcon from '@/components/buttons/DeleteIcon.vue';
 import PlusIcon from '@/assets/svg/plusIcon.svg';

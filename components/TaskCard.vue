@@ -1,10 +1,3 @@
-Skip to content Search or jump to… Pull requests Issues Codespaces Marketplace
-Explore @sta-wtag sta-wtag / TodoApp Public Fork your own copy of
-sta-wtag/TodoApp Code Issues Pull requests 7 Actions Projects Wiki Security
-Insights Settings TodoApp/components/TaskCard.vue @sta-wtag sta-wtag add line
-clump to task description and see more button to view details Latest commit
-a885c7e yesterday History 1 contributor 272 lines (248 sloc) 6.42 KB
-
 <template>
   <div class="relative-position">
     <div v-if="loading" class="load-overlay">
@@ -89,14 +82,13 @@ a885c7e yesterday History 1 contributor 272 lines (248 sloc) 6.42 KB
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import { SUCCESS, ERROR } from '../constants';
-import DeleteIcon from '../assets/svg/Delete.svg';
-import EditIcon from '../assets/svg/Edit.svg';
-import TickIcon from '../assets/svg/Tick.svg';
-import global from '../mixins/global';
-import LoadingIcon from './buttons/LoadingIcon.vue';
+import { SUCCESS, ERROR } from '@/constants';
+import DeleteIcon from '@/assets/svg/Delete.svg';
+import EditIcon from '@/assets/svg/Edit.svg';
+import TickIcon from '@/assets/svg/Tick.svg';
+import global from '@/mixins/global';
+import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
 export default {
-  // name: 'TaskCard',
   components: { LoadingIcon, EditIcon, TickIcon, DeleteIcon },
   mixins: [global],
   props: {

@@ -110,13 +110,13 @@
 </template>
 <script>
 import { mapGetters, mapState } from 'vuex';
-import { SUCCESS, ERROR } from '../constants';
-import PlusIcon from '../assets/svg/plusIcon.svg';
-import NoTaskLogo from '../assets/svg/noTask.svg';
-import LoadingIcon from '../components/buttons/LoadingIcon.vue';
-import global from '../mixins/global';
-import DeleteIcon from './buttons/DeleteIcon.vue';
-import FilterComponent from './buttons/FilterComponent.vue';
+import NoTaskLogo from '@/assets/svg/noTask.svg';
+import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
+import global from '@/mixins/global';
+import DeleteIcon from '@/components/buttons/DeleteIcon.vue';
+import FilterComponent from '@/components/buttons/FilterComponent.vue';
+import PlusIcon from '@/assets/svg/plusIcon.svg';
+import { SUCCESS, ERROR } from '@/constants.js';
 
 export default {
   // name: 'IndexPage',

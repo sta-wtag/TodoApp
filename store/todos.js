@@ -1,13 +1,14 @@
 import { v4 as uuidv4 } from 'uuid';
-import Database from '../helpers/database';
-
 import {
+  ERROR,
   LIMIT,
   COMPLETE_TASK,
   ALL_TASK,
   INCOMPLETE_TASK,
   PER_PAGE,
-} from '../constants';
+} from '@/constants';
+import Database from '@/helpers/database';
+import global from '@/mixins/global';
 
 const database = new Database();
 const supabase = database.supabase;
@@ -86,7 +87,9 @@ export const actions = {
       commit('filterTaskList');
 
       return { success: true };
-    } catch (err) {}
+    } catch (err) {
+      global.methods.triggerToast(ERROR);
+    }
   },
 
   // DeleteTask Operation
@@ -103,7 +106,9 @@ export const actions = {
       commit('filterTaskList');
 
       return { success: true };
-    } catch (err) {}
+    } catch (err) {
+      global.methods.triggerToast(ERROR);
+    }
   },
 
   // Mark Task Done Operation
@@ -129,7 +134,9 @@ export const actions = {
       commit('setCompleteRequest', false);
 
       return { success: true, data: todo };
-    } catch (err) {}
+    } catch (err) {
+      global.methods.triggerToast(ERROR);
+    }
   },
 
   // Managing loading state
@@ -169,7 +176,9 @@ export const actions = {
       commit('setCompleteRequest', false);
 
       return { success: true, data: todo };
-    } catch (err) {}
+    } catch (err) {
+      global.methods.triggerToast(ERROR);
+    }
   },
 
   // manage pagination
@@ -229,7 +238,9 @@ export const actions = {
       commit('filterTaskList');
 
       return { success: true };
-    } catch (err) {}
+    } catch (err) {
+      global.methods.triggerToast(ERROR);
+    }
   },
 };
 

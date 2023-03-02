@@ -1,6 +1,6 @@
 import swal from 'sweetalert';
 
-import { SUCCESS, SWALCOLORS } from '../constants.js';
+import { SUCCESS, SWALCOLORS } from '@/constants.js';
 
 export default {
   methods: {

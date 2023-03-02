@@ -2,11 +2,11 @@ import { describe, expect, it } from '@jest/globals';
 import { mount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import NuxtI18n from 'vue-i18n';
-import localVue from '../utils/vueInstanceFactory';
-import i18Mock from '../utils/i18Mock';
-import { todos } from '../utils/storeHelper';
+import localVue from '@/tests/utils/vueInstanceFactory.js';
+import i18Mock from '@/tests/utils/i18Mock.js';
+import { todos } from '@/tests/utils/storeHelper.js';
 
-import TaskContainer from '../../components/TaskContainer.vue';
+import TaskContainer from '@/components/TaskContainer.vue';
 
 let store;
 
@@ -28,6 +28,13 @@ function wrapperFactory() {
     localVue,
     store,
     i18n,
+    data() {
+      return {
+        showAddCard: null,
+        loading: null,
+      };
+    },
+
     mocks: {
       $store: {
         dispatch: (item) => item,
@@ -41,8 +48,13 @@ function wrapperFactory() {
 describe('@/components/TaskContainer.vue', () => {
   it('Convertes button name to english locale', async () => {
     const wrapper = await wrapperFactory();
-    const saveButton = wrapper.find('[data-testid="create-button"]');
 
-    expect(saveButton.text()).toBe(i18Mock.en.create);
+    await wrapper.setData({
+      showAddCard: true,
+      loading: false,
+    });
+    expect(wrapper.get('[data-testid="create-button"]').text()).toBe(
+      i18Mock.en.create
+    );
   });
 });

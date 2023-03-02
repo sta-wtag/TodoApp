@@ -180,6 +180,7 @@ export const mutations = {
 
     state.filterOptions.forEach((element) => (element.status = false));
     state.filterOptions[0].status = true;
+    state.activeFilterOption = state.filterOptions[0];
     state.taskList = [task, ...state.taskList];
   },
 

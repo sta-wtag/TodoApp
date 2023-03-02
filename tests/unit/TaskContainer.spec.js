@@ -10,7 +10,7 @@ import { todos } from '@/tests/utils/storeHelper';
 let store;
 
 const i18n = new NuxtI18n({
-  locale: 'en',
+  locale: 'bn',
   messages: i18Mock,
 });
 
@@ -27,6 +27,11 @@ function wrapperFactory() {
     localVue,
     store,
     i18n,
+    data() {
+      return {
+        showAddCard: null,
+      };
+    },
     mocks: {
       $store: {
         dispatch: (item) => item,
@@ -38,10 +43,18 @@ function wrapperFactory() {
 }
 
 describe('@/components/TaskContainer.vue', () => {
-  it('Convertes button name to english locale', async () => {
+  it('localization added to create button', async () => {
     const wrapper = await wrapperFactory();
-    const saveButton = wrapper.find('[data-testid="create-button"]');
 
-    expect(saveButton.text()).toBe(i18Mock.en.create);
+    await wrapper.setData({
+      showAddCard: true,
+    });
+    const createButton = wrapper.find('[data-testid="create-button"]');
+    const addButton = wrapper.find('[data-testid="add-button"]');
+    const inputFieldToAddTask = wrapper.find('[data-testid="taskTitle"]');
+
+    await inputFieldToAddTask.setValue('task1');
+    await addButton.trigger('click');
+    expect(createButton.text()).toBe(i18Mock.bn.create);
   });
 });

@@ -25,12 +25,16 @@
       <div class="list-div grid-template-column">
         <form v-if="showAddCard" @submit.prevent="submitForm">
           <div class="card padding-4">
-            <textarea id="taskTitle" v-model="taskDescription"></textarea>
+            <textarea
+              id="taskTitle"
+              v-model="taskDescription"
+              data-testid="taskTitle"
+            ></textarea>
             <label v-if="titleInputError" for="taskTitle">
               {{ $t('validation.todo.title.required') }}
             </label>
             <div class="flex-box margin-top-3">
-              <button class="add-button" type="submit">
+              <button class="add-button" data-testid="add-button" type="submit">
                 {{ $t('AddTask') }}
               </button>
               <div class="align-self-center" @click="clearField()">

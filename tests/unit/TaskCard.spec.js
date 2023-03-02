@@ -51,7 +51,7 @@ function wrapperFactory(newState = {}) {
 }
 
 describe('@/components/TaskCard.vue', () => {
-  it('Convertes button name to english locale', async () => {
+  it('localization added to save button', async () => {
     const wrapper = await wrapperFactory();
 
     await wrapper.setData({
@@ -60,8 +60,8 @@ describe('@/components/TaskCard.vue', () => {
       },
       showEditIcon: false,
     });
-    expect(wrapper.get('[data-testid="save-button"]').text()).toBe(
-      i18Mock.en.Save
-    );
+    const saveButton = wrapper.find('[data-testid="save-button"]');
+
+    expect(saveButton.text()).toBe(i18Mock.en.Save);
   });
 });

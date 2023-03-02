@@ -53,8 +53,12 @@ describe('@/components/TaskContainer.vue', () => {
       showAddCard: true,
       loading: false,
     });
-    expect(wrapper.get('[data-testid="create-button"]').text()).toBe(
-      i18Mock.en.create
-    );
+    const createButton = wrapper.find('[data-testid="create-button"]');
+    const addButton = wrapper.find('[data-testid="add-button"]');
+    const inputFieldToAddTask = wrapper.find('[data-testid="taskTitle"]');
+
+    await inputFieldToAddTask.setValue('task1');
+    await addButton.trigger('click');
+    expect(createButton.text()).toBe(i18Mock.en.create);
   });
 });

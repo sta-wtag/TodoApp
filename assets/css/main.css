@@ -24,61 +24,8 @@
   text-align: center;
 }
 
+@media only screen and (min-width: 1200px) {
 
-@media only screen and (max-width: 500px) {
-  
-.title-text {
-  font-family: Roboto;
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 35px;
-  letter-spacing: 0em;
-  text-align: left;
-}
-.text-button {
-  font-family: Roboto;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 19px;
-  letter-spacing: 0em;
-  text-align: left;
-}
-.info-text {
-  font-family: Roboto;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 28px;
-  letter-spacing: 0em;
-  text-align: center;
-}
-.text-description {
-  font-family: Roboto;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 28px;
-  letter-spacing: 0em;
-  text-align: left;
-}
-.text-caption {
-  font-family: Roboto;
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 14px;
-  letter-spacing: 0em;
-  text-align: left;
-  color: #bbbdd0;
-}
-.text-small {
-  font-family: Roboto;
-  font-size: 10px;
-  font-weight: 700;
-  line-height: 14.06px;
-  letter-spacing: 0em;
-  text-align: left;
-  color: white;
-}
-}
-@media only screen and (min-width: 578px) {
   .title-text {
     font-family: Roboto;
     font-size: 30px;
@@ -129,7 +76,224 @@
     text-align: left;
     color: white;
   }
+}
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .title-text {
+    font-family: Roboto;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 35px;
+    letter-spacing: 0em;
+    text-align: left;
   }
+  .text-button {
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: left;
+  }
+  .info-text {
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 28px;
+    letter-spacing: 0em;
+    text-align: center;
+  }
+  .text-description {
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 28px;
+    letter-spacing: 0em;
+    text-align: left;
+  }
+  .text-caption {
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 14px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #bbbdd0;
+  }
+  .text-small {
+    font-family: Roboto;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 14.06px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: white;
+  }
+ 
+}
+@media only screen and (max-width: 767px) and (min-width: 577px) {
+
+  .title-text {
+    font-family: Roboto;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 35px;
+    letter-spacing: 0em;
+    text-align: left;
+  }
+  .text-button {
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: left;
+  }
+  .info-text {
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 28px;
+    letter-spacing: 0em;
+    text-align: center;
+  }
+  .text-description {
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 28px;
+    letter-spacing: 0em;
+    text-align: left;
+  }
+  .text-caption {
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 14px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #bbbdd0;
+  }
+  .text-small {
+    font-family: Roboto;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 14.06px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: white;
+  }  
+}
+
+@media only screen and (max-width: 576px) and (min-width: 376px) {
+  
+  .title-text {
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 35px;
+    letter-spacing: 0em;
+    text-align: left;
+  }
+  .text-button {
+    font-family: Roboto;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: left;
+  }
+  .info-text {
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 28px;
+    letter-spacing: 0em;
+    text-align: center;
+  }
+  .text-description {
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 28px;
+    letter-spacing: 0em;
+    text-align: left;
+  }
+  .text-caption {
+    font-family: Roboto;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 14px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #bbbdd0;
+  }
+  .text-small {
+    font-family: Roboto;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 14.06px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: white;
+  }
+
+}
+@media only screen and (max-width: 375px) {
+  
+  .title-text {
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 35px;
+    letter-spacing: 0em;
+    text-align: left;
+  }
+  .text-button {
+    font-family: Roboto;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: left;
+  }
+  .info-text {
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 28px;
+    letter-spacing: 0em;
+    text-align: center;
+  }
+  .text-description {
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 28px;
+    letter-spacing: 0em;
+    text-align: left;
+  }
+  .text-caption {
+    font-family: Roboto;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 14px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #bbbdd0;
+  }
+  .text-small {
+    font-family: Roboto;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 14.06px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: white;
+  }
+ 
+}
+
+
 
 .text-search {
   font-family: Roboto;
@@ -175,6 +339,7 @@ textarea {
   border-radius: 5px;
   box-sizing: border-box; 
   min-height: 105px;
+  resize: none;
   /* 
   The default is normally content-box which uses 
   the element's inner width only. Most browsers supply 
@@ -496,7 +661,7 @@ textarea {
   
   }
   .text-modal {
-    width: 200px;
+    width: 400px;
   }
 }
 @media only screen and (max-width: 375px) {

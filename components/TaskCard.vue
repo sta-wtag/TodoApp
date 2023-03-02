@@ -30,7 +30,6 @@
               id="title"
               v-model="taskDescription"
               class="width-full"
-              maxlength="100"
             ></textarea>
             <label v-if="titleInputError" for="title">
               {{ $t('validation.todo.title.required') }}
@@ -83,7 +82,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { SUCCESS, ERROR } from '../constants';
-import DeleteIcon from '@/assets/svg/Delete.svg';
+import DeleteIcon from '../assets/svg/Delete.svg';
 import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
 import EditIcon from '@/assets/svg/Edit.svg';
 import TickIcon from '@/assets/svg/Tick.svg';

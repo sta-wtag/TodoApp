@@ -1,6 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
 import {
-  ERROR,
   LIMIT,
   COMPLETE_TASK,
   ALL_TASK,
@@ -8,7 +7,6 @@ import {
   PER_PAGE,
 } from '@/constants';
 import Database from '@/helpers/database';
-import global from '@/mixins/global';
 
 const database = new Database();
 const supabase = database.supabase;
@@ -80,10 +78,7 @@ export const actions = {
         return { success: false };
       }
 
-      state.filterOptions.forEach((element) => (element.status = false));
-      state.filterOptions[0].status = true;
-      state.activeFilterOption = state.filterOptions[0];
-
+      commit('resetFilter');
       commit('filterTaskList');
 
       return { success: true };
@@ -211,7 +206,9 @@ export const actions = {
       }, 500);
     });
   },
-
+  resetFilter: ({ commit }) => {
+    commit('resetFilter');
+  },
   // set filter state
 
   setActiveFilterOption: ({ commit }, val) => {
@@ -245,6 +242,11 @@ export const actions = {
 };
 
 export const mutations = {
+  resetFilter: (state) => {
+    state.filterOptions.forEach((element) => (element.status = false));
+    state.filterOptions[0].status = true;
+    state.activeFilterOption = state.filterOptions[0];
+  },
   setTodoList: (state, val) => {
     state.taskList = val;
   },
@@ -287,12 +289,12 @@ export const mutations = {
     state.taskListPerPage = state.taskList;
     state.filterOptions.map((option) => (option.status = false));
     const option = state.filterOptions.find(
-      (option) => option.id === state.activeFilterOption.id
+      (option) => option.id === state.activeFilterOption?.id
     );
 
     option.status = true;
 
-    if (state.activeFilterOption.title === ALL_TASK) {
+    if (state.activeFilterOption?.title === ALL_TASK) {
       state.taskListPerPage = state.taskList.filter((task) =>
         task.description.toLowerCase().includes(state.searchText.toLowerCase())
       );
@@ -300,7 +302,7 @@ export const mutations = {
       return;
     }
 
-    if (state.activeFilterOption.title === INCOMPLETE_TASK) {
+    if (state.activeFilterOption?.title === INCOMPLETE_TASK) {
       state.taskListPerPage = state.taskList.filter(
         (task) =>
           task.status === false &&
@@ -312,7 +314,7 @@ export const mutations = {
       return;
     }
 
-    if (state.activeFilterOption.title === COMPLETE_TASK) {
+    if (state.activeFilterOption?.title === COMPLETE_TASK) {
       state.taskListPerPage = state.taskList.filter(
         (task) =>
           task.status === true &&

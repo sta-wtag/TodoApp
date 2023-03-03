@@ -51,7 +51,7 @@
                 >
                   {{ $t('AddTask') }}
                 </button>
-                <div class="align-self-center" @click="clearField()">
+                <div class="align-self-center" @click="clearField">
                   <DeleteIcon />
                 </div>
               </div>
@@ -199,8 +199,6 @@ export default {
   },
   async mounted() {
     this.loading = true;
-    await this.$store.dispatch('todos/setTodoList');
-    this.$store.dispatch('todos/setTotalPage');
 
     if (this.filterOptions && this.filterOptions.length > 0) {
       this.$store.dispatch(
@@ -208,6 +206,10 @@ export default {
         this.filterOptions[0]
       );
     }
+
+    await this.$store.dispatch('todos/setTodoList');
+
+    this.$store.dispatch('todos/setTotalPage');
 
     this.$store.dispatch('todos/filterTaskList');
     this.loading = false;

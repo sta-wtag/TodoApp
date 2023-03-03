@@ -88,7 +88,7 @@ export const actions = {
 
       return { success: true };
     } catch (err) {
-      global.methods.triggerToast(ERROR);
+      throw new Error(err);
     }
   },
 
@@ -107,7 +107,7 @@ export const actions = {
 
       return { success: true };
     } catch (err) {
-      global.methods.triggerToast(ERROR);
+      throw new Error(err);
     }
   },
 
@@ -135,7 +135,7 @@ export const actions = {
 
       return { success: true, data: todo };
     } catch (err) {
-      global.methods.triggerToast(ERROR);
+      throw new Error(err);
     }
   },
 
@@ -177,7 +177,7 @@ export const actions = {
 
       return { success: true, data: todo };
     } catch (err) {
-      global.methods.triggerToast(ERROR);
+      throw new Error(err);
     }
   },
 
@@ -239,7 +239,7 @@ export const actions = {
 
       return { success: true };
     } catch (err) {
-      global.methods.triggerToast(ERROR);
+      throw new Error(err);
     }
   },
 };

@@ -32,6 +32,8 @@ function wrapperFactory() {
       return {
         showAddCard: null,
         loading: null,
+        titleInputError: null,
+        taskDescription: null,
       };
     },
 
@@ -46,7 +48,7 @@ function wrapperFactory() {
 }
 
 describe('@/components/TaskContainer.vue', () => {
-  it('Convertes button name to english locale', async () => {
+  it('', async () => {
     const wrapper = await wrapperFactory();
 
     await wrapper.setData({
@@ -54,11 +56,49 @@ describe('@/components/TaskContainer.vue', () => {
       loading: false,
     });
     const createButton = wrapper.find('[data-testid="create-button"]');
+
+    expect(createButton.text()).toBe(i18Mock.en.create);
+  });
+});
+
+describe('@/components/TaskContainer.vue', () => {
+  it('', async () => {
+    const wrapper = await wrapperFactory();
+
+    await wrapper.setData({
+      showAddCard: true,
+      loading: false,
+      titleInputError: true,
+    });
+
     const addButton = wrapper.find('[data-testid="add-button"]');
     const inputFieldToAddTask = wrapper.find('[data-testid="taskTitle"]');
 
-    await inputFieldToAddTask.setValue('task1');
+    await inputFieldToAddTask.setValue('');
     await addButton.trigger('click');
-    expect(createButton.text()).toBe(i18Mock.en.create);
+    expect(wrapper.get('[data-testid="task-error-message"]').text()).toBe(
+      i18Mock.en.validation.todo.title.required
+    );
+  });
+});
+
+describe('@/components/TaskContainer.vue', () => {
+  it('', async () => {
+    const wrapper = await wrapperFactory();
+
+    await wrapper.setData({
+      showAddCard: true,
+      loading: false,
+      titleInputError: false,
+    });
+
+    const addButton = wrapper.find('[data-testid="add-button"]');
+    const inputFieldToAddTask = wrapper.find('[data-testid="taskTitle"]');
+    const spyClose = jest.spyOn(wrapper.vm, 'submitForm');
+
+    await inputFieldToAddTask.setValue('Task1');
+    await addButton.trigger('click');
+
+    expect(spyClose).toHaveBeenCalled();
   });
 });

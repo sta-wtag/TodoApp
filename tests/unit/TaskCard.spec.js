@@ -51,7 +51,7 @@ function wrapperFactory(newState = {}) {
 }
 
 describe('@/components/TaskCard.vue', () => {
-  it('Convertes button name to english locale', async () => {
+  it('Converts button name to english locale', async () => {
     const wrapper = await wrapperFactory();
 
     await wrapper.setData({

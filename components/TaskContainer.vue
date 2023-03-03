@@ -40,7 +40,11 @@
                 v-model="taskDescription"
                 data-testid="taskTitle"
               ></textarea>
-              <label v-if="titleInputError" for="taskTitle">
+              <label
+                v-if="titleInputError"
+                data-testid="task-error-message"
+                for="taskTitle"
+              >
                 {{ $t('validation.todo.title.required') }}
               </label>
               <div class="flex-box margin-top-3">
@@ -127,7 +131,7 @@ import PlusIcon from '@/assets/svg/plusIcon.svg';
 import { SUCCESS, ERROR } from '@/constants.js';
 
 export default {
-  // name: 'IndexPage',
+  name: 'TaskContainer',
   components: {
     DeleteIcon,
     FilterComponent,

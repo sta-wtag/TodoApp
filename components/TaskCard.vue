@@ -112,7 +112,7 @@ export default {
       if (!this.task?.created_at) return;
 
       return (
-        this.$t('created_at') +
+        this.$t('CreatedAt') +
         ':  ' +
         this.$helper.formatDate(this.task.created_at)
       );

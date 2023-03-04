@@ -1,5 +1,5 @@
 import { describe, expect, it } from '@jest/globals';
-import { mount } from '@vue/test-utils';
+import { mount, shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import NuxtI18n from 'vue-i18n';
 import localVue from '@/tests/utils/vueInstanceFactory';
@@ -24,7 +24,7 @@ beforeEach(() => {
 });
 
 function wrapperFactory(newState = {}) {
-  const mounted = mount(Taskcard, {
+  const mounted = shallowMount(Taskcard, {
     localVue,
     store,
     i18n,

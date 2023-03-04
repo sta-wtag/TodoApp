@@ -1,11 +1,12 @@
-import { describe, expect, it } from '@jest/globals';
-import { mount } from '@vue/test-utils';
+import { describe, expect, it, jest } from '@jest/globals';
+import { mount, shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import NuxtI18n from 'vue-i18n';
+
+import { helper } from '../../helpers/helper';
 import localVue from '@/tests/utils/vueInstanceFactory.js';
 import i18Mock from '@/tests/utils/i18Mock.js';
 import { todos } from '@/tests/utils/storeHelper.js';
-
 import TaskContainer from '@/components/TaskContainer.vue';
 
 let store;
@@ -24,7 +25,7 @@ beforeEach(() => {
 });
 
 function wrapperFactory() {
-  const mounted = mount(TaskContainer, {
+  const mounted = shallowMount(TaskContainer, {
     localVue,
     store,
     i18n,
@@ -83,7 +84,7 @@ describe('@/components/TaskContainer.vue', () => {
 });
 
 describe('@/components/TaskContainer.vue', () => {
-  it('', async () => {
+  it('calls SubmitForm on Add Task button', async () => {
     const wrapper = await wrapperFactory();
 
     await wrapper.setData({
@@ -94,13 +95,16 @@ describe('@/components/TaskContainer.vue', () => {
 
     const addButton = wrapper.find('[data-testid="add-button"]');
     const inputFieldToAddTask = wrapper.find('[data-testid="taskTitle"]');
-    const onSubmit = jest.fn();
-    const spyClose = jest.spyOn(wrapper.vm, 'submitForm');
 
-    console.log(jest.spyOn(wrapper.vm, 'submitForm'));
+    const spySubmitForm = jest.spyOn(TaskContainer.methods, 'submitForm');
+
     await inputFieldToAddTask.setValue('Task1');
-    // await addButton.trigger('click');
-    await wrapper.find("[type='submit']").trigger('click');
-    expect(onSubmit).toHaveBeenCalled();
+
+    await addButton.trigger('click');
+    const result = helper.checkForm('task1');
+    // await wrapper.find("[type='submit']").trigger('submit');
+
+    // await wrapper.findComponent('form').trigger('submit');
+    expect(result).toBe(true);
   });
 });

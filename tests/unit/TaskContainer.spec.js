@@ -94,11 +94,13 @@ describe('@/components/TaskContainer.vue', () => {
 
     const addButton = wrapper.find('[data-testid="add-button"]');
     const inputFieldToAddTask = wrapper.find('[data-testid="taskTitle"]');
+    const onSubmit = jest.fn();
     const spyClose = jest.spyOn(wrapper.vm, 'submitForm');
 
+    console.log(jest.spyOn(wrapper.vm, 'submitForm'));
     await inputFieldToAddTask.setValue('Task1');
-    await addButton.trigger('click');
-
-    expect(spyClose).toHaveBeenCalled();
+    // await addButton.trigger('click');
+    await wrapper.find("[type='submit']").trigger('click');
+    expect(onSubmit).toHaveBeenCalled();
   });
 });

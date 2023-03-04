@@ -121,7 +121,7 @@ export default {
       if (!this.task?.completed_at) return;
 
       return (
-        this.$t('Completed') +
+        this.$t('CompletedIn') +
         '   ' +
         this.$helper.getDuration(this.task.created_at, this.task.completed_at)
       );

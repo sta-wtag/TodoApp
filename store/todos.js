@@ -22,6 +22,7 @@ export const state = () => ({
   taskListPerPage: [],
   searchText: '',
   isSearching: false,
+  isListLoading: false,
   showSearchField: false,
   filterOptions: [
     { id: uuidv4(), title: 'All', status: false },
@@ -40,6 +41,9 @@ export const getters = {
   },
   getCompleteRequest: (state) => {
     return state.completeRequest;
+  },
+  getIsListLoading: (state) => {
+    return state.isListLoading;
   },
   getListPerPage: (state) => {
     return state.taskListPerPage.slice(0, state.perPage);
@@ -112,7 +116,7 @@ export const actions = {
   // Mark Task Done Operation
 
   changeTaskState: async ({ state, commit, dispatch }, val) => {
-    dispatch('setCompleteRequest', true);
+    commit('setCompleteRequest', true);
 
     try {
       const { data: todo, error } = await supabase
@@ -127,9 +131,9 @@ export const actions = {
       }
 
       // store response to allTodos
-      dispatch('filterTaskList');
+      commit('filterTaskList');
 
-      dispatch('setCompleteRequest', false);
+      commit('setCompleteRequest', false);
 
       return { success: true, data: todo };
     } catch (err) {
@@ -142,7 +146,9 @@ export const actions = {
   setCompleteRequest: ({ state, commit }, val) => {
     commit('setCompleteRequest', val);
   },
-
+  setIsListLoading: ({ commit }, val) => {
+    commit('setIsListLoading', val);
+  },
   // Managing search  state
 
   setShowSearchField: ({ commit }, val) => {
@@ -237,6 +243,7 @@ export const actions = {
       await commit('setTodoList', todos);
 
       commit('filterTaskList');
+      await commit('setIsListLoading', false);
 
       return { success: true };
     } catch (err) {
@@ -337,5 +344,8 @@ export const mutations = {
 
   setShowSearchField(state, val) {
     state.showSearchField = val;
+  },
+  setIsListLoading(state, val) {
+    state.isListLoading = val;
   },
 };

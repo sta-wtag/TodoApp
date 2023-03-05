@@ -11,8 +11,6 @@ import EditIcon from '@/assets/svg/Edit.svg';
 import TickIcon from '@/assets/svg/Tick.svg';
 import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
 
-const helpers = require('../../helpers/helper.js');
-
 let store;
 const currentLocale = 'en';
 const i18n = new NuxtI18n({
@@ -151,5 +149,36 @@ describe('@/components/TaskCard.vue', () => {
 
     seeMoreButton.trigger('click');
     expect(spyOnOpenModal).toBeCalled();
+  });
+
+  it(`render @/assets/svg/Delete.svg`, async () => {
+    const wrapper = await wrapperFactory({
+      task: {
+        status: false,
+      },
+    });
+
+    expect(wrapper.findComponent(DeleteIcon).exists()).toBe(true);
+  });
+
+  it(`render @/assets/svg/Tick.svg`, async () => {
+    const wrapper = await wrapperFactory({
+      task: {
+        status: false,
+      },
+    });
+
+    expect(wrapper.findComponent(TickIcon).exists()).toBe(true);
+  });
+
+  it(`render @/assets/svg/Edit.svg`, () => {
+    const wrapper = wrapperFactory({
+      task: {
+        status: false,
+      },
+      showEditIcon: true,
+    });
+
+    expect(wrapper.findComponent(EditIcon).exists()).toBe(true);
   });
 });

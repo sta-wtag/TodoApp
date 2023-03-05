@@ -128,7 +128,7 @@ import { SUCCESS, ERROR } from '@/constants.js';
 
 import { checkForm } from '@/helpers/helper';
 export default {
-  // name: 'IndexPage',
+  name: 'TaskContainer',
   components: {
     DeleteIcon,
     FilterComponent,
@@ -241,7 +241,7 @@ export default {
       this.addTask();
     },
     async addTask() {
-      this.loading = true;
+      // this.loading = true;
       const response = await this.$store.dispatch(
         'todos/addTask',
         this.taskDescription
@@ -252,7 +252,7 @@ export default {
         this.$store.dispatch('todos/setTotalPage');
         this.triggerToast(SUCCESS);
         this.clearField();
-        this.loading = false;
+        // this.loading = false;
       } else {
         this.triggerToast(ERROR);
       }
@@ -380,7 +380,7 @@ export default {
 }
 @media only screen and (max-width: 767px) and (min-width: 577px) {
   .grid-template-column {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(1, minmax(0, 1fr));
     row-gap: 14px;
     column-gap: 24px;
   }

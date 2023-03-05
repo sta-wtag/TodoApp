@@ -43,6 +43,7 @@
           <div class="flex-gap-8 text-button">
             <div v-if="task !== null && !task.status" class="flex-gap-8">
               <button
+                ref="first"
                 value="update"
                 class="card-button"
                 @click.prevent="markDone"
@@ -90,7 +91,7 @@ import EditIcon from '@/assets/svg/Edit.svg';
 import TickIcon from '@/assets/svg/Tick.svg';
 import global from '@/mixins/global';
 import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
-import { getDuration, formatDate, checkForm } from '@/helpers/helper';
+import { getDuration, formatDate, checkForm } from '@/helpers/helper.js';
 export default {
   components: { LoadingIcon, EditIcon, TickIcon, DeleteIcon },
   mixins: [global],

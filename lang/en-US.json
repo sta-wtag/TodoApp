@@ -6,7 +6,7 @@
   "Incomplete":"Incomplete",
   "Complete": "Complete",
   "NoTask": "You didn’t add any task. Please, add one.",
-  "NoCompleteTask": "No Complete Task",
+  "NoCompleteTask": "No Completed Task",
   "NoIncompleteTask": "No Incomplete Task",
   "Save": "Save",
   "CreatedAt": "Created At",

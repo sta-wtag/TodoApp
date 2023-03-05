@@ -6,7 +6,7 @@ import {
   ALL_TASK,
   INCOMPLETE_TASK,
   PER_PAGE,
-} from '../constants';
+} from '@/constants';
 
 export const state = () => ({
   limit: LIMIT,
@@ -63,7 +63,7 @@ export const actions = {
 
   addTask: ({ state, commit }, val) => {
     commit('addTask', val);
-    commit('setActiveFilterOption', state.filterOptions[0]); // set filter option to All
+    // set filter option to All
     commit('filterTaskList');
   },
 
@@ -123,7 +123,6 @@ export const actions = {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         commit('editTask', val, id);
-        commit('setListPerPage');
         commit('setCompleteRequest', false);
         resolve();
       }, 1000);
@@ -181,6 +180,7 @@ export const mutations = {
 
     state.filterOptions.forEach((element) => (element.status = false));
     state.filterOptions[0].status = true;
+    state.activeFilterOption = state.filterOptions[0];
     state.taskList = [task, ...state.taskList];
   },
 

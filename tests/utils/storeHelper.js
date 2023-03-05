@@ -1,6 +1,6 @@
 import { jest } from '@jest/globals';
 import { uuid } from 'uuidv4';
-import { LIMIT } from '../../constants.js';
+import { LIMIT } from '@/constants.js';
 
 export const todos = {
   namespaced: true,

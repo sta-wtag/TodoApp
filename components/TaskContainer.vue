@@ -1,69 +1,97 @@
 <template>
-  <div class="main-div relative-position">
-    <div class="title-text">{{ $t('PageTitle') }}</div>
-    <div class="space-between flex-box margin-top-28 margin-bottom-34">
-      <div>
+  <div class="flex-box flex-direction-column height-full relative-position">
+    <div v-if="isSearching" class="load-overlay">
+      <div class="spin-icon">
+        <LoadingIcon />
+      </div>
+    </div>
+    <div class="main-div-padding">
+      <div class="title-text">{{ $t('PageTitle') }}</div>
+      <div class="space-between flex-box home-button">
         <button
-          class="create-button text-button flex-box"
+          class="create-button text-button flex-box gap-1"
+          data-testid="create-button"
           :disabled="isSearching"
           @click="showAddTodoCard"
         >
-          <PlusIcon class="align-self-center margin-right-5" />
-          {{ $t('create') }}
+          <PlusIcon class="align-self-center" />
+          <div class="align-self-center">
+            {{ $t('create') }}
+          </div>
         </button>
+        <FilterComponent
+          :options="filterOptions"
+          @closeAddCard="closeAddCard"
+        />
       </div>
-      <FilterComponent :options="filterOptions" />
-    </div>
-    <div class="list-div">
-      <form v-if="showAddCard" @submit.prevent="submitForm">
-        <div class="card">
-          <textarea id="taskDescription" v-model="taskDescription"></textarea>
-          <label v-if="titleInputError" for="taskDescription">
-            {{ $t('validation.todo.title.required') }}
-          </label>
-          <div class="flex-box margin-top-13">
-            <button class="add-button" type="submit">
-              {{ $t('AddTask') }}
-            </button>
-            <div class="align-self-center" @click="clearField()">
-              <DeleteIcon />
+      <div class="list-div grid-template-column">
+        <form v-if="showAddCard" @submit.prevent="submitForm">
+          <div class="card padding-4">
+            <textarea
+              id="taskTitle"
+              v-model="taskDescription"
+              data-testid="taskTitle"
+            ></textarea>
+            <label v-if="titleInputError" for="taskTitle">
+              {{ $t('validation.todo.title.required') }}
+            </label>
+            <div class="flex-box margin-top-3">
+              <button class="add-button" data-testid="add-button" type="submit">
+                {{ $t('AddTask') }}
+              </button>
+              <div class="align-self-center" @click="clearField()">
+                <DeleteIcon />
+              </div>
             </div>
           </div>
-        </div>
-      </form>
-      <div v-for="task in todoList" :key="task.id">
-        <TaskCard :card-data="task" />
-      </div>
-
-      <div v-if="isSearching" class="load-overlay">
-        <div class="spin-icon">
-          <LoadingIcon />
+        </form>
+        <div v-for="task in todoList" :key="task.id">
+          <TaskCard :card-data="task" />
         </div>
       </div>
+      <div class="center-item">
+        <button
+          v-if="loadMoreTask"
+          class="load-button text-button"
+          @click="loadMore"
+        >
+          {{ $t('load-more') }}
+        </button>
+        <button
+          v-if="showLessTask"
+          class="load-button text-button"
+          @click="showLess"
+        >
+          {{ $t('show-less') }}
+        </button>
+      </div>
     </div>
-    <div class="center-item">
-      <button
-        v-if="loadMoreTask"
-        class="load-button text-button"
-        @click="loadMore"
-      >
-        {{ $t('load-more') }}
-      </button>
-      <button
-        v-if="showLessTask"
-        class="load-button text-button"
-        @click="showLess"
-      >
-        {{ $t('show-less') }}
-      </button>
-    </div>
-    <div v-if="hasNoTask" class="wrapper">
-      <div class="content">
+    <div
+      v-if="hasNoTask"
+      class="flex-grow-1 flex-box flex-direction-column center-item"
+    >
+      <div class="">
         <div class="center-item">
           <NoTaskLogo />
         </div>
-        <div class="info-text margin-top-32">
-          {{ $t('NoTask') }}
+        <div class="info-text margin-top-8 text-center">
+          {{ noTaskMessage }}
+        </div>
+      </div>
+    </div>
+    <div
+      v-if="hasNoFilteredTask"
+      class="flex-grow-1 flex-box flex-direction-column center-item"
+    >
+      <div class="">
+        <div class="center-item">
+          <NoTaskLogo />
+        </div>
+        <div v-if="noCompletedTask" class="info-text margin-top-8 text-center">
+          {{ $t('NoCompleteTask') }}
+        </div>
+        <div v-if="noIncompleteTask" class="info-text margin-top-8 text-center">
+          {{ $t('NoIncompleteTask') }}
         </div>
       </div>
     </div>
@@ -71,8 +99,7 @@
 </template>
 <script>
 import { mapGetters, mapState } from 'vuex';
-import { LIMIT, SUCCESS, ERROR } from '../constants';
-
+import { LIMIT, SUCCESS, ERROR } from '@/constants';
 import FilterComponent from '@/components/buttons/FilterComponent.vue';
 import DeleteIcon from '@/components/buttons/DeleteIcon.vue';
 import PlusIcon from '@/assets/svg/plusIcon.svg';
@@ -95,12 +122,17 @@ export default {
     titleErrorMsg: '',
     showAddCard: false,
     taskDescription: '',
+    noCompletedTask: false,
+    noIncompleteTask: false,
   }),
   computed: {
     ...mapGetters('todos', {
       todoList: 'getListPerPage',
       totalPage: 'getTotalPage',
       filterOptions: 'getFilterOptions',
+      requestInProcess: 'getCompleteRequest',
+      activeFilter: 'getActiveFilterOption',
+      totalTaskList: 'getTodoList',
     }),
     ...mapState('todos', {
       perPage: 'perPage',
@@ -108,8 +140,25 @@ export default {
       isSearching: 'isSearching',
     }),
     hasNoTask() {
-      return this.todoList && this.todoList.length <= 0;
+      return (
+        this.todoList &&
+        this.todoList.length <= 0 &&
+        this.totalTaskList &&
+        this.totalTaskList.length <= 0
+      );
     },
+    hasNoFilteredTask() {
+      return (
+        this.todoList &&
+        this.todoList.length <= 0 &&
+        this.totalTaskList &&
+        this.totalTaskList.length > 0
+      );
+    },
+    noTaskMessage() {
+      return this.$t('NoTask');
+    },
+
     loadMoreTask() {
       return !this.hasNoTask && this.page < this.totalPage;
     },
@@ -122,12 +171,33 @@ export default {
       );
     },
   },
+  watch: {
+    activeFilter(option) {
+      if (option?.title === 'Complete') {
+        this.noCompletedTask = true;
+        this.noIncompleteTask = false;
+      } else if (option?.title === 'Incomplete') {
+        this.noIncompleteTask = true;
+        this.noCompletedTask = false;
+      }
+    },
+  },
   mounted() {
     this.$store.dispatch('todos/setTotalPage');
-    this.$store.dispatch('todos/setActiveFilterOption', this.filterOptions[0]);
+
+    if (this.filterOptions && this.filterOptions.length > 0) {
+      this.$store.dispatch(
+        'todos/setActiveFilterOption',
+        this.filterOptions[0]
+      );
+    }
+
     this.$store.dispatch('todos/filterTaskList');
   },
   methods: {
+    closeAddCard() {
+      this.showAddCard = false;
+    },
     showAddTodoCard() {
       this.$store.dispatch('todos/setSearchText', '');
       this.$store.dispatch('todos/setShowSearchField', false);
@@ -145,6 +215,8 @@ export default {
         return;
       }
 
+      this.$store.dispatch('todos/setSearchText', '');
+      this.$store.dispatch('todos/setShowSearchField', false);
       this.addTask();
     },
     addTask() {
@@ -160,6 +232,7 @@ export default {
       this.taskDescription = '';
     },
     loadMore() {
+      this.showAddCard = false;
       this.$store.dispatch('todos/increaseLimit');
     },
     showLess() {
@@ -169,16 +242,10 @@ export default {
 };
 </script>
 <style lang="scss">
-html,
-body {
-  margin: 0px;
-  width: 100%;
-  height: 100%;
+.flex-grow-1 {
+  flex-grow: 1;
 }
-.main-div {
-  height: 100vh;
-  background-color: red;
-  padding: 62px 149px;
+.primary-background {
   background-color: $base-color;
 }
 .add-button {
@@ -196,19 +263,11 @@ body {
 }
 .list-div {
   display: grid;
-  row-gap: 34px;
-  column-gap: 54px;
-  grid-template-columns: auto auto auto;
-  // padding: 10px;
 }
-.wrapper {
-  align-items: center;
-  display: flex;
-  height: calc(100% - (70px + 70px));
-}
+
 .content {
+  align-self: center;
   margin: auto;
-  width: 500px;
 }
 
 .load-button {
@@ -220,12 +279,154 @@ body {
   cursor: pointer;
   margin: 57px 0px;
 }
-.create-button {
-  background: $primary-text;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 9px 20px;
-  cursor: pointer;
+
+@media only screen and (min-width: 1200px) {
+  .grid-template-column {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    row-gap: 34px;
+    column-gap: 54px;
+  }
+  .main-div-padding {
+    padding: 0px 149px;
+  }
+  .create-button {
+    background: $primary-text;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 9px 13px;
+    cursor: pointer;
+  }
+  .home-button {
+    margin-top: 28px;
+    margin-bottom: 36px;
+  }
+}
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .grid-template-column {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    row-gap: 10px;
+    column-gap: 10px;
+  }
+  .main-div-padding {
+    padding: 0px 149px;
+  }
+  .create-button {
+    background: $primary-text;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 9px 20px;
+    cursor: pointer;
+  }
+  .home-button {
+    margin-top: 28px;
+    margin-bottom: 36px;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .grid-template-column {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 10px;
+    column-gap: 10px;
+  }
+  .main-div-padding {
+    padding: 0px 90px;
+  }
+  .create-button {
+    background: $primary-text;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 9px 13px;
+    cursor: pointer;
+  }
+  .home-button {
+    margin-top: 28px;
+    margin-bottom: 36px;
+  }
+}
+@media only screen and (max-width: 767px) and (min-width: 577px) {
+  .grid-template-column {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 14px;
+    column-gap: 24px;
+  }
+  .main-div-padding {
+    padding: 0px 60px;
+  }
+  .create-button {
+    background: $primary-text;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 9px 13px;
+    cursor: pointer;
+  }
+  .home-button {
+    margin-top: 28px;
+    margin-bottom: 36px;
+  }
+}
+
+@media only screen and (max-width: 576px) and (min-width: 376px) {
+  .grid-template-column {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    row-gap: 18px;
+    column-gap: 28px;
+  }
+  .main-div-padding {
+    padding: 0px 18px;
+    padding-bottom: 20px;
+  }
+  .create-button {
+    background: $primary-text;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 9px 12px;
+    cursor: pointer;
+    display: flex;
+  }
+  .home-button {
+    margin-top: 14px;
+    margin-bottom: 24px;
+  }
+}
+@media only screen and (max-width: 375px) {
+  .grid-template-column {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    row-gap: 18px;
+    // column-gap: 28px;
+  }
+  .main-div-padding {
+    padding: 0px 18px;
+    padding-bottom: 20px;
+  }
+  .create-button {
+    background: $primary-text;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 9px 12px;
+    cursor: pointer;
+    display: flex;
+  }
+  .home-button {
+    margin-top: 14px;
+    margin-bottom: 24px;
+  }
+}
+
+@media only screen and (max-width: 280px) {
+  .grid-template-column {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    row-gap: 10px;
+    // column-gap: 28px;
+  }
+  .main-div-padding {
+    padding: 0px 18px;
+    padding-bottom: 20px;
+  }
 }
 </style>

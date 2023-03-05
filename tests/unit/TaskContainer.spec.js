@@ -14,7 +14,7 @@ const mock = jest.fn();
 let store;
 
 const i18n = new NuxtI18n({
-  locale: 'en',
+  locale: 'bn',
   messages: i18Mock,
 });
 

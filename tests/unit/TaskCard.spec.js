@@ -60,9 +60,9 @@ describe('@/components/TaskCard.vue', () => {
       },
       showEditIcon: false,
     });
-    expect(wrapper.get('[data-testid="save-button"]').text()).toBe(
-      i18Mock.en.Save
-    );
+    const saveButton = wrapper.find('[data-testid="save-button"]');
+
+    expect(saveButton.text()).toBe(i18Mock.en.Save);
   });
 
   it(`render @/assets/svg/Delete.svg`, () => {

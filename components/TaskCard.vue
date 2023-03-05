@@ -91,7 +91,7 @@ import EditIcon from '@/assets/svg/Edit.svg';
 import TickIcon from '@/assets/svg/Tick.svg';
 import global from '@/mixins/global';
 import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
-import { getDuration, formatDate, checkForm } from '@/helpers/helper.js';
+import { getDuration, formatDate, checkForm } from '@/helpers/helper';
 export default {
   components: { LoadingIcon, EditIcon, TickIcon, DeleteIcon },
   mixins: [global],

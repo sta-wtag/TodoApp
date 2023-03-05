@@ -474,7 +474,13 @@ textarea {
   overflow-y: scroll;
 
 }
+.swal-text:last-child {
+  margin-bottom:15px ;
+}
 
+.swal-text:first-child {
+  margin-top:15px ;
+}
 .swal-text:first-child {
   margin-top:15px ;
 }

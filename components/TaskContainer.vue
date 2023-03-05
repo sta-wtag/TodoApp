@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-box flex-direction-column height-full">
+  <div class="height-full">
     <div class="main-div-padding">
       <div class="title-text">{{ $t('PageTitle') }}</div>
       <div class="space-between flex-box home-button">
@@ -65,7 +65,7 @@
     </div>
     <div
       v-if="hasNoTask"
-      class="flex-grow-1 flex-box flex-direction-column center-item"
+      class="flex-grow-1 flex-box flex-direction-column center-item no-task"
     >
       <div class="">
         <div class="center-item">
@@ -434,4 +434,7 @@ export default {
     padding-bottom: 20px;
   }
 }
+// .no-task {
+//   margin-top: 25vh;
+// }
 </style>

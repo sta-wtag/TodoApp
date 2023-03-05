@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper-div1">
+  <div>
     <Nuxt />
   </div>
 </template>
@@ -15,11 +15,11 @@ body {
   height: 100%;
   background-color: #f8f9ff;
 }
-.wrapper-div1 {
+/* .wrapper-div1 {
   position: absolute;
   top: 0px;
   right: 0px;
   bottom: 0px;
   left: 0px;
-}
+} */
 </style>

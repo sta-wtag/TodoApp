@@ -175,6 +175,7 @@ textarea {
   border-radius: 5px;
   box-sizing: border-box; 
   min-height: 105px;
+  resize: none;
   /* 
   The default is normally content-box which uses 
   the element's inner width only. Most browsers supply 

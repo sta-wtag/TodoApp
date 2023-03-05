@@ -15,15 +15,16 @@
           class="input-search text-search"
           @keyup.prevent="debounced"
         />
-        <div
+        <button
           id="search-icon"
-          class="align-self-center search-icon"
-          @click="setSearch"
+          data-testid="searchButton"
+          class="align-self-center search-icon card-button"
+          @click="setSearch()"
         >
           <SearchIcon />
-        </div>
+        </button>
 
-        <!-- <select v-if="locales" class="text-button" @change="switchLanguage">
+        <select v-if="locales" class="text-button" @change="switchLanguage">
           <option value="" disabled>{{ $t('SelectLanguage') }}</option>
           <option
             v-for="locale in locales"
@@ -32,7 +33,7 @@
           >
             {{ locale.code }}
           </option>
-        </select> -->
+        </select>
       </div>
     </div>
   </div>

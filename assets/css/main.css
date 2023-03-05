@@ -23,9 +23,16 @@
 .text-center {
   text-align: center;
 }
-
 .gap-1 {
   gap: 4px;
+}
+::-webkit-scrollbar {
+  width: .5em;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #7a8dfd;
+  border-radius: 5px;
+  outline: none;
 }
 
 @media only screen and (min-width: 1200px) {
@@ -461,10 +468,11 @@ textarea {
   right:0px;
   border-radius: 5px;
 }
-.swal-text {
+.text-modal .swal-text  {
   height: 200px;
   max-height: 200px;
   overflow-y: scroll;
+
 }
 
 .swal-text:first-child {
@@ -474,6 +482,7 @@ textarea {
 .swal-title {
   font-family: Roboto;
   font-size: 24px;
+  color:#7a8dfd;
 }
 .padding-4 {
   padding: 16px
@@ -530,8 +539,11 @@ textarea {
   margin:0px;
 
 }
+
 .text-modal {
   width: 500px;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {

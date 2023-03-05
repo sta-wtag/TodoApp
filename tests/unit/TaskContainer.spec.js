@@ -57,7 +57,7 @@ function wrapperFactory() {
 }
 
 describe('@/components/TaskContainer.vue', () => {
-  it('', async () => {
+  it('translation added to create button name', async () => {
     const wrapper = await wrapperFactory();
 
     await wrapper.setData({
@@ -71,7 +71,7 @@ describe('@/components/TaskContainer.vue', () => {
 });
 
 describe('@/components/TaskContainer.vue', () => {
-  it('', async () => {
+  it('returns error message in current locale', async () => {
     const wrapper = await wrapperFactory();
 
     await wrapper.setData({

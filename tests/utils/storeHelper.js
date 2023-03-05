@@ -47,5 +47,6 @@ export const todos = {
     setActiveFilterOption: jest.fn(),
     setIsSearching: jest.fn(),
     setTodoList: jest.fn(),
+    setShowSearchField: jest.fn(),
   },
 };

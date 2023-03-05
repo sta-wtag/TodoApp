@@ -36,6 +36,7 @@ export default {
     openModal(taskDescription) {
       this.SwalOverlayColor('greyOverlay', 'black');
       swal(taskDescription, {
+        title: 'Task description',
         className: 'text-modal',
         iconHtml: '<img src="https://picsum.photos/100/100">',
         showCancelButton: false,

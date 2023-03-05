@@ -16,6 +16,7 @@
             <div
               v-show="seeMore"
               id="seeMore"
+              data-testid="seeMore"
               class="see-more text-small margin-top-2"
               @click="openModal(task.description)"
             >
@@ -40,7 +41,7 @@
         </div>
         <div class="space-between flex-box width-full">
           <div class="flex-gap-8 text-button">
-            <div v-if="task && !task.status" class="flex-gap-8">
+            <div v-if="task !== null && !task.status" class="flex-gap-8">
               <button
                 value="update"
                 class="card-button"
@@ -69,7 +70,11 @@
               <DeleteIcon />
             </button>
           </div>
-          <div v-if="task && task.status" class="chip text-small">
+          <div
+            v-if="task !== null && task.status"
+            class="chip text-small"
+            data-testid="duration"
+          >
             {{ duration }}
           </div>
         </div>

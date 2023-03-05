@@ -455,11 +455,16 @@ textarea {
 }
 .swal-basic {
   position:absolute;
-  height: 55px;
+ 
   top:90px;
   left:0px;
   right:0px;
   border-radius: 5px;
+}
+.swal-text {
+  height: 200px;
+  max-height: 200px;
+  overflow-y: scroll;
 }
 
 .swal-text:first-child {

@@ -11,7 +11,7 @@ import TaskContainer from '@/components/TaskContainer.vue';
 let store;
 
 const i18n = new NuxtI18n({
-  locale: 'en',
+  locale: 'bn',
   messages: i18Mock,
 });
 
@@ -46,7 +46,7 @@ function wrapperFactory() {
 }
 
 describe('@/components/TaskContainer.vue', () => {
-  it('Convertes button name to english locale', async () => {
+  it('localization added to create button', async () => {
     const wrapper = await wrapperFactory();
 
     await wrapper.setData({

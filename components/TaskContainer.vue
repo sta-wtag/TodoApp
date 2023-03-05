@@ -19,13 +19,13 @@
         <div class="title-text">{{ $t('PageTitle') }}</div>
         <div class="space-between flex-box home-button">
           <button
-            class="create-button text-button"
+            class="create-button text-button flex-box gap-1"
             data-testid="create-button"
             :disabled="isSearching"
             @click="showAddTodoCard"
           >
             <PlusIcon class="align-self-center margin-right-1" />
-            {{ $t('create') }}
+            <div class="align-self-center">{{ $t('create') }}</div>
           </button>
           <FilterComponent
             :options="filterOptions"
@@ -325,7 +325,7 @@ export default {
     color: white;
     border: none;
     border-radius: 5px;
-    padding: 9px 20px;
+    padding: 9px 13px;
     cursor: pointer;
   }
   .home-button {
@@ -369,7 +369,7 @@ export default {
     color: white;
     border: none;
     border-radius: 5px;
-    padding: 9px 20px;
+    padding: 9px 13px;
     cursor: pointer;
   }
   .home-button {
@@ -391,7 +391,7 @@ export default {
     color: white;
     border: none;
     border-radius: 5px;
-    padding: 9px 20px;
+    padding: 9px 13px;
     cursor: pointer;
   }
   .home-button {

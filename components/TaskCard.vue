@@ -1,9 +1,7 @@
 <template>
   <div class="relative-position">
-    <div v-if="loading" class="load-overlay">
-      <div class="spin-icon">
-        <LoadingIcon />
-      </div>
+    <div v-if="loading" class="load-overlay flex-box">
+      <LoadingIcon class="spin-icon align-self-center" />
     </div>
     <form @submit.prevent="submitForm">
       <div class="card padding-4 align-content-space-between">
@@ -102,7 +100,7 @@ export default {
     titleInputError: false,
     taskDescription: '',
     titleErrorMsg: '',
-    loading: false,
+    loading: true,
     descriptionDiv: null,
   }),
   computed: {
@@ -249,6 +247,7 @@ export default {
   right: 0px;
   bottom: 0px;
   background-color: rgba(255, 255, 255, 0.3);
+
   display: flex;
   align-items: center;
   z-index: 1;
@@ -264,7 +263,7 @@ export default {
 .spin-icon {
   margin: auto;
   animation-name: spin;
-  animation-duration: 700ms;
+  animation-duration: 1000ms;
   animation-iteration-count: infinite;
 }
 .flex-gap-8 {

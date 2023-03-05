@@ -100,7 +100,7 @@ export default {
     titleInputError: false,
     taskDescription: '',
     titleErrorMsg: '',
-    loading: true,
+    loading: false,
     descriptionDiv: null,
   }),
   computed: {

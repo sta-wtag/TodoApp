@@ -462,18 +462,14 @@ textarea {
   border-radius: 5px;
 }
 
-
-.swal-text:last-child {
-  /* margin-bottom:15px ; */
-}
-
 .swal-text:first-child {
   margin-top:15px ;
 }
-/* .swal-overlay {
-  background-color: transparent;
-} */
 
+.swal-title {
+  font-family: Roboto;
+  font-size: 24px;
+}
 .padding-4 {
   padding: 16px
 }

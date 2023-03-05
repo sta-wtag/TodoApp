@@ -109,13 +109,12 @@ describe('@/components/TaskContainer.vue', () => {
 
     await addButton.trigger('submit');
 
-    expect(add).toBeCalled();
+    expect(add).toHaveBeenCalled();
   });
 });
 
 describe('@/components/TaskContainer.vue', () => {
   it('helper function checkForm returns true on valid input', async () => {
-    console.log(helpers);
     const addMock = jest.spyOn(helpers, 'checkForm');
 
     const result = await addMock('task1');

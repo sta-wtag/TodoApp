@@ -11,6 +11,7 @@
           v-if="showSearchInput"
           ref="searchInputField"
           v-model="searchText"
+          data-testid="searchInputField"
           class="input-search text-search"
           @keyup.prevent="debounced"
         />
@@ -22,7 +23,7 @@
           <SearchIcon />
         </div>
 
-        <select class="text-button" @change="switchLanguage">
+        <!-- <select v-if="locales" class="text-button" @change="switchLanguage">
           <option value="" disabled>{{ $t('SelectLanguage') }}</option>
           <option
             v-for="locale in locales"
@@ -31,7 +32,7 @@
           >
             {{ locale.code }}
           </option>
-        </select>
+        </select> -->
       </div>
     </div>
   </div>
@@ -40,9 +41,9 @@
 import { mapGetters } from 'vuex';
 import NavLogo from '@/assets/svg/navLogo.svg';
 import SearchIcon from '@/assets/svg/searchIcon.svg';
-import debounce from '@/helpers/debounce.js';
+import { debounce } from '@/helpers/debounce.js';
 export default {
-  name: 'TheHeader',
+  name: 'Header',
   components: {
     NavLogo,
     SearchIcon,
@@ -56,8 +57,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      locales: 'lang/getLocals',
-      currentLocale: 'lang/getCurrentLocale',
+      locales: 'locals/getLocals',
+      currentLocale: 'locals/getCurrentLocale',
       isSearching: 'todos/getIsSearching',
       showSearchInput: 'todos/getShowSearchField',
     }),
@@ -69,13 +70,16 @@ export default {
       }
     },
   },
-  mounted() {
-    this.$i18n.setLocale(this.currentLocale.code);
+  created() {
+    if (this.currentLocale) {
+      this.$i18n.setLocale(this.currentLocale.code);
+    }
+
     this.debounced = debounce(this.searchTask, 500);
   },
   methods: {
     switchLanguage(event) {
-      this.$store.dispatch('lang/setLocale', event.target.value);
+      this.$store.dispatch('locals/setLocale', event.target.value);
       this.$i18n.setLocale(event.target.value);
     },
     async searchTask() {

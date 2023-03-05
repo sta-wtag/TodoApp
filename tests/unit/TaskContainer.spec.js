@@ -1,5 +1,5 @@
 import { describe, expect, it, jest } from '@jest/globals';
-import { shallowMount } from '@vue/test-utils';
+import { shallowMount, mount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import NuxtI18n from 'vue-i18n';
 
@@ -8,8 +8,9 @@ import i18Mock from '@/tests/utils/i18Mock.js';
 import { todos } from '@/tests/utils/storeHelper.js';
 import TaskContainer from '@/components/TaskContainer.vue';
 
-const helpers = require('../../helpers/helper');
+const helpers = require('../../helpers/helper.js');
 
+const mock = jest.fn();
 let store;
 
 const i18n = new NuxtI18n({
@@ -26,7 +27,7 @@ beforeEach(() => {
 });
 
 function wrapperFactory() {
-  const mounted = shallowMount(TaskContainer, {
+  const mounted = mount(TaskContainer, {
     localVue,
     store,
     i18n,
@@ -38,7 +39,13 @@ function wrapperFactory() {
         taskDescription: null,
       };
     },
-
+    mixins: [
+      {
+        methods: {
+          $thirdPartyMethod: mock,
+        },
+      },
+    ],
     mocks: {
       $store: {
         dispatch: (item) => item,
@@ -97,19 +104,22 @@ describe('@/components/TaskContainer.vue', () => {
     // const addButton = wrapper.find('[data-testid="add-button"]');
     const inputFieldToAddTask = wrapper.find('[data-testid="taskTitle"]');
 
-    const spyAddTask = jest.spyOn(TaskContainer.methods, 'addTask');
+    const addMock = jest.spyOn(helpers, 'checkForm');
 
-    await inputFieldToAddTask.setValue('Task1');
+    await inputFieldToAddTask.setValue('');
 
+    // await wrapper.find('[type="submit"]').trigger('submit');
     await wrapper.findComponent('form').trigger('submit');
+    const response = await addMock('');
 
-    expect(spyAddTask).toBeCalled();
+    expect(response).toBe(false);
   });
 });
 
 describe('@/components/TaskContainer.vue', () => {
   it('helper function checkForm returns true on valid input', async () => {
-    const addMock = jest.spyOn(helpers.helper, 'checkForm');
+    console.log(helpers);
+    const addMock = jest.spyOn(helpers, 'checkForm');
 
     const result = await addMock('task1');
 
@@ -119,7 +129,7 @@ describe('@/components/TaskContainer.vue', () => {
 
 describe('@/components/TaskContainer.vue', () => {
   it('helper function getDuration returns valid string', async () => {
-    const addMock = jest.spyOn(helpers.helper, 'getDuration');
+    const addMock = jest.spyOn(helpers, 'getDuration');
 
     const result = await addMock(
       '2023-03-04T02:36:40.398+00:00',

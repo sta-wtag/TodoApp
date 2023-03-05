@@ -88,6 +88,7 @@ import EditIcon from '@/assets/svg/Edit.svg';
 import TickIcon from '@/assets/svg/Tick.svg';
 import global from '@/mixins/global';
 import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
+import { getDuration, formatDate, checkForm } from '@/helpers/helper.js';
 export default {
   components: { LoadingIcon, EditIcon, TickIcon, DeleteIcon },
   mixins: [global],
@@ -111,11 +112,7 @@ export default {
     formatDate() {
       if (!this.task?.created_at) return;
 
-      return (
-        this.$t('CreatedAt') +
-        ':  ' +
-        this.$helper.formatDate(this.task.created_at)
-      );
+      return this.$t('CreatedAt') + ':  ' + formatDate(this.task.created_at);
     },
     duration() {
       if (!this.task?.completed_at) return;
@@ -123,7 +120,7 @@ export default {
       return (
         this.$t('CompletedIn') +
         '   ' +
-        this.$helper.getDuration(this.task.created_at, this.task.completed_at)
+        getDuration(this.task.created_at, this.task.completed_at)
       );
     },
     seeMore() {
@@ -203,7 +200,7 @@ export default {
       e.preventDefault();
       this.taskDescription = this.sanitizeInput(this.taskDescription);
 
-      if (!this.$helper.checkForm(this.taskDescription)) {
+      if (!checkForm(this.taskDescription)) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
         this.triggerToast(ERROR);

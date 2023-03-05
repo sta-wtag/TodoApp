@@ -64,4 +64,20 @@ describe('@/components/TaskCard.vue', () => {
       i18Mock.en.Save
     );
   });
+
+  it(`render @/assets/svg/Delete.svg`, () => {
+    const wrapper = wrapperFactory();
+
+    expect(wrapper.findComponent(DeleteIcon).exists()).toBe(true);
+  });
+
+  it(`render @/assets/svg/Tick.svg`, () => {
+    const wrapper = wrapperFactory({
+      task: {
+        status: false,
+      },
+    });
+
+    expect(wrapper.findComponent(CompleteIcon).exists()).toBe(true);
+  });
 });

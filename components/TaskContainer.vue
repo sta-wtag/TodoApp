@@ -129,7 +129,7 @@ import DeleteIcon from '@/components/buttons/DeleteIcon.vue';
 import FilterComponent from '@/components/buttons/FilterComponent.vue';
 import PlusIcon from '@/assets/svg/plusIcon.svg';
 import { SUCCESS, ERROR } from '@/constants.js';
-
+import { checkForm } from '@/helpers/helper.js';
 export default {
   name: 'TaskContainer',
   components: {
@@ -231,7 +231,7 @@ export default {
       e.preventDefault();
       this.taskDescription = this.sanitizeInput(this.taskDescription);
 
-      if (!this.$helper.checkForm(this.taskDescription)) {
+      if (!checkForm(this.taskDescription)) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
         this.triggerToast(ERROR);

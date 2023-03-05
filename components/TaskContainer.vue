@@ -236,12 +236,11 @@ export default {
         return;
       }
 
-      this.$store.dispatch('todos/setSearchText', '');
-      this.$store.dispatch('todos/setShowSearchField', false);
       this.addTask();
     },
     async addTask() {
-      // this.loading = true;
+      await this.$store.dispatch('todos/setSearchText', '');
+      this.$store.dispatch('todos/setShowSearchField', false);
       const response = await this.$store.dispatch(
         'todos/addTask',
         this.taskDescription
@@ -250,9 +249,9 @@ export default {
       if (response.success) {
         await this.$store.dispatch('todos/setTodoList');
         this.$store.dispatch('todos/setTotalPage');
+
         this.triggerToast(SUCCESS);
         this.clearField();
-        // this.loading = false;
       } else {
         this.triggerToast(ERROR);
       }

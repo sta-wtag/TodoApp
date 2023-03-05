@@ -80,6 +80,7 @@ export const actions = {
       }
 
       commit('resetFilter');
+
       commit('filterTaskList');
       commit('setIsSearching', false);
 
@@ -110,13 +111,13 @@ export const actions = {
 
   // Mark Task Done Operation
 
-  changeTaskState: async ({ state, commit }, val) => {
-    commit('setCompleteRequest', true);
-    val.status = !val.status;
+  changeTaskState: async ({ state, commit, dispatch }, val) => {
+    dispatch('setCompleteRequest', true);
+
     try {
       const { data: todo, error } = await supabase
         .from('Todos')
-        .update({ status: val.status, completed_at: new Date() })
+        .update({ status: !val.status, completed_at: new Date() })
         .eq('id', val.id)
         .select()
         .single();
@@ -126,9 +127,9 @@ export const actions = {
       }
 
       // store response to allTodos
-      commit('filterTaskList');
+      dispatch('filterTaskList');
 
-      commit('setCompleteRequest', false);
+      dispatch('setCompleteRequest', false);
 
       return { success: true, data: todo };
     } catch (err) {
@@ -233,7 +234,8 @@ export const actions = {
       }
 
       // store response to allTodos
-      commit('setTodoList', todos);
+      await commit('setTodoList', todos);
+
       commit('filterTaskList');
 
       return { success: true };

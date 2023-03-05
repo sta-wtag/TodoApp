@@ -1,18 +1,14 @@
 <template>
   <div class="flex-box flex-direction-column height-full relative-position">
-    <div v-if="loading" class="load-overlay">
-      <div class="spin-icon">
-        <LoadingIcon />
-      </div>
+    <div v-if="loading" class="load-overlay flex-box">
+      <LoadingIconLg class="spin-icon align-self-center" />
     </div>
     <div
       v-else
       class="relative-position height-full flex-box flex-direction-column"
     >
-      <div v-if="isSearching" class="load-overlay">
-        <div class="spin-icon">
-          <LoadingIcon />
-        </div>
+      <div v-if="isSearching" class="load-overlay flex-box">
+        <LoadingIconLg class="spin-icon align-self-center" />
       </div>
 
       <div class="main-div-padding">
@@ -123,7 +119,7 @@
 <script>
 import { mapGetters, mapState } from 'vuex';
 import NoTaskLogo from '@/assets/svg/noTask.svg';
-import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
+import LoadingIconLg from '@/assets/svg/LoadingIconLg.svg';
 import global from '@/mixins/global';
 import DeleteIcon from '@/components/buttons/DeleteIcon.vue';
 import FilterComponent from '@/components/buttons/FilterComponent.vue';
@@ -137,7 +133,7 @@ export default {
     FilterComponent,
     NoTaskLogo,
     PlusIcon,
-    LoadingIcon,
+    LoadingIconLg,
   },
   mixins: [global],
   data: () => ({

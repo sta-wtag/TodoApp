@@ -239,6 +239,8 @@ export default {
         return;
       }
 
+      this.$store.dispatch('todos/setSearchText', '');
+      this.$store.dispatch('todos/setShowSearchField', false);
       this.addTask();
     },
     async addTask() {

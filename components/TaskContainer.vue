@@ -9,13 +9,15 @@
       <div class="title-text">{{ $t('PageTitle') }}</div>
       <div class="space-between flex-box home-button">
         <button
-          class="create-button text-button"
+          class="create-button text-button flex-box"
           data-testid="create-button"
           :disabled="isSearching"
           @click="showAddTodoCard"
         >
           <PlusIcon class="align-self-center margin-right-1" />
-          {{ $t('create') }}
+          <div class="margin-top-1">
+            {{ $t('create') }}
+          </div>
         </button>
         <FilterComponent
           :options="filterOptions"

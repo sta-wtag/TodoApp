@@ -1,5 +1,5 @@
 import { describe, expect, it } from '@jest/globals';
-import { mount, shallowMount } from '@vue/test-utils';
+import { shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import NuxtI18n from 'vue-i18n';
 import localVue from '@/tests/utils/vueInstanceFactory';

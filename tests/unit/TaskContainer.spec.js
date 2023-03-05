@@ -1,5 +1,5 @@
 import { describe, expect, it, jest } from '@jest/globals';
-import { shallowMount, mount } from '@vue/test-utils';
+import { shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import NuxtI18n from 'vue-i18n';
 
@@ -14,7 +14,7 @@ const mock = jest.fn();
 let store;
 
 const i18n = new NuxtI18n({
-  locale: 'bn',
+  locale: 'en',
   messages: i18Mock,
 });
 
@@ -27,7 +27,7 @@ beforeEach(() => {
 });
 
 function wrapperFactory() {
-  const mounted = mount(TaskContainer, {
+  const mounted = shallowMount(TaskContainer, {
     localVue,
     store,
     i18n,
@@ -101,18 +101,15 @@ describe('@/components/TaskContainer.vue', () => {
       titleInputError: false,
     });
 
-    // const addButton = wrapper.find('[data-testid="add-button"]');
+    const addButton = wrapper.find('[data-testid="add-button"]');
     const inputFieldToAddTask = wrapper.find('[data-testid="taskTitle"]');
 
-    const addMock = jest.spyOn(helpers, 'checkForm');
+    await inputFieldToAddTask.setValue('test');
+    const add = jest.spyOn(wrapper.vm, 'submitForm');
 
-    await inputFieldToAddTask.setValue('');
+    await addButton.trigger('submit');
 
-    // await wrapper.find('[type="submit"]').trigger('submit');
-    await wrapper.findComponent('form').trigger('submit');
-    const response = await addMock('');
-
-    expect(response).toBe(false);
+    expect(add).toBeCalled();
   });
 });
 

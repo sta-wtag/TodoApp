@@ -3,14 +3,11 @@
     <div v-if="loading" class="load-overlay flex-box">
       <LoadingIconLg class="spin-icon align-self-center" />
     </div>
+
     <div
       v-else
       class="relative-position height-full flex-box flex-direction-column"
     >
-      <div v-if="isSearching" class="load-overlay flex-box">
-        <LoadingIconLg class="spin-icon align-self-center" />
-      </div>
-
       <div class="main-div-padding">
         <div class="title-text">{{ $t('PageTitle') }}</div>
         <div class="space-between flex-box home-button">
@@ -113,6 +110,9 @@
           </div>
         </div>
       </div>
+    </div>
+    <div v-if="isSearching" class="load-overlay flex-box">
+      <LoadingIconLg class="spin-icon align-self-center" />
     </div>
   </div>
 </template>
@@ -240,7 +240,7 @@ export default {
       this.addTask();
     },
     async addTask() {
-      this.loading = true;
+      // this.loading = true;
       const response = await this.$store.dispatch(
         'todos/addTask',
         this.taskDescription
@@ -251,7 +251,7 @@ export default {
         this.$store.dispatch('todos/setTotalPage');
         this.triggerToast(SUCCESS);
         this.clearField();
-        this.loading = false;
+        // this.loading = false;
       } else {
         this.triggerToast(ERROR);
       }

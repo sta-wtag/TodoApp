@@ -7,7 +7,11 @@ import i18Mock from '@/tests/utils/i18Mock';
 import { todos } from '@/tests/utils/storeHelper';
 import { helper } from '@/helpers/helper';
 import Taskcard from '@/components/TaskCard.vue';
+import DeleteIcon from '@/assets/svg/Delete.svg';
+import EditIcon from '@/assets/svg/Edit.svg';
+import TickIcon from '@/assets/svg/Tick.svg';
 
+import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
 let store;
 
 const i18n = new NuxtI18n({
@@ -23,28 +27,30 @@ beforeEach(() => {
   });
 });
 
-function wrapperFactory(newState = {}) {
+function wrapperFactory(additionalData) {
   const mounted = shallowMount(Taskcard, {
     localVue,
     store,
     i18n,
-    propsData: {
-      cardData: null,
-    },
-    data() {
-      return {
-        task: {
-          ...newState,
-        },
-        showEditIcon: null,
-      };
-    },
-    mocks: {
-      $store: {
-        dispatch: (item) => item,
-      },
-      helper,
-    },
+    // propsData: {
+    //   cardData: null,
+    // },
+    // data() {
+    //   return {
+    //     task: {
+    //       ...newState,
+    //     },
+    //     showEditIcon: null,
+    //     loading: null,
+    //   };
+    // },
+    // mocks: {
+    //   $store: {
+    //     dispatch: (item) => item,
+    //   },
+    //   helper,
+    // },
+    ...additionalData,
   });
 
   return mounted;
@@ -56,7 +62,7 @@ describe('@/components/TaskCard.vue', () => {
 
     await wrapper.setData({
       task: {
-        done: false,
+        status: false,
       },
       showEditIcon: false,
     });
@@ -65,19 +71,34 @@ describe('@/components/TaskCard.vue', () => {
     expect(saveButton.text()).toBe(i18Mock.en.Save);
   });
 
-  it(`render @/assets/svg/Delete.svg`, () => {
-    const wrapper = wrapperFactory();
-
-    expect(wrapper.findComponent(DeleteIcon).exists()).toBe(true);
-  });
-
-  it(`render @/assets/svg/Tick.svg`, () => {
-    const wrapper = wrapperFactory({
+  it(`render @/assets/svg/Delete.svg`, async () => {
+    const wrapper = await wrapperFactory({
       task: {
         status: false,
       },
     });
 
-    expect(wrapper.findComponent(CompleteIcon).exists()).toBe(true);
+    expect(wrapper.findComponent(DeleteIcon).exists()).toBe(true);
+  });
+
+  it(`render @/assets/svg/Tick.svg`, async () => {
+    const wrapper = await wrapperFactory({
+      task: {
+        status: false,
+      },
+    });
+
+    expect(wrapper.findComponent(TickIcon).exists()).toBe(true);
+  });
+
+  it(`render @/assets/svg/Edit.svg`, () => {
+    const wrapper = wrapperFactory({
+      task: {
+        status: false,
+      },
+      showEditIcon: true,
+    });
+
+    expect(wrapper.findComponent(EditIcon).exists()).toBe(true);
   });
 });

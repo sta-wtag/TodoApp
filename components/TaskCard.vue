@@ -42,6 +42,7 @@
           <div class="flex-gap-8 text-button">
             <div v-if="task && !task.status" class="flex-gap-8">
               <button
+                ref="first"
                 value="update"
                 class="card-button"
                 @click.prevent="markDone"

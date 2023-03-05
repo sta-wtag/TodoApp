@@ -1,5 +1,5 @@
 import { describe, expect, it } from '@jest/globals';
-import { mount } from '@vue/test-utils';
+import { mount, shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import NuxtI18n from 'vue-i18n';
 import localVue from '@/tests/utils/vueInstanceFactory';
@@ -24,7 +24,7 @@ beforeEach(() => {
 });
 
 function wrapperFactory(newState = {}) {
-  const mounted = mount(Taskcard, {
+  const mounted = shallowMount(Taskcard, {
     localVue,
     store,
     i18n,
@@ -51,7 +51,7 @@ function wrapperFactory(newState = {}) {
 }
 
 describe('@/components/TaskCard.vue', () => {
-  it('Convertes button name to english locale', async () => {
+  it('Converts button name to english locale', async () => {
     const wrapper = await wrapperFactory();
 
     await wrapper.setData({
@@ -63,5 +63,21 @@ describe('@/components/TaskCard.vue', () => {
     const saveButton = wrapper.find('[data-testid="save-button"]');
 
     expect(saveButton.text()).toBe(i18Mock.en.Save);
+  });
+
+  it(`render @/assets/svg/Delete.svg`, () => {
+    const wrapper = wrapperFactory();
+
+    expect(wrapper.findComponent(DeleteIcon).exists()).toBe(true);
+  });
+
+  it(`render @/assets/svg/Tick.svg`, () => {
+    const wrapper = wrapperFactory({
+      task: {
+        status: false,
+      },
+    });
+
+    expect(wrapper.findComponent(CompleteIcon).exists()).toBe(true);
   });
 });

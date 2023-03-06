@@ -105,19 +105,19 @@ describe('@/components/TaskContainer.vue', () => {
     const inputFieldToAddTask = wrapper.find('[data-testid="taskTitle"]');
 
     await inputFieldToAddTask.setValue('test');
-    const add = jest.spyOn(wrapper.vm, 'submitForm');
+    const submitFormFnMock = jest.spyOn(wrapper.vm, 'submitForm');
 
     await addButton.trigger('submit');
 
-    expect(add).toHaveBeenCalled();
+    expect(submitFormFnMock).toHaveBeenCalled();
   });
 });
 
 describe('@/components/TaskContainer.vue', () => {
   it('helper function checkForm returns true on valid input', async () => {
-    const addMock = jest.spyOn(helpers, 'checkForm');
+    const checkFormFnMock = jest.spyOn(helpers, 'checkForm');
 
-    const result = await addMock('task1');
+    const result = await checkFormFnMock('task1');
 
     expect(result).toBe(true);
   });
@@ -125,9 +125,9 @@ describe('@/components/TaskContainer.vue', () => {
 
 describe('@/components/TaskContainer.vue', () => {
   it('helper function getDuration returns valid string', async () => {
-    const addMock = jest.spyOn(helpers, 'getDuration');
+    const getDurationFnMock = jest.spyOn(helpers, 'getDuration');
 
-    const result = await addMock(
+    const result = await getDurationFnMock(
       '2023-03-04T02:36:40.398+00:00',
       '2023-03-04T02:36:40.398+00:00'
     );

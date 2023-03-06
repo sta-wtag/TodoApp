@@ -434,7 +434,4 @@ export default {
     padding-bottom: 20px;
   }
 }
-// .no-task {
-//   margin-top: 25vh;
-// }
 </style>

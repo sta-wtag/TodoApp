@@ -6,7 +6,6 @@
         <button
           class="create-button text-button flex-box gap-1"
           data-testid="create-button"
-          :disabled="isSearching"
           @click="showAddTodoCard"
         >
           <PlusIcon class="align-self-center margin-right-1" />
@@ -35,7 +34,9 @@
             </label>
             <div class="flex-box margin-top-3">
               <button
+                ref="addButton"
                 class="add-button"
+                :class="{ 'scale-card': scaleCard }"
                 data-testid="add-button"
                 type="submit"
                 :disabled="titleErrorMsg"
@@ -141,6 +142,7 @@ export default {
     noCompletedTask: false,
     noIncompleteTask: false,
     loading: false,
+    scaleCard: false,
   }),
 
   computed: {
@@ -222,9 +224,17 @@ export default {
       this.showAddCard = false;
     },
     showAddTodoCard() {
-      this.$store.dispatch('todos/setSearchText', '');
-      this.$store.dispatch('todos/setShowSearchField', false);
-      this.showAddCard = true;
+      if (this.$refs.addButton) {
+        this.$refs.addButton.classList.remove('scale-card');
+      }
+
+      if (!this.showAddCard) {
+        this.$store.dispatch('todos/setSearchText', '');
+        this.$store.dispatch('todos/setShowSearchField', false);
+        this.showAddCard = true;
+      }
+
+      this.scaleCard = !this.scaleCard;
     },
     submitForm(e) {
       e.preventDefault();
@@ -466,5 +476,31 @@ button[disabled] .add-button .save-button {
   border: 1px solid #999999;
   background-color: #90919758;
   color: #666666;
+}
+.scale-card {
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  transform: translate3d(0, 0, 0);
+}
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
 }
 </style>

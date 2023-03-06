@@ -1,11 +1,11 @@
 <template>
-  <div class="primary-background">
+  <div class="primary-background wrapper-div1">
     <div v-if="isListLoading">
       <splach-screen />
     </div>
-    <div v-else>
+    <div v-else class="height-full">
       <Header />
-      <TaskContainer class="wrapper-div" />
+      <TaskContainer />
       <div v-if="isSearching" class="load-overlay flex-box">
         <LoadingIconLg class="spin-icon align-self-center" />
       </div>

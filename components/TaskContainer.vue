@@ -1,6 +1,6 @@
 <template>
-  <div class="height-full">
-    <div class="main-div-padding">
+  <div class="height-full flex-box flex-direction-column">
+    <div class="main-div-padding wrapper-div">
       <div class="title-text">{{ $t('PageTitle') }}</div>
       <div class="space-between flex-box home-button">
         <button

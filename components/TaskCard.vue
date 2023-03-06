@@ -30,7 +30,7 @@
               v-model="taskDescription"
               class="width-full"
             ></textarea>
-            <label v-if="titleInputError" for="title">
+            <label v-if="titleInputError" for="title" class="inputError">
               {{ $t('validation.todo.title.required') }}
             </label>
           </div>
@@ -63,6 +63,7 @@
                 type="submit"
                 class="add-button"
                 data-testid="save-button"
+                :disabled="titleInputError"
               >
                 {{ $t('Save') }}
               </button>
@@ -85,7 +86,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import { SUCCESS, ERROR } from '@/constants';
+import { SUCCESS, ERROR, EDIT, DELETE, COMPLETE } from '@/constants';
 import DeleteIcon from '@/assets/svg/Delete.svg';
 import EditIcon from '@/assets/svg/Edit.svg';
 import TickIcon from '@/assets/svg/Tick.svg';
@@ -139,6 +140,15 @@ export default {
       return false;
     },
   },
+  watch: {
+    taskDescription(value) {
+      if (value.length > 0) {
+        this.titleInputError = false;
+      } else {
+        this.titleInputError = true;
+      }
+    },
+  },
   created() {
     this.task = this.cardData;
     this.taskDescription = this.task ? this.task.description : '';
@@ -169,9 +179,9 @@ export default {
         this.task = response.data ? response.data : this.task;
         this.$store.dispatch('todos/setTodoList');
 
-        this.triggerToast(SUCCESS);
+        this.triggerToast(SUCCESS, COMPLETE);
       } else {
-        this.triggerToast(ERROR);
+        this.triggerToast(ERROR, COMPLETE);
       }
 
       this.loading = false;
@@ -192,9 +202,9 @@ export default {
       if (response.success) {
         await this.$store.dispatch('todos/setTodoList');
         this.$store.dispatch('todos/setTotalPage');
-        this.triggerToast(SUCCESS);
+        this.triggerToast(SUCCESS, DELETE);
       } else {
-        this.triggerToast(ERROR);
+        this.triggerToast(ERROR, DELETE);
       }
 
       this.loading = false;
@@ -206,7 +216,7 @@ export default {
       if (!checkForm(this.taskDescription)) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
-        this.triggerToast(ERROR);
+        this.triggerToast(ERROR, '');
 
         return;
       }
@@ -230,9 +240,9 @@ export default {
         this.titleErrorMsg = '';
 
         this.showEditIcon = true;
-        this.triggerToast(SUCCESS);
+        this.triggerToast(SUCCESS, EDIT);
       } else {
-        this.triggerToast(ERROR);
+        this.triggerToast(ERROR, EDIT);
       }
 
       this.loading = false;

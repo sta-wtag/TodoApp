@@ -23,5 +23,17 @@
 },
 "alert.message.success": "Changes are saved successfully",
 "alert.message.error": "Something went wrong !",
-"btn.seeMore": "See more"
+"btn.seeMore": "See more",
+"alert.add.message.success": "Added Successfully",
+"alert.edit.message.success": "Edited Successfully",
+"alert.delete.message.success": "Deleted Successfully",
+"alert.search.message.success":"Search Result Found",
+"alert.complete.message.success":"Task Completed",
+
+"alert.add.message.error": "Unable To Add",
+"alert.edit.message.error": "Unable To Edit",
+"alert.delete.message.error": "Unable To Delete",
+"alert.search.message.error": "Unable To search",
+"alert.complete.message.error":"Unable to Complete",
+"NoMatchFound": "No Match Found"
 }

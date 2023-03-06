@@ -26,14 +26,20 @@
               data-testid="taskTitle"
             ></textarea>
             <label
-              v-if="titleInputError"
+              v-if="titleErrorMsg"
               data-testid="task-error-message"
+              class="inputError"
               for="taskTitle"
             >
               {{ $t('validation.todo.title.required') }}
             </label>
             <div class="flex-box margin-top-3">
-              <button class="add-button" data-testid="add-button" type="submit">
+              <button
+                class="add-button"
+                data-testid="add-button"
+                type="submit"
+                :disabled="titleErrorMsg"
+              >
                 {{ $t('AddTask') }}
               </button>
               <div class="align-self-center" @click="clearField">
@@ -77,7 +83,7 @@
       </div>
     </div>
     <div
-      v-if="hasNoFilteredTask"
+      v-if="hasNoFilteredTask && searchText === ''"
       class="flex-grow-1 flex-box flex-direction-column center-item"
     >
       <div class="">
@@ -92,6 +98,19 @@
         </div>
       </div>
     </div>
+    <div
+      v-if="searchText !== '' && hasNoFilteredTask"
+      class="flex-grow-1 flex-box flex-direction-column center-item"
+    >
+      <div class="">
+        <div class="center-item">
+          <NoTaskLogo />
+        </div>
+        <div class="info-text margin-top-8 text-center">
+          {{ $t('NoMatchFound') }}
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -101,9 +120,10 @@ import global from '@/mixins/global';
 import DeleteIcon from '@/components/buttons/DeleteIcon.vue';
 import FilterComponent from '@/components/buttons/FilterComponent.vue';
 import PlusIcon from '@/assets/svg/plusIcon.svg';
-import { SUCCESS, ERROR } from '@/constants.js';
+import { SUCCESS, ERROR, ADD } from '@/constants.js';
 
 import { checkForm } from '@/helpers/helper';
+
 export default {
   name: 'TaskContainer',
   components: {
@@ -122,6 +142,7 @@ export default {
     noIncompleteTask: false,
     loading: false,
   }),
+
   computed: {
     ...mapGetters('todos', {
       todoList: 'getListPerPage',
@@ -135,6 +156,7 @@ export default {
       perPage: 'perPage',
       page: 'page',
       isSearching: 'isSearching',
+      searchText: 'searchText',
     }),
     hasNoTask() {
       return (
@@ -155,7 +177,6 @@ export default {
     noTaskMessage() {
       return this.$t('NoTask');
     },
-
     loadMoreTask() {
       return !this.hasNoTask && this.page < this.totalPage;
     },
@@ -171,6 +192,13 @@ export default {
       } else if (option?.title === 'Incomplete') {
         this.noIncompleteTask = true;
         this.noCompletedTask = false;
+      }
+    },
+    taskDescription(value) {
+      if (value.length > 0) {
+        this.titleErrorMsg = false;
+      } else {
+        this.titleErrorMsg = true;
       }
     },
   },
@@ -206,8 +234,6 @@ export default {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
         this.triggerToast(ERROR);
-
-        return;
       }
 
       this.addTask();
@@ -224,10 +250,10 @@ export default {
         await this.$store.dispatch('todos/setTodoList');
         this.$store.dispatch('todos/setTotalPage');
 
-        this.triggerToast(SUCCESS);
+        this.triggerToast(SUCCESS, ADD);
         this.clearField();
       } else {
-        this.triggerToast(ERROR);
+        this.triggerToast(ERROR, ADD);
       }
     },
     clearField() {
@@ -433,5 +459,12 @@ export default {
     padding: 0px 18px;
     padding-bottom: 20px;
   }
+}
+
+button:disabled,
+button[disabled] .add-button .save-button {
+  border: 1px solid #999999;
+  background-color: #90919758;
+  color: #666666;
 }
 </style>

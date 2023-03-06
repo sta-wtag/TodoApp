@@ -241,14 +241,15 @@ export default {
     submitForm(e) {
       e.preventDefault();
       this.taskDescription = this.sanitizeInput(this.taskDescription);
+      console.log(checkForm(this.taskDescription));
 
       if (!checkForm(this.taskDescription)) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
-        this.triggerToast(ERROR);
+        // this.triggerToast(ERROR);
+      } else {
+        this.addTask();
       }
-
-      this.addTask();
     },
     async addTask() {
       await this.$store.dispatch('todos/setSearchText', '');

@@ -63,7 +63,6 @@
                 type="submit"
                 class="add-button"
                 data-testid="save-button"
-                :disabled="titleInputError"
               >
                 {{ $t('Save') }}
               </button>

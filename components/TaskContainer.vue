@@ -37,12 +37,7 @@
               {{ $t('validation.todo.title.required') }}
             </label>
             <div class="flex-box margin-top-3">
-              <button
-                class="add-button"
-                data-testid="add-button"
-                type="submit"
-                :disabled="titleErrorMsg"
-              >
+              <button class="add-button" data-testid="add-button" type="submit">
                 {{ $t('AddTask') }}
               </button>
               <div class="align-self-center" @click="clearField">
@@ -145,6 +140,7 @@ export default {
     noIncompleteTask: false,
     loading: false,
     scaleCard: false,
+    count: 0,
   }),
 
   computed: {
@@ -236,7 +232,11 @@ export default {
         this.showAddCard = true;
       }
 
-      this.scaleCard = !this.scaleCard;
+      if (this.count === 0) {
+        this.count++;
+      } else {
+        this.scaleCard = !this.scaleCard;
+      }
     },
     submitForm(e) {
       e.preventDefault();

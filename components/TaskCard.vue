@@ -216,7 +216,6 @@ export default {
       if (!checkForm(this.taskDescription)) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
-        this.triggerToast(ERROR, '');
 
         return;
       }

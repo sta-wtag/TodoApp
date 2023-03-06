@@ -246,10 +246,11 @@ export default {
       if (!checkForm(this.taskDescription)) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
-        // this.triggerToast(ERROR);
-      } else {
-        this.addTask();
+
+        return;
       }
+
+      this.addTask();
     },
     async addTask() {
       await this.$store.dispatch('todos/setSearchText', '');

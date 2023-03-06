@@ -69,6 +69,7 @@ export const actions = {
   // AddTask Operation
 
   addTask: async ({ state, commit }, val) => {
+    commit('resetLimit');
     commit('setIsSearching', true);
     try {
       const task = {
@@ -84,8 +85,8 @@ export const actions = {
       }
 
       commit('resetFilter');
-
       commit('filterTaskList');
+
       commit('setIsSearching', false);
 
       return { success: true };

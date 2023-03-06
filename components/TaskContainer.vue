@@ -21,7 +21,7 @@
           <div
             ref="addButton"
             class="card padding-4"
-            :class="{ 'scale-card': scaleCard }"
+            :class="{ 'anim-card': animcard }"
           >
             <textarea
               id="taskTitle"
@@ -139,7 +139,7 @@ export default {
     noCompletedTask: false,
     noIncompleteTask: false,
     loading: false,
-    scaleCard: false,
+    animcard: false,
     count: 0,
   }),
 
@@ -223,7 +223,7 @@ export default {
     },
     showAddTodoCard() {
       if (this.$refs.addButton) {
-        this.$refs.addButton.classList.remove('scale-card');
+        this.$refs.addButton.classList.remove('anim-card');
       }
 
       if (!this.showAddCard) {
@@ -235,13 +235,12 @@ export default {
       if (this.count === 0) {
         this.count++;
       } else {
-        this.scaleCard = !this.scaleCard;
+        this.animcard = !this.animcard;
       }
     },
     submitForm(e) {
       e.preventDefault();
       this.taskDescription = this.sanitizeInput(this.taskDescription);
-      console.log(checkForm(this.taskDescription));
 
       if (!checkForm(this.taskDescription)) {
         this.titleInputError = true;
@@ -266,6 +265,7 @@ export default {
 
         this.triggerToast(SUCCESS, ADD);
         this.clearField();
+        this.count = 0;
       } else {
         this.triggerToast(ERROR, ADD);
       }
@@ -481,7 +481,7 @@ button[disabled] .add-button .save-button {
   background-color: #90919758;
   color: #666666;
 }
-.scale-card {
+.anim-card {
   animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
   transform: translate3d(0, 0, 0);
 }

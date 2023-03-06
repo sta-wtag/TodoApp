@@ -18,7 +18,11 @@
       </div>
       <div class="list-div grid-template-column">
         <form v-if="showAddCard" @submit.prevent="submitForm">
-          <div class="card padding-4">
+          <div
+            ref="addButton"
+            class="card padding-4"
+            :class="{ 'scale-card': scaleCard }"
+          >
             <textarea
               id="taskTitle"
               v-model="taskDescription"
@@ -34,9 +38,7 @@
             </label>
             <div class="flex-box margin-top-3">
               <button
-                ref="addButton"
                 class="add-button"
-                :class="{ 'scale-card': scaleCard }"
                 data-testid="add-button"
                 type="submit"
                 :disabled="titleErrorMsg"
@@ -270,7 +272,7 @@ export default {
       this.showAddCard = false;
       this.titleInputError = false;
       this.titleErrorMsg = '';
-      this.taskDescription = '';
+      this.taskDescription = ' ';
     },
     loadMore() {
       this.showAddCard = false;

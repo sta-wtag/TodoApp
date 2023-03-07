@@ -34,7 +34,16 @@
   border-radius: 5px;
   outline: none;
 }
-
+.inputError {
+  font-family: Roboto;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 14px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: red;
+    margin-top: 4px;
+}
 @media only screen and (min-width: 1200px) {
 
   .title-text {

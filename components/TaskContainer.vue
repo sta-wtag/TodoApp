@@ -6,7 +6,6 @@
         <button
           class="create-button text-button flex-box gap-1"
           data-testid="create-button"
-          :disabled="isSearching"
           @click="showAddTodoCard"
         >
           <PlusIcon class="align-self-center margin-right-1" />
@@ -19,15 +18,20 @@
       </div>
       <div class="list-div grid-template-column">
         <form v-if="showAddCard" @submit.prevent="submitForm">
-          <div class="card padding-4">
+          <div
+            ref="addButton"
+            class="card padding-4"
+            :class="{ 'anim-card': animcard }"
+          >
             <textarea
               id="taskTitle"
               v-model="taskDescription"
               data-testid="taskTitle"
             ></textarea>
             <label
-              v-if="titleInputError"
+              v-if="titleErrorMsg"
               data-testid="task-error-message"
+              class="inputError"
               for="taskTitle"
             >
               {{ $t('validation.todo.title.required') }}
@@ -77,7 +81,7 @@
       </div>
     </div>
     <div
-      v-if="hasNoFilteredTask"
+      v-if="hasNoFilteredTask && searchText === ''"
       class="flex-grow-1 flex-box flex-direction-column center-item"
     >
       <div class="">
@@ -92,6 +96,19 @@
         </div>
       </div>
     </div>
+    <div
+      v-if="searchText !== '' && hasNoFilteredTask"
+      class="flex-grow-1 flex-box flex-direction-column center-item"
+    >
+      <div class="">
+        <div class="center-item">
+          <NoTaskLogo />
+        </div>
+        <div class="info-text margin-top-8 text-center">
+          {{ $t('NoMatchFound') }}
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -101,9 +118,10 @@ import global from '@/mixins/global';
 import DeleteIcon from '@/components/buttons/DeleteIcon.vue';
 import FilterComponent from '@/components/buttons/FilterComponent.vue';
 import PlusIcon from '@/assets/svg/plusIcon.svg';
-import { SUCCESS, ERROR } from '@/constants.js';
+import { SUCCESS, ERROR, ADD } from '@/constants.js';
 
 import { checkForm } from '@/helpers/helper';
+
 export default {
   name: 'TaskContainer',
   components: {
@@ -121,7 +139,10 @@ export default {
     noCompletedTask: false,
     noIncompleteTask: false,
     loading: false,
+    animcard: false,
+    count: 0,
   }),
+
   computed: {
     ...mapGetters('todos', {
       todoList: 'getListPerPage',
@@ -135,6 +156,7 @@ export default {
       perPage: 'perPage',
       page: 'page',
       isSearching: 'isSearching',
+      searchText: 'searchText',
     }),
     hasNoTask() {
       return (
@@ -155,7 +177,6 @@ export default {
     noTaskMessage() {
       return this.$t('NoTask');
     },
-
     loadMoreTask() {
       return !this.hasNoTask && this.page < this.totalPage;
     },
@@ -171,6 +192,13 @@ export default {
       } else if (option?.title === 'Incomplete') {
         this.noIncompleteTask = true;
         this.noCompletedTask = false;
+      }
+    },
+    taskDescription(value) {
+      if (value.length > 0) {
+        this.titleErrorMsg = false;
+      } else {
+        this.titleErrorMsg = true;
       }
     },
   },
@@ -194,9 +222,21 @@ export default {
       this.showAddCard = false;
     },
     showAddTodoCard() {
-      this.$store.dispatch('todos/setSearchText', '');
-      this.$store.dispatch('todos/setShowSearchField', false);
-      this.showAddCard = true;
+      if (this.$refs.addButton) {
+        this.$refs.addButton.classList.remove('anim-card');
+      }
+
+      if (!this.showAddCard) {
+        this.$store.dispatch('todos/setSearchText', '');
+        this.$store.dispatch('todos/setShowSearchField', false);
+        this.showAddCard = true;
+      }
+
+      if (this.count === 0) {
+        this.count++;
+      } else {
+        this.animcard = !this.animcard;
+      }
     },
     submitForm(e) {
       e.preventDefault();
@@ -205,7 +245,6 @@ export default {
       if (!checkForm(this.taskDescription)) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
-        this.triggerToast(ERROR);
 
         return;
       }
@@ -224,17 +263,18 @@ export default {
         await this.$store.dispatch('todos/setTodoList');
         this.$store.dispatch('todos/setTotalPage');
 
-        this.triggerToast(SUCCESS);
+        this.triggerToast(SUCCESS, ADD);
         this.clearField();
+        this.count = 0;
       } else {
-        this.triggerToast(ERROR);
+        this.triggerToast(ERROR, ADD);
       }
     },
     clearField() {
       this.showAddCard = false;
       this.titleInputError = false;
       this.titleErrorMsg = '';
-      this.taskDescription = '';
+      this.taskDescription = ' ';
     },
     loadMore() {
       this.showAddCard = false;
@@ -432,6 +472,39 @@ export default {
   .main-div-padding {
     padding: 0px 18px;
     padding-bottom: 20px;
+  }
+}
+
+button:disabled,
+button[disabled] .add-button .save-button {
+  border: 1px solid #999999;
+  background-color: #90919758;
+  color: #666666;
+}
+.anim-card {
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  transform: translate3d(0, 0, 0);
+}
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
   }
 }
 </style>

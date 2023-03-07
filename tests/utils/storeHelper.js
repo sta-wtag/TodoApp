@@ -31,6 +31,7 @@ export const todos = {
     getTotalPage() {},
     getActiveFilterOption() {},
     getIsSearching() {},
+    getShowSearchField() {},
   },
   actions: {
     addTask: jest.fn(),
@@ -46,5 +47,22 @@ export const todos = {
     setSearchText: jest.fn(),
     setActiveFilterOption: jest.fn(),
     setIsSearching: jest.fn(),
+    setTodoList: jest.fn(),
+    setShowSearchField: jest.fn(),
+  },
+};
+
+export const currentlang = {
+  namespaced: true,
+  state: {
+    locals: [],
+    currentLocale: null,
+  },
+  getters: {
+    getCurrentLocale() {},
+    getLocals() {},
+  },
+  actions: {
+    setLocale: jest.fn(),
   },
 };

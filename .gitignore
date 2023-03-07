@@ -55,7 +55,6 @@ typings/
 # Optional eslint cache
 .eslintcache
 
-.DS_Store
 # Microbundle cache
 .rpt2_cache/
 .rts2_cache_cjs/

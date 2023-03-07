@@ -11,18 +11,20 @@
           v-if="showSearchInput"
           ref="searchInputField"
           v-model="searchText"
+          data-testid="searchInputField"
           class="input-search text-search"
           @keyup.prevent="debounced"
         />
-        <div
+        <button
           id="search-icon"
-          class="align-self-center search-icon"
-          @click="setSearch"
+          data-testid="searchButton"
+          class="align-self-center search-icon card-button"
+          @click="setSearch()"
         >
           <SearchIcon />
-        </div>
+        </button>
 
-        <select class="text-button" @change="switchLanguage">
+        <select v-if="locales" class="text-button" @change="switchLanguage">
           <option value="" disabled>{{ $t('SelectLanguage') }}</option>
           <option
             v-for="locale in locales"
@@ -40,9 +42,9 @@
 import { mapGetters } from 'vuex';
 import NavLogo from '@/assets/svg/navLogo.svg';
 import SearchIcon from '@/assets/svg/searchIcon.svg';
-import debounce from '@/helpers/debounce.js';
+import { debounce } from '@/helpers/debounce.js';
 export default {
-  name: 'TheHeader',
+  name: 'Header',
   components: {
     NavLogo,
     SearchIcon,
@@ -56,8 +58,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      locales: 'lang/getLocals',
-      currentLocale: 'lang/getCurrentLocale',
+      locales: 'locals/getLocals',
+      currentLocale: 'locals/getCurrentLocale',
       isSearching: 'todos/getIsSearching',
       showSearchInput: 'todos/getShowSearchField',
     }),
@@ -69,18 +71,21 @@ export default {
       }
     },
   },
-  mounted() {
-    this.$i18n.setLocale(this.currentLocale.code);
+  created() {
+    if (this.currentLocale) {
+      this.$i18n.setLocale(this.currentLocale.code);
+    }
+
     this.debounced = debounce(this.searchTask, 500);
   },
   methods: {
     switchLanguage(event) {
-      this.$store.dispatch('lang/setLocale', event.target.value);
+      this.$store.dispatch('locals/setLocale', event.target.value);
       this.$i18n.setLocale(event.target.value);
     },
     async searchTask() {
       this.$store.dispatch('todos/setIsSearching', true);
-      await this.$store.dispatch('todos/setSearchText', this.searchText); // await used to mimic api call and show
+      await this.$store.dispatch('todos/setSearchText', this.searchText);
       this.$store.dispatch('todos/filterTaskList');
       this.$store.dispatch('todos/setIsSearching', false);
       this.$store.dispatch('todos/resetLimit');
@@ -88,7 +93,6 @@ export default {
     },
     setSearch() {
       this.search = !this.search;
-
       this.$store.dispatch('todos/setShowSearchField', this.search);
 
       if (this.search) {
@@ -120,17 +124,14 @@ select {
   background-color: white;
   color: $button-background;
 }
-
 option {
   position: absolute;
   left: 0;
 }
-
 @media only screen and (min-width: 1200px) {
   .header-padding {
     margin: 15px 150px;
   }
-
   .header-text {
     font-family: Roboto;
     font-size: 36px;
@@ -157,7 +158,6 @@ option {
   .header-padding {
     margin: 15px 150px;
   }
-
   .header-text {
     font-family: Roboto;
     font-size: 36px;
@@ -184,7 +184,6 @@ option {
   .header-padding {
     margin: 15px 80px;
   }
-
   .header-text {
     font-family: Roboto;
     font-size: 36px;
@@ -211,7 +210,6 @@ option {
   .header-padding {
     margin: 15px 60px;
   }
-
   .header-text {
     font-family: Roboto;
     font-size: 36px;
@@ -234,12 +232,10 @@ option {
     margin-right: 14px;
   }
 }
-
 @media only screen and (max-width: 576px) and (min-width: 376px) {
   .header-padding {
     margin: 15px 16px;
   }
-
   .header-text-small {
     font-family: Roboto;
     font-size: 24px;
@@ -266,7 +262,6 @@ option {
   .header-padding {
     margin: 15px 16px;
   }
-
   .header-text-small {
     font-family: Roboto;
     font-size: 24px;

@@ -1,4 +1,4 @@
-const debounce = (func, timeout) => {
+function debounce(func, timeout) {
   let timer;
 
   return () => {
@@ -9,6 +9,6 @@ const debounce = (func, timeout) => {
       timer = undefined;
     }, timeout);
   };
-};
+}
 
-export default debounce;
+export { debounce };

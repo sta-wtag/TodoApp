@@ -8,8 +8,6 @@ import { currentlang, todos } from '@/tests/utils/storeHelper';
 import Header from '@/components/Header';
 import NavLogo from '@/assets/svg/navLogo.svg';
 
-const helper = require('../../helpers/debounce.js');
-// const event = new KeyboardEvent('keyup');
 let store;
 const currentLocale = 'en';
 const i18n = new NuxtI18n({

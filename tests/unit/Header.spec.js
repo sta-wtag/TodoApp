@@ -54,28 +54,6 @@ describe('@/components/Header.vue', () => {
 
     expect(wrapper.findComponent(NavLogo).exists()).toBe(true);
   });
-  //   it('calls search method', async () => {
-  //     const wrapper = await wrapperFactory({
-  //       computed: {
-  //         showSearchInput: () => true,
-  //       },
-  //     });
-
-  //     const debounce = jest.spyOn(helper, 'debounce');
-
-  //     const mock = jest.spyOn(wrapper.vm, 'searchTask');
-
-  //     await wrapper.setData({
-  //       debounced: debounce(mock, 0),
-  //     });
-
-  //     const input = wrapper.find('[data-testid="searchInputField"]');
-
-  //     input.setValue('test');
-  //     await input.trigger('keyup');
-
-  //     expect(mock).toHaveBeenCalled();
-  //   });
 
   it('set search called', async () => {
     const wrapper = await wrapperFactory();

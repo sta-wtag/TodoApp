@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import { uuid } from 'uuidv4';
+import { v4 as uuidv4 } from 'uuid';
 import { LIMIT } from '@/constants.js';
 
 export const todos = {
@@ -16,9 +16,9 @@ export const todos = {
     searchText: '',
     isSearching: false,
     filterOptions: [
-      { id: uuid(), title: 'All', status: false },
-      { id: uuid(), title: 'Incomplete', status: false },
-      { id: uuid(), title: 'Complete', status: false },
+      { id: uuidv4(), title: 'All', status: false },
+      { id: uuidv4(), title: 'Incomplete', status: false },
+      { id: uuidv4(), title: 'Complete', status: false },
     ],
     activeFilterOption: null,
   },
@@ -31,7 +31,9 @@ export const todos = {
     getTotalPage() {},
     getActiveFilterOption() {},
     getIsSearching() {},
-    getShowSearchField() {},
+    getShowSearchField() {
+      return true;
+    },
   },
   actions: {
     addTask: jest.fn(),
@@ -52,11 +54,11 @@ export const todos = {
   },
 };
 
-export const currentlang = {
+export const locales = {
   namespaced: true,
   state: {
     locales: [],
-    currentLocale: null,
+    currentLocale: 'en',
   },
   getters: {
     getCurrentLocale() {},

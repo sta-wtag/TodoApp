@@ -4,7 +4,7 @@ import { Store } from 'vuex';
 import NuxtI18n from 'vue-i18n';
 import localVue from '@/tests/utils/vueInstanceFactory';
 import i18Mock from '@/tests/utils/i18Mock';
-import { currentlang, todos } from '@/tests/utils/storeHelper';
+import { locales, todos } from '@/tests/utils/storeHelper';
 import Header from '@/components/Header';
 import NavLogo from '@/assets/svg/navLogo.svg';
 
@@ -19,7 +19,7 @@ beforeEach(() => {
   store = new Store({
     modules: {
       todos,
-      currentlang,
+      locales,
     },
   });
 });
@@ -37,12 +37,9 @@ function wrapperFactory(componentData) {
 
 describe('@/components/Header.vue', () => {
   it('shows search Input on button click', async () => {
-    const wrapper = await wrapperFactory({
-      computed: {
-        showSearchInput: () => true,
-      },
-    });
+    const wrapper = await wrapperFactory();
 
+    store.commit('setShowSearchField', true);
     expect(wrapper.find('[data-testid="searchInputField"]').exists()).toBe(
       true
     );

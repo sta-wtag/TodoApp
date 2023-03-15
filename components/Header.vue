@@ -57,11 +57,13 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      locales: 'locales/getLocales',
-      currentLocale: 'locales/getCurrentLocale',
-      isSearching: 'todos/getIsSearching',
-      showSearchInput: 'todos/getShowSearchField',
+    ...mapGetters('locales', {
+      locales: 'getLocales',
+      currentLocale: 'getCurrentLocale',
+    }),
+    ...mapGetters('todos', {
+      isSearching: 'getIsSearching',
+      showSearchInput: 'getShowSearchField',
     }),
   },
   watch: {

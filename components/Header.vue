@@ -3,7 +3,7 @@
     <div class="header-padding flex-box space-between">
       <div class="flex-box">
         <NavLogo class="align-self-center" />
-        <span class="header-text header-text-small">Todos</span>
+        <span class="header-text header-text-small">{{ $t('nav.logo') }}</span>
       </div>
 
       <div class="flex-box">
@@ -58,8 +58,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      locales: 'locals/getLocals',
-      currentLocale: 'locals/getCurrentLocale',
+      locales: 'locales/getLocales',
+      currentLocale: 'locales/getCurrentLocale',
       isSearching: 'todos/getIsSearching',
       showSearchInput: 'todos/getShowSearchField',
     }),
@@ -80,7 +80,7 @@ export default {
   },
   methods: {
     switchLanguage(event) {
-      this.$store.dispatch('locals/setLocale', event.target.value);
+      this.$store.dispatch('locales/setLocale', event.target.value);
       this.$i18n.setLocale(event.target.value);
     },
     async searchTask() {

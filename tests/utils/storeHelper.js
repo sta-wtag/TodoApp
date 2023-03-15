@@ -55,12 +55,12 @@ export const todos = {
 export const currentlang = {
   namespaced: true,
   state: {
-    locals: [],
+    locales: [],
     currentLocale: null,
   },
   getters: {
     getCurrentLocale() {},
-    getLocals() {},
+    getLocales() {},
   },
   actions: {
     setLocale: jest.fn(),

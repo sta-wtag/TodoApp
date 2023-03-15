@@ -43,5 +43,6 @@
    "alert.delete.message.error": "টাস্ক মুছে ফেলতে অক্ষম",
    "alert.search.message.error": "টাস্ক অনুসন্ধান করতে অক্ষম",
    "alert.complete.message.error":"টাস্ক সম্পূর্ণ করতে অক্ষম",
-   "NoMatchFound": "কোনো টাস্ক পাওয়া যায়নি"
+   "NoMatchFound": "কোনো টাস্ক পাওয়া যায়নি",
+   "nav.logo": "টোডোস"
 }

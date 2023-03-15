@@ -19,32 +19,39 @@ export default {
       return sanitizedInput;
     },
     toastMessage(type, feature) {
-      if (type === SUCCESS && feature === ADD) {
-        return $nuxt.$t('alert.add.message.success');
-      } else if (type === SUCCESS && feature === EDIT) {
-        return $nuxt.$t('alert.edit.message.success');
-      } else if (type === SUCCESS && feature === DELETE) {
-        return $nuxt.$t('alert.delete.message.success');
-      } else if (type === SUCCESS && feature === SEARCH) {
-        return $nuxt.$t('alert.search.message.success');
-      } else if (type === SUCCESS && feature === COMPLETE) {
-        return $nuxt.$t('alert.complete.message.success');
-      } else {
-        $nuxt.$t('alert.message.success');
+      if (type === SUCCESS) {
+        switch (feature) {
+          case ADD:
+            return $nuxt.$t('alert.add.message.success');
+          case EDIT:
+            return $nuxt.$t('alert.edit.message.success');
+          case DELETE:
+            return $nuxt.$t('alert.delete.message.success');
+          case SEARCH:
+            return $nuxt.$t('alert.search.message.success');
+          case COMPLETE:
+            return $nuxt.$t('alert.complete.message.success');
+          default:
+            $nuxt.$t('alert.message.success');
+        }
       }
 
-      if (type === ERROR && feature === ADD) {
-        return $nuxt.$t('alert.add.message.error');
-      } else if (type === ERROR && feature === EDIT) {
-        return $nuxt.$t('alert.edit.message.error');
-      } else if (type === ERROR && feature === DELETE) {
-        return $nuxt.$t('alert.delete.message.error');
-      } else if (type === ERROR && feature === SEARCH) {
-        return $nuxt.$t('alert.search.message.error');
-      } else if (type === ERROR && feature === COMPLETE) {
-        return $nuxt.$t('alert.complete.message.error');
-      } else {
-        $nuxt.$t('alert.message.error');
+      if (type === ERROR) {
+        switch (feature) {
+          case ADD:
+            return $nuxt.$t('alert.add.message.error');
+
+          case EDIT:
+            return $nuxt.$t('alert.edit.message.error');
+          case DELETE:
+            return $nuxt.$t('alert.delete.message.error');
+          case SEARCH:
+            return $nuxt.$t('alert.search.message.error');
+          case COMPLETE:
+            return $nuxt.$t('alert.complete.message.error');
+          default:
+            $nuxt.$t('alert.message.error');
+        }
       }
     },
     SwalOverlayColor(overlay, textColor) {

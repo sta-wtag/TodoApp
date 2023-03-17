@@ -22,35 +22,34 @@ export default {
       if (type === SUCCESS) {
         switch (feature) {
           case ADD:
-            return $nuxt.$t('alert.add.message.success');
+            return this.$t('alert.add.message.success');
           case EDIT:
-            return $nuxt.$t('alert.edit.message.success');
+            return this.$t('alert.edit.message.success');
           case DELETE:
-            return $nuxt.$t('alert.delete.message.success');
+            return this.$t('alert.delete.message.success');
           case SEARCH:
-            return $nuxt.$t('alert.search.message.success');
+            return this.$t('alert.search.message.success');
           case COMPLETE:
-            return $nuxt.$t('alert.complete.message.success');
+            return this.$t('alert.complete.message.success');
           default:
-            $nuxt.$t('alert.message.success');
+            this.$t('alert.message.success');
         }
       }
 
       if (type === ERROR) {
         switch (feature) {
           case ADD:
-            return $nuxt.$t('alert.add.message.error');
-
+            return this.$t('alert.add.message.error');
           case EDIT:
-            return $nuxt.$t('alert.edit.message.error');
+            return this.$t('alert.edit.message.error');
           case DELETE:
-            return $nuxt.$t('alert.delete.message.error');
+            return this.$t('alert.delete.message.error');
           case SEARCH:
-            return $nuxt.$t('alert.search.message.error');
+            return this.$t('alert.search.message.error');
           case COMPLETE:
-            return $nuxt.$t('alert.complete.message.error');
+            return this.$t('alert.complete.message.error');
           default:
-            $nuxt.$t('alert.message.error');
+            this.$t('alert.message.error');
         }
       }
     },
@@ -68,7 +67,7 @@ export default {
       swal(
         type === SUCCESS
           ? this.toastMessage(type, feature)
-          : $nuxt.$t('alert.message.error'),
+          : this.$t('alert.message.error'),
         {
           buttons: false,
           className: styles,
@@ -80,10 +79,10 @@ export default {
     openModal(taskDescription) {
       this.SwalOverlayColor('greyOverlay', 'black');
       swal(taskDescription, {
-        title: 'Task description',
+        title: this.$t('alert.task.description'),
         className: 'text-modal',
         iconHtml: '<img src="https://picsum.photos/100/100">',
-        showCancelButton: false,
+        buttons: false,
       });
     },
   },

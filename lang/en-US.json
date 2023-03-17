@@ -36,5 +36,6 @@
 "alert.search.message.error": "Unable To search",
 "alert.complete.message.error":"Unable to Complete",
 "NoMatchFound": "No Match Found",
-"nav.logo": "TODOS"
+"nav.logo": "TODOS",
+"alert.task.description" : "Task Description"
 }

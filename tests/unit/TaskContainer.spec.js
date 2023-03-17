@@ -1,6 +1,6 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import { shallowMount } from '@vue/test-utils';
-import Vuex from 'vuex';
+import { Store } from 'vuex';
 import NuxtI18n from 'vue-i18n';
 
 import localVue from '@/tests/utils/vueInstanceFactory.js';
@@ -9,6 +9,8 @@ import { todos } from '@/tests/utils/storeHelper.js';
 import TaskContainer from '@/components/TaskContainer.vue';
 
 const helpers = require('../../helpers/helper.js');
+
+// export mocked function as default module
 
 const mock = jest.fn();
 let store;
@@ -19,7 +21,7 @@ const i18n = new NuxtI18n({
 });
 
 beforeEach(() => {
-  store = new Vuex.Store({
+  store = new Store({
     modules: {
       todos,
     },
@@ -108,7 +110,6 @@ describe('@/components/TaskContainer.vue', () => {
     const submitFormFnMock = jest.spyOn(wrapper.vm, 'submitForm');
 
     await addButton.trigger('submit');
-
     expect(submitFormFnMock).toHaveBeenCalled();
   });
 });

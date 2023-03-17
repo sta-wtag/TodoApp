@@ -2,6 +2,7 @@ import { describe, expect, it } from '@jest/globals';
 import { shallowMount } from '@vue/test-utils';
 import { Store } from 'vuex';
 import NuxtI18n from 'vue-i18n';
+import Swal from '~/tests/mocks/sweetalert';
 import localVue from '@/tests/utils/vueInstanceFactory';
 import i18Mock from '@/tests/utils/i18Mock';
 import { todos } from '@/tests/utils/storeHelper';
@@ -10,7 +11,6 @@ import DeleteIcon from '@/assets/svg/Delete.svg';
 import EditIcon from '@/assets/svg/Edit.svg';
 import TickIcon from '@/assets/svg/Tick.svg';
 import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
-
 let store;
 const currentLocale = 'en';
 const i18n = new NuxtI18n({
@@ -123,13 +123,15 @@ describe('@/components/TaskCard.vue', () => {
     await wrapper.setData({
       task: {
         status: true,
+        description: 'test',
       },
       showEditIcon: true,
     });
     const seeMoreButton = wrapper.find('[data-testid="seeMore"]');
     const spyOnOpenModal = jest.spyOn(wrapper.vm, 'openModal');
 
+    Swal.fire.mockResolvedValue({ value: 'jhdehjwb' });
     seeMoreButton.trigger('click');
-    expect(spyOnOpenModal).toBeCalled();
+    expect(spyOnOpenModal).toHaveBeenCalledWith('test');
   });
 });

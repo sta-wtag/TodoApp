@@ -39,7 +39,8 @@ describe('@/components/Header.vue', () => {
   it('shows search Input on button click', async () => {
     const wrapper = await wrapperFactory();
 
-    store.commit('setShowSearchField', true);
+    store.commit('todos/setShowSearchField', true);
+    await wrapper.vm.$nextTick();
     expect(wrapper.find('[data-testid="searchInputField"]').exists()).toBe(
       true
     );

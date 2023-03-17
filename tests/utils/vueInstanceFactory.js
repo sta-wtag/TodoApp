@@ -4,6 +4,7 @@ import { createLocalVue } from '@vue/test-utils';
 
 const localVue = createLocalVue();
 
+localVue.prototype.$nuxt = {}; // Resolves $nuxt is undefined
 localVue.use(Vuex);
 localVue.use(NuxtI18n);
 

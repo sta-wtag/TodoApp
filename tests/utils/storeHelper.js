@@ -21,6 +21,7 @@ export const todos = {
       { id: uuidv4(), title: 'Complete', status: false },
     ],
     activeFilterOption: null,
+    showSearchField: false,
   },
   getters: {
     getTodoList() {},
@@ -51,6 +52,11 @@ export const todos = {
     setIsSearching: jest.fn(),
     setTodoList: jest.fn(),
     setShowSearchField: jest.fn(),
+  },
+  mutations: {
+    setShowSearchField: (state, val) => {
+      state.showSearchField = val;
+    },
   },
 };
 

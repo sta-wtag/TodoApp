@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import { uuid } from 'uuidv4';
+import { v4 as uuidv4 } from 'uuid';
 import { LIMIT } from '@/constants.js';
 
 export const todos = {
@@ -16,11 +16,12 @@ export const todos = {
     searchText: '',
     isSearching: false,
     filterOptions: [
-      { id: uuid(), title: 'All', status: false },
-      { id: uuid(), title: 'Incomplete', status: false },
-      { id: uuid(), title: 'Complete', status: false },
+      { id: uuidv4(), title: 'All', status: false },
+      { id: uuidv4(), title: 'Incomplete', status: false },
+      { id: uuidv4(), title: 'Complete', status: false },
     ],
     activeFilterOption: null,
+    showSearchField: false,
   },
   getters: {
     getTodoList() {},
@@ -31,6 +32,9 @@ export const todos = {
     getTotalPage() {},
     getActiveFilterOption() {},
     getIsSearching() {},
+    getShowSearchField() {
+      return true;
+    },
   },
   actions: {
     addTask: jest.fn(),
@@ -46,5 +50,27 @@ export const todos = {
     setSearchText: jest.fn(),
     setActiveFilterOption: jest.fn(),
     setIsSearching: jest.fn(),
+    setTodoList: jest.fn(),
+    setShowSearchField: jest.fn(),
+  },
+  mutations: {
+    setShowSearchField: (state, val) => {
+      state.showSearchField = val;
+    },
+  },
+};
+
+export const locales = {
+  namespaced: true,
+  state: {
+    locales: [],
+    currentLocale: 'en',
+  },
+  getters: {
+    getCurrentLocale() {},
+    getLocales() {},
+  },
+  actions: {
+    setLocale: jest.fn(),
   },
 };

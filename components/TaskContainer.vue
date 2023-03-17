@@ -1,23 +1,15 @@
 <template>
-  <div class="flex-box flex-direction-column height-full relative-position">
-    <div v-if="isSearching" class="load-overlay">
-      <div class="spin-icon">
-        <LoadingIcon />
-      </div>
-    </div>
-    <div class="main-div-padding">
+  <div class="height-full flex-box flex-direction-column">
+    <div class="main-div-padding wrapper-div">
       <div class="title-text">{{ $t('PageTitle') }}</div>
       <div class="space-between flex-box home-button">
         <button
           class="create-button text-button flex-box gap-1"
           data-testid="create-button"
-          :disabled="isSearching"
           @click="showAddTodoCard"
         >
-          <PlusIcon class="align-self-center" />
-          <div class="align-self-center">
-            {{ $t('create') }}
-          </div>
+          <PlusIcon class="align-self-center margin-right-1" />
+          <div class="align-self-center">{{ $t('create') }}</div>
         </button>
         <FilterComponent
           :options="filterOptions"
@@ -26,20 +18,29 @@
       </div>
       <div class="list-div grid-template-column">
         <form v-if="showAddCard" @submit.prevent="submitForm">
-          <div class="card padding-4">
+          <div
+            ref="addButton"
+            class="card padding-4"
+            :class="{ 'anim-card': animcard }"
+          >
             <textarea
               id="taskTitle"
               v-model="taskDescription"
               data-testid="taskTitle"
             ></textarea>
-            <label v-if="titleInputError" for="taskTitle">
+            <label
+              v-if="titleErrorMsg"
+              data-testid="task-error-message"
+              class="inputError"
+              for="taskTitle"
+            >
               {{ $t('validation.todo.title.required') }}
             </label>
             <div class="flex-box margin-top-3">
               <button class="add-button" data-testid="add-button" type="submit">
                 {{ $t('AddTask') }}
               </button>
-              <div class="align-self-center" @click="clearField()">
+              <div class="align-self-center" @click="clearField">
                 <DeleteIcon />
               </div>
             </div>
@@ -68,7 +69,7 @@
     </div>
     <div
       v-if="hasNoTask"
-      class="flex-grow-1 flex-box flex-direction-column center-item"
+      class="flex-grow-1 flex-box flex-direction-column center-item no-task"
     >
       <div class="">
         <div class="center-item">
@@ -80,7 +81,7 @@
       </div>
     </div>
     <div
-      v-if="hasNoFilteredTask"
+      v-if="hasNoFilteredTask && searchText === ''"
       class="flex-grow-1 flex-box flex-direction-column center-item"
     >
       <div class="">
@@ -95,26 +96,39 @@
         </div>
       </div>
     </div>
+    <div
+      v-if="searchText !== '' && hasNoFilteredTask"
+      class="flex-grow-1 flex-box flex-direction-column center-item"
+    >
+      <div class="">
+        <div class="center-item">
+          <NoTaskLogo />
+        </div>
+        <div class="info-text margin-top-8 text-center">
+          {{ $t('NoMatchFound') }}
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import { mapGetters, mapState } from 'vuex';
-import { LIMIT, SUCCESS, ERROR } from '@/constants';
-import FilterComponent from '@/components/buttons/FilterComponent.vue';
-import DeleteIcon from '@/components/buttons/DeleteIcon.vue';
-import PlusIcon from '@/assets/svg/plusIcon.svg';
 import NoTaskLogo from '@/assets/svg/noTask.svg';
-import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
 import global from '@/mixins/global';
+import DeleteIcon from '@/components/buttons/DeleteIcon.vue';
+import FilterComponent from '@/components/buttons/FilterComponent.vue';
+import PlusIcon from '@/assets/svg/plusIcon.svg';
+import { SUCCESS, ERROR, ADD } from '@/constants.js';
+
+import { checkForm } from '@/helpers/helper';
 
 export default {
-  name: 'IndexPage',
+  name: 'TaskContainer',
   components: {
     DeleteIcon,
     FilterComponent,
     NoTaskLogo,
     PlusIcon,
-    LoadingIcon,
   },
   mixins: [global],
   data: () => ({
@@ -124,7 +138,11 @@ export default {
     taskDescription: '',
     noCompletedTask: false,
     noIncompleteTask: false,
+    loading: false,
+    animcard: false,
+    count: 0,
   }),
+
   computed: {
     ...mapGetters('todos', {
       todoList: 'getListPerPage',
@@ -138,6 +156,7 @@ export default {
       perPage: 'perPage',
       page: 'page',
       isSearching: 'isSearching',
+      searchText: 'searchText',
     }),
     hasNoTask() {
       return (
@@ -158,17 +177,11 @@ export default {
     noTaskMessage() {
       return this.$t('NoTask');
     },
-
     loadMoreTask() {
       return !this.hasNoTask && this.page < this.totalPage;
     },
     showLessTask() {
-      return (
-        !this.hasNoTask &&
-        this.page >= this.totalPage &&
-        this.page !== 1 &&
-        this.todoList.length > LIMIT
-      );
+      return !this.hasNoTask && this.page === this.totalPage && this.page !== 1;
     },
   },
   watch: {
@@ -181,9 +194,16 @@ export default {
         this.noCompletedTask = false;
       }
     },
+    taskDescription(value) {
+      if (value.length > 0) {
+        this.titleErrorMsg = false;
+      } else {
+        this.titleErrorMsg = true;
+      }
+    },
   },
   mounted() {
-    this.$store.dispatch('todos/setTotalPage');
+    this.loading = true;
 
     if (this.filterOptions && this.filterOptions.length > 0) {
       this.$store.dispatch(
@@ -192,44 +212,69 @@ export default {
       );
     }
 
+    this.$store.dispatch('todos/setTotalPage');
+
     this.$store.dispatch('todos/filterTaskList');
+    this.loading = false;
   },
   methods: {
     closeAddCard() {
       this.showAddCard = false;
     },
     showAddTodoCard() {
-      this.$store.dispatch('todos/setSearchText', '');
-      this.$store.dispatch('todos/setShowSearchField', false);
-      this.showAddCard = true;
+      if (this.$refs.addButton) {
+        this.$refs.addButton.classList.remove('anim-card');
+      }
+
+      if (!this.showAddCard) {
+        this.$store.dispatch('todos/setSearchText', '');
+        this.$store.dispatch('todos/setShowSearchField', false);
+        this.showAddCard = true;
+      }
+
+      if (this.count === 0) {
+        this.count++;
+      } else {
+        this.animcard = !this.animcard;
+      }
     },
     submitForm(e) {
       e.preventDefault();
       this.taskDescription = this.sanitizeInput(this.taskDescription);
 
-      if (!this.$helper.checkForm(this.taskDescription)) {
+      if (!checkForm(this.taskDescription)) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
-        this.triggerToast(ERROR);
 
         return;
       }
 
-      this.$store.dispatch('todos/setSearchText', '');
-      this.$store.dispatch('todos/setShowSearchField', false);
       this.addTask();
     },
-    addTask() {
-      this.$store.dispatch('todos/addTask', this.taskDescription);
-      this.$store.dispatch('todos/setTotalPage');
-      this.triggerToast(SUCCESS);
-      this.clearField();
+    async addTask() {
+      await this.$store.dispatch('todos/setSearchText', '');
+      this.$store.dispatch('todos/setShowSearchField', false);
+      const response = await this.$store.dispatch(
+        'todos/addTask',
+        this.taskDescription
+      );
+
+      if (response.success) {
+        await this.$store.dispatch('todos/setTodoList');
+        this.$store.dispatch('todos/setTotalPage');
+
+        this.triggerToast(SUCCESS, ADD);
+        this.clearField();
+        this.count = 0;
+      } else {
+        this.triggerToast(ERROR, ADD);
+      }
     },
     clearField() {
       this.showAddCard = false;
       this.titleInputError = false;
       this.titleErrorMsg = '';
-      this.taskDescription = '';
+      this.taskDescription = ' ';
     },
     loadMore() {
       this.showAddCard = false;
@@ -348,7 +393,7 @@ export default {
 }
 @media only screen and (max-width: 767px) and (min-width: 577px) {
   .grid-template-column {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(1, minmax(0, 1fr));
     row-gap: 14px;
     column-gap: 24px;
   }
@@ -427,6 +472,39 @@ export default {
   .main-div-padding {
     padding: 0px 18px;
     padding-bottom: 20px;
+  }
+}
+
+button:disabled,
+button[disabled] .add-button .save-button {
+  border: 1px solid #999999;
+  background-color: #90919758;
+  color: #666666;
+}
+.anim-card {
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  transform: translate3d(0, 0, 0);
+}
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
   }
 }
 </style>

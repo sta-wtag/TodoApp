@@ -259,7 +259,7 @@ export default {
         this.taskDescription
       );
 
-      if (response.success) {
+      if (response?.success) {
         await this.$store.dispatch('todos/setTodoList');
         this.$store.dispatch('todos/setTotalPage');
 

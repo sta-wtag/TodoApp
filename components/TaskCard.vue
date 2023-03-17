@@ -174,7 +174,7 @@ export default {
         this.task
       );
 
-      if (response.success) {
+      if (response?.success) {
         this.task = response.data ? response.data : this.task;
         this.$store.dispatch('todos/setTodoList');
 
@@ -198,7 +198,7 @@ export default {
         this.task
       );
 
-      if (response.success) {
+      if (response?.success) {
         await this.$store.dispatch('todos/setTodoList');
         this.$store.dispatch('todos/setTotalPage');
         this.triggerToast(SUCCESS, DELETE);
@@ -230,7 +230,7 @@ export default {
 
       const response = await this.$store.dispatch('todos/editTask', val);
 
-      if (response.success) {
+      if (response?.success) {
         this.task = response.data ? response.data : this.task;
         await this.$store.dispatch('todos/setTodoList');
         this.$store.dispatch('todos/setTotalPage');

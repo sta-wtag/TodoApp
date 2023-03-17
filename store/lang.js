@@ -1,5 +1,5 @@
 export const state = () => ({
-  locales: [
+  locals: [
     { code: 'en', name: 'English' },
     { code: 'bn', name: 'বাংলা' },
   ],
@@ -10,8 +10,8 @@ export const getters = {
   getCurrentLocale: (state) => {
     return state.currentLocale;
   },
-  getLocales: (state) => {
-    return state.locales;
+  getLocals: (state) => {
+    return state.locals;
   },
 };
 

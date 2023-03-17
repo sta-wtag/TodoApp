@@ -1,7 +1,9 @@
 <template>
   <div class="relative-position">
-    <div v-if="loading" class="load-overlay flex-box">
-      <LoadingIcon class="spin-icon align-self-center" />
+    <div v-if="loading" class="load-overlay">
+      <div class="spin-icon">
+        <LoadingIcon />
+      </div>
     </div>
     <form @submit.prevent="submitForm">
       <div class="card padding-4 align-content-space-between">
@@ -9,14 +11,13 @@
           <div v-if="showEditIcon && task !== null" class="description-height">
             <div
               class="text-description text-truncate text-width-max"
-              :class="{ 'text-done': task.status }"
+              :class="{ 'text-done': task.done }"
             >
               <div ref="taskDescription">{{ task.description }}</div>
             </div>
             <div
               v-show="seeMore"
               id="seeMore"
-              data-testid="seeMore"
               class="see-more text-small margin-top-2"
               @click="openModal(task.description)"
             >
@@ -30,7 +31,7 @@
               v-model="taskDescription"
               class="width-full"
             ></textarea>
-            <label v-if="titleInputError" for="title" class="inputError">
+            <label v-if="titleInputError" for="title">
               {{ $t('validation.todo.title.required') }}
             </label>
           </div>
@@ -41,9 +42,8 @@
         </div>
         <div class="space-between flex-box width-full">
           <div class="flex-gap-8 text-button">
-            <div v-if="task !== null && !task.status" class="flex-gap-8">
+            <div v-if="task && !task.done" class="flex-gap-8">
               <button
-                ref="first"
                 value="update"
                 class="card-button"
                 @click.prevent="markDone"
@@ -71,11 +71,7 @@
               <DeleteIcon />
             </button>
           </div>
-          <div
-            v-if="task !== null && task.status"
-            class="chip text-small"
-            data-testid="duration"
-          >
+          <div v-if="task && task.done" class="chip text-small">
             {{ duration }}
           </div>
         </div>
@@ -85,14 +81,15 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import { SUCCESS, ERROR, EDIT, DELETE, COMPLETE } from '@/constants';
+import { SUCCESS, ERROR } from '@/constants';
 import DeleteIcon from '@/assets/svg/Delete.svg';
+import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
 import EditIcon from '@/assets/svg/Edit.svg';
 import TickIcon from '@/assets/svg/Tick.svg';
 import global from '@/mixins/global';
-import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
-import { getDuration, formatDate, checkForm } from '@/helpers/helper';
+
 export default {
+  name: 'TaskCard',
   components: { LoadingIcon, EditIcon, TickIcon, DeleteIcon },
   mixins: [global],
   props: {
@@ -112,18 +109,23 @@ export default {
   }),
   computed: {
     ...mapGetters({ requestInProcess: 'todos/getCompleteRequest' }),
-    formatDate() {
-      if (!this.task?.created_at) return;
 
-      return this.$t('CreatedAt') + ':  ' + formatDate(this.task.created_at);
-    },
-    duration() {
-      if (!this.task?.completed_at) return;
+    formatDate() {
+      if (!this.task?.createdAt) return;
 
       return (
-        this.$t('CompletedIn') +
+        this.$t('CreatedAt') +
+        ':  ' +
+        this.$helper.formatDate(this.task.createdAt)
+      );
+    },
+    duration() {
+      if (!this.task?.completedAt) return;
+
+      return (
+        this.$t('Completed') +
         '   ' +
-        getDuration(this.task.created_at, this.task.completed_at)
+        this.$helper.getDuration(this.task.createdAt, this.task.completedAt)
       );
     },
     seeMore() {
@@ -139,15 +141,7 @@ export default {
       return false;
     },
   },
-  watch: {
-    taskDescription(value) {
-      if (value.length > 0) {
-        this.titleInputError = false;
-      } else {
-        this.titleInputError = true;
-      }
-    },
-  },
+
   created() {
     this.task = this.cardData;
     this.taskDescription = this.task ? this.task.description : '';
@@ -169,21 +163,12 @@ export default {
       }
 
       this.loading = true; // loading state set to true
-      const response = await this.$store.dispatch(
-        'todos/changeTaskState',
-        this.task
-      );
+      await this.$store.dispatch('todos/changeTaskState', this.task);
 
-      if (response.success) {
-        this.task = response.data ? response.data : this.task;
-        this.$store.dispatch('todos/setTodoList');
-
-        this.triggerToast(SUCCESS, COMPLETE);
-      } else {
-        this.triggerToast(ERROR, COMPLETE);
-      }
+      if (this.requestInProcess) return;
 
       this.loading = false;
+      this.triggerToast(SUCCESS);
     },
     async deleteTask() {
       if (!this.showEditIcon) {
@@ -193,28 +178,21 @@ export default {
       }
 
       this.loading = true;
-      const response = await this.$store.dispatch(
-        'todos/deleteTask',
-        this.task
-      );
+      await this.$store.dispatch('todos/deleteTask', this.task);
 
-      if (response.success) {
-        await this.$store.dispatch('todos/setTodoList');
-        this.$store.dispatch('todos/setTotalPage');
-        this.triggerToast(SUCCESS, DELETE);
-      } else {
-        this.triggerToast(ERROR, DELETE);
-      }
+      if (this.requestInProcess) return;
 
       this.loading = false;
+      this.triggerToast(SUCCESS);
     },
     submitForm(e) {
       e.preventDefault();
       this.taskDescription = this.sanitizeInput(this.taskDescription);
 
-      if (!checkForm(this.taskDescription)) {
+      if (!this.$helper.checkForm(this.taskDescription)) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
+        this.triggerToast(ERROR);
 
         return;
       }
@@ -228,22 +206,15 @@ export default {
         id: this.task.id,
       };
 
-      const response = await this.$store.dispatch('todos/editTask', val);
+      await this.$store.dispatch('todos/editTask', val);
+      this.titleInputError = false;
+      this.titleErrorMsg = '';
 
-      if (response.success) {
-        this.task = response.data ? response.data : this.task;
-        await this.$store.dispatch('todos/setTodoList');
-        this.$store.dispatch('todos/setTotalPage');
-        this.titleInputError = false;
-        this.titleErrorMsg = '';
+      if (this.requestInProcess) return;
 
-        this.showEditIcon = true;
-        this.triggerToast(SUCCESS, EDIT);
-      } else {
-        this.triggerToast(ERROR, EDIT);
-      }
-
+      this.showEditIcon = true;
       this.loading = false;
+      this.triggerToast(SUCCESS);
     },
   },
 };
@@ -258,7 +229,6 @@ export default {
   right: 0px;
   bottom: 0px;
   background-color: rgba(255, 255, 255, 0.3);
-
   display: flex;
   align-items: center;
   z-index: 1;
@@ -274,7 +244,7 @@ export default {
 .spin-icon {
   margin: auto;
   animation-name: spin;
-  animation-duration: 1000ms;
+  animation-duration: 700ms;
   animation-iteration-count: infinite;
 }
 .flex-gap-8 {
@@ -288,6 +258,7 @@ export default {
   padding: 0;
   cursor: pointer;
 }
+
 .width-full {
   width: 100%;
 }

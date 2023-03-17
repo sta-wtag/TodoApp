@@ -15,7 +15,7 @@
   "min": "ন্যূনতম",
   "max": "সর্বোচ্চ",
   "CreatedAt": "তৈরীর তারিখ",
-  "CompletedIn": "সম্পন্ন হতে সময় লেগেছে",
+  "Completed": "সম্পন্ন হতে সময় লেগেছে",
   "characters": "অক্ষর",
   "not-found": "কোন {item} পাওয়া যায়নি",
   "load-more": "আরও লোড করুন",
@@ -30,20 +30,5 @@
   },
   "alert.message.success": "পরিবর্তন সফলভাবে সংরক্ষিত হয়েছে",
   "alert.message.error": "কিছু ভুল হয়েছে !",
-
-  "btn.seeMore": "আরো দেখুন",
-  "alert.add.message.success": "টাস্ক সফলভাবে যোগ করা হয়েছে",
-   "alert.edit.message.success": "টাস্ক সফলভাবে সম্পাদিত",
-   "alert.delete.message.success": "টাস্ক সফলভাবে মুছে ফেলা হয়েছে",
-   "alert.search.message.success":"টাস্ক অনুসন্ধান ফলাফল পাওয়া গেছে",
-   "alert.complete.message.success":"টাস্ক সম্পূর্ণ হয়েছে",
-
-   "alert.add.message.error": "টাস্ক যোগ করতে অক্ষম",
-   "alert.edit.message.error": "টাস্ক সম্পাদনা করতে অক্ষম",
-   "alert.delete.message.error": "টাস্ক মুছে ফেলতে অক্ষম",
-   "alert.search.message.error": "টাস্ক অনুসন্ধান করতে অক্ষম",
-   "alert.complete.message.error":"টাস্ক সম্পূর্ণ করতে অক্ষম",
-   "NoMatchFound": "কোনো টাস্ক পাওয়া যায়নি",
-   "nav.logo": "টোডোস",
-   "alert.task.description" : "কার্য বিবরণী"
+  "btn.seeMore": "আরো দেখুন"
 }

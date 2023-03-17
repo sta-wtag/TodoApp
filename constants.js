@@ -9,12 +9,7 @@ export const PER_PAGE = 9;
 
 export const SUCCESS = 'SUCCESS';
 export const ERROR = 'ERROR';
-export const EDIT = 'Edit';
-
-export const ADD = 'Add';
-export const DELETE = 'Delete';
-export const COMPLETE = 'Complete';
-export const SEARCH = 'Search';
+export const EDIT = 'EDIT';
 
 export const SWALCOLORS = {
   transparent: 'rgba(0,0,0,0)',

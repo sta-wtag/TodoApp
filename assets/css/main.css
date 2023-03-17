@@ -23,27 +23,11 @@
 .text-center {
   text-align: center;
 }
+
 .gap-1 {
   gap: 4px;
 }
-::-webkit-scrollbar {
-  width: .5em;
-}
-::-webkit-scrollbar-thumb {
-  background-color: #7a8dfd;
-  border-radius: 5px;
-  outline: none;
-}
-.inputError {
-  font-family: Roboto;
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 14px;
-    letter-spacing: 0em;
-    text-align: left;
-    color: red;
-    margin-top: 4px;
-}
+
 @media only screen and (min-width: 1200px) {
 
   .title-text {
@@ -469,37 +453,27 @@ textarea {
 .relative-position {
   position: relative;
 }
-
-
 .swal-basic {
   position:absolute;
+  height: 55px;
   top:90px;
   left:0px;
   right:0px;
   border-radius: 5px;
 }
-.text-modal .swal-text  {
-  height: 200px;
-  max-height: 200px;
-  overflow-y: scroll;
 
-}
+
 .swal-text:last-child {
-  margin-bottom:15px ;
+  /* margin-bottom:15px ; */
 }
 
 .swal-text:first-child {
   margin-top:15px ;
 }
-.swal-text:first-child {
-  margin-top:15px ;
-}
+/* .swal-overlay {
+  background-color: transparent;
+} */
 
-.swal-title {
-  font-family: Roboto;
-  font-size: 24px;
-  color:#7a8dfd;
-}
 .padding-4 {
   padding: 16px
 }
@@ -555,11 +529,8 @@ textarea {
   margin:0px;
 
 }
-
 .text-modal {
   width: 500px;
-  white-space: pre-wrap;
-  word-break: break-word;
 }
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {

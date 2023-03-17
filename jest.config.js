@@ -4,22 +4,19 @@ module.exports = {
     '^~/(.*)$': '<rootDir>/$1',
     '^vue$': 'vue/dist/vue.common.js',
   },
-  moduleFileExtensions: [
-    'ts', // if using TypeScript
-    'js',
-    'vue',
-    'json',
-  ],
+  moduleFileExtensions: ['js', 'vue', 'json'],
   transform: {
-    // if using TypeScript
     '^.+\\.js$': 'babel-jest',
     '.*\\.(vue)$': 'vue-jest',
+    '.+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$':
+      'jest-transform-stub',
+    '^.+\\.svg$': '<rootDir>/svgTransform.js',
   },
   collectCoverage: true,
   collectCoverageFrom: [
     '<rootDir>/components/**/*.vue',
     '<rootDir>/pages/**/*.vue',
   ],
-  transformIgnorePatterns: ['<rootDir>/node_modulees/vue-i18n'],
+  transformIgnorePatterns: ['node_modules/(?!<nuxt-i18n>)/'],
   testEnvironment: 'jsdom',
 };

@@ -1,7 +1,7 @@
 <template>
   <div class="primary-background wrapper-div1">
     <div v-if="isListLoading">
-      <splach-screen />
+      <SplashScreen data-testid="splashscreen" />
     </div>
     <div v-else class="height-full">
       <Header />

@@ -51,7 +51,7 @@ describe('@/components/Header.vue', () => {
     expect(wrapper.findComponent(NavLogo).exists()).toBe(true);
   });
 
-  it('set search called', async () => {
+  it('Add card is closed on filter button click', async () => {
     const wrapper = await wrapperFactory();
     const mock = jest.spyOn(wrapper.vm, 'setSearch');
     const searchButton = wrapper.find('[data-testid="searchButton"]');

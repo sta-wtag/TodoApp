@@ -22,6 +22,7 @@ export const todos = {
     ],
     activeFilterOption: null,
     showSearchField: false,
+    isListLoading: false,
   },
   getters: {
     getTodoList() {},
@@ -33,6 +34,9 @@ export const todos = {
     getActiveFilterOption() {},
     getIsSearching() {},
     getShowSearchField() {
+      return true;
+    },
+    getIsListLoading() {
       return true;
     },
   },
@@ -52,11 +56,20 @@ export const todos = {
     setIsSearching: jest.fn(),
     setTodoList: jest.fn(),
     setShowSearchField: jest.fn(),
+    resetFilter: jest.fn(),
+    setIsListLoading: jest.fn(),
   },
   mutations: {
     setShowSearchField: (state, val) => {
       state.showSearchField = val;
     },
+    setIsSearching: (state, val) => {
+      state.isSearching = val;
+    },
+    setIsListLoading: (state, val) => {
+      state.isListLoading = val;
+    },
+    resetFilter: (state) => {},
   },
 };
 

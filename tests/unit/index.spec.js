@@ -53,8 +53,6 @@ describe('@/pages/index', () => {
     store.commit('todos/setIsListLoading', false);
     store.commit('todos/setIsSearching', true);
     await wrapper.vm.$nextTick();
-    console.log(wrapper.vm.isListLoading);
-    console.log(wrapper.vm.isSearching);
     expect(wrapper.findComponent('[data-testid="loader"]').exists()).toBe(true);
   });
 
@@ -64,8 +62,6 @@ describe('@/pages/index', () => {
     store.commit('todos/setIsListLoading', false);
     store.commit('todos/setIsSearching', true);
     await wrapper.vm.$nextTick();
-    console.log(wrapper.vm.isListLoading);
-    console.log(wrapper.vm.isSearching);
     expect(wrapper.findComponent('[data-testid="loader"]').exists()).toBe(true);
   });
 

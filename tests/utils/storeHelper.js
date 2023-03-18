@@ -33,11 +33,11 @@ export const todos = {
     getTotalPage() {},
     getActiveFilterOption() {},
     getIsSearching() {},
-    getShowSearchField() {
-      return true;
+    getShowSearchField(state) {
+      return state.showSearchField;
     },
-    getIsListLoading() {
-      return true;
+    getIsListLoading(state) {
+      return state.isListLoading;
     },
   },
   actions: {

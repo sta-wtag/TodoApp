@@ -1,13 +1,16 @@
 <template>
   <div class="primary-background wrapper-div1">
     <div v-if="isListLoading">
-      <SplashScreen data-testid="splashscreen" />
+      <SplashScreen data-testid="splash-screen" />
     </div>
     <div v-else class="height-full">
       <Header />
       <TaskContainer />
       <div v-if="isSearching" class="load-overlay flex-box">
-        <LoadingIconLg class="spin-icon align-self-center" />
+        <LoadingIconLg
+          data-testid="loader"
+          class="spin-icon align-self-center"
+        />
       </div>
     </div>
   </div>

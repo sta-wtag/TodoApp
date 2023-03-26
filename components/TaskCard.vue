@@ -58,9 +58,12 @@ import DeleteIcon from '@/assets/svg/Delete.svg';
 import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
 import EditIcon from '@/assets/svg/Edit.svg';
 import TickIcon from '@/assets/svg/Tick.svg';
+import global from '@/mixins/global';
+
 export default {
   name: 'TaskCard',
   components: { LoadingIcon, EditIcon, TickIcon, DeleteIcon },
+  mixins: [global],
   props: {
     cardData: {
       type: Object,
@@ -111,7 +114,7 @@ export default {
         this.showEditIcon = true;
       }
 
-      this.loading = true;
+      this.loading = true; // loading state set to true
       await this.$store.dispatch('todos/changeTaskState', this.task);
 
       if (this.requestInProcess) return;
@@ -132,10 +135,11 @@ export default {
 
       this.loading = false;
     },
-    checkForm(e) {
+    submitForm(e) {
       e.preventDefault();
+      this.taskDescription = this.sanitizeInput(this.taskDescription);
 
-      if (this.taskDescription.length <= 0) {
+      if (!this.$helper.checkForm(this.taskDescription)) {
         this.titleInputError = true;
         this.titleErrorMsg = 'Field is empty';
 

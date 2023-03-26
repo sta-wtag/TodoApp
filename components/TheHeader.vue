@@ -6,9 +6,21 @@
     </div>
 
     <div class="flex-box">
-      <div id="search-icon">
+      <div
+        id="search-icon"
+        class="align-self-center margin-right-19"
+        @click="setSearch"
+      >
         <SearchIcon />
       </div>
+      <input
+        v-if="showSearchInput"
+        ref="searchInputField"
+        v-model="searchText"
+        class="margin-right-19"
+        @keyup.prevent="debounced"
+      />
+
       <select @change="switchLanguage">
         <option value="" disabled>{{ $t('SelectLanguage') }}</option>
         <option
@@ -26,6 +38,7 @@
 import { mapGetters } from 'vuex';
 import NavLogo from '@/assets/svg/navLogo.svg';
 import SearchIcon from '@/assets/svg/searchIcon.svg';
+import debounce from '@/helpers/debounce.js';
 export default {
   name: 'TheHeader',
   components: {
@@ -34,22 +47,57 @@ export default {
   },
   data() {
     return {
-      searchTask: '',
+      search: false,
+      searchText: '',
+      debounced: null,
     };
   },
   computed: {
     ...mapGetters({
       locales: 'lang/getLocals',
       currentLocale: 'lang/getCurrentLocale',
+      isSearching: 'todos/getIsSearching',
+      showSearchInput: 'todos/getShowSearchField',
     }),
+  },
+  watch: {
+    showSearchInput(val) {
+      if (!val) {
+        this.searchText = '';
+      }
+    },
   },
   mounted() {
     this.$i18n.setLocale(this.currentLocale.code);
+    this.debounced = debounce(this.searchTask, 500);
   },
   methods: {
     switchLanguage(event) {
       this.$store.dispatch('lang/setLocale', event.target.value);
       this.$i18n.setLocale(event.target.value);
+    },
+    async searchTask() {
+      this.$store.dispatch('todos/setIsSearching', true);
+      await this.$store.dispatch('todos/setSearchText', this.searchText); // await used to mimic api call and show
+      this.$store.dispatch('todos/filterTaskList');
+      this.$store.dispatch('todos/setIsSearching', false);
+      this.$store.dispatch('todos/resetLimit');
+      this.$store.dispatch('todos/setTotalPage');
+    },
+    setSearch() {
+      this.search = !this.search;
+
+      this.$store.dispatch('todos/setShowSearchField', this.search);
+
+      if (this.search) {
+        this.$nextTick(() => {
+          // $nextTick allows you to execute code after you have changed some data and Vue.js has updated the virtual DOM based on your data change, but before the browser has rendered that change on the page.
+          // Let's say you changed some data; Vue then updates the vDOM based on that data change (the changes are not yet rendered to the screen by the browser).
+          // If you used nextTick at this point, your callback would get called immediately, and the browser would update the page after that callback finished executing.
+          // If you instead used setTimeout, then the browser would have a chance to update the page, and then your callback would get called.
+          this.$refs.searchInputField.focus();
+        });
+      }
     },
   },
 };

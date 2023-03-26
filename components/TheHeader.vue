@@ -1,36 +1,38 @@
 <template>
   <div class="header">
-    <div class="flex-box">
-      <NavLogo class="align-self-center" />
-      <span class="header-text">Todos</span>
-    </div>
-
-    <div class="flex-box">
-      <input
-        v-if="showSearchInput"
-        ref="searchInputField"
-        v-model="searchText"
-        class="margin-right-19 input-search text-search"
-        @keyup.prevent="debounced"
-      />
-      <div
-        id="search-icon"
-        class="align-self-center margin-right-19"
-        @click="setSearch"
-      >
-        <SearchIcon />
+    <div class="header-padding flex-box space-between">
+      <div class="flex-box">
+        <NavLogo class="align-self-center" />
+        <span class="header-text header-text-small">Todos</span>
       </div>
 
-      <select class="text-button" @change="switchLanguage">
-        <option value="" disabled>{{ $t('SelectLanguage') }}</option>
-        <option
-          v-for="locale in locales"
-          :key="locale.code"
-          :value="locale.code"
+      <div class="flex-box">
+        <input
+          v-if="showSearchInput"
+          ref="searchInputField"
+          v-model="searchText"
+          class="input-search text-search"
+          @keyup.prevent="debounced"
+        />
+        <div
+          id="search-icon"
+          class="align-self-center search-icon"
+          @click="setSearch"
         >
-          {{ locale.name }}
-        </option>
-      </select>
+          <SearchIcon />
+        </div>
+
+        <select class="text-button" @change="switchLanguage">
+          <option value="" disabled>{{ $t('SelectLanguage') }}</option>
+          <option
+            v-for="locale in locales"
+            :key="locale.code"
+            :value="locale.code"
+          >
+            {{ locale.code }}
+          </option>
+        </select>
+      </div>
     </div>
   </div>
 </template>
@@ -103,56 +105,188 @@ export default {
 };
 </script>
 <style lang="scss">
+.header {
+  text-align: center;
+  background-color: white;
+  border-bottom: 1px solid $border-primary;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 1;
+}
 select {
-  padding: 0px 12px;
-  border: 1px solid $border-primary;
-  border-radius: 5px;
+  width: 40px;
+  border: none;
   background-color: white;
   color: $button-background;
 }
 
-.header {
-  text-align: center;
-  display: flex;
-  padding: 15px 150px;
-  background-color: white;
-  justify-content: space-between;
-  border-bottom: 1px solid $border-primary;
+option {
+  position: absolute;
+  left: 0;
 }
-.header-text {
-  font-family: Roboto;
-  font-size: 36px;
-  font-weight: 700;
-  line-height: 42.19px;
-  letter-spacing: 0em;
-  text-align: left;
-  color: $primary-text;
-  margin-left: 14px;
+
+@media only screen and (min-width: 1200px) {
+  .header-padding {
+    margin: 15px 150px;
+  }
+
+  .header-text {
+    font-family: Roboto;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 42.19px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: $primary-text;
+    margin-left: 14px;
+  }
+  .input-search {
+    width: 518px;
+    height: 36px;
+    padding: 0px 12px;
+    border: 3px solid #d1d8ff;
+    border-radius: 5px;
+    margin-right: 20px;
+  }
+  .search-icon {
+    margin-right: 20px;
+  }
 }
-@keyframes example {
-  0% {
-    right: 0px;
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .header-padding {
+    margin: 15px 150px;
   }
-  25% {
-    right: 100px;
+
+  .header-text {
+    font-family: Roboto;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 42.19px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: $primary-text;
+    margin-left: 14px;
   }
-  50% {
-    right: 200px;
+  .input-search {
+    width: 318px;
+    height: 36px;
+    padding: 0px 12px;
+    border: 3px solid #d1d8ff;
+    border-radius: 5px;
+    margin-right: 20px;
   }
-  100% {
-    right: 500px;
+  .search-icon {
+    margin-right: 20px;
   }
 }
-.search-icon {
-  position: relative;
-  animation-name: example;
-  animation-duration: 1s;
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .header-padding {
+    margin: 15px 80px;
+  }
+
+  .header-text {
+    font-family: Roboto;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 42.19px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: $primary-text;
+    margin-left: 14px;
+  }
+  .input-search {
+    width: 250px;
+    height: 36px;
+    padding: 0px 12px;
+    border: 3px solid #d1d8ff;
+    border-radius: 5px;
+    margin-right: 20px;
+  }
+  .search-icon {
+    margin-right: 20px;
+  }
 }
-.input-search {
-  width: 518px;
-  height: 36px;
-  padding: 0px 12px;
-  border: 3px solid #d1d8ff;
-  border-radius: 5px;
+@media only screen and (max-width: 767px) and (min-width: 577px) {
+  .header-padding {
+    margin: 15px 60px;
+  }
+
+  .header-text {
+    font-family: Roboto;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 42.19px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: $primary-text;
+    margin-left: 14px;
+  }
+  .input-search {
+    width: 120px;
+    height: 36px;
+    padding: 0px 12px;
+    border: 3px solid #d1d8ff;
+    border-radius: 5px;
+    margin-right: 14px;
+  }
+  .search-icon {
+    margin-right: 14px;
+  }
+}
+
+@media only screen and (max-width: 576px) and (min-width: 376px) {
+  .header-padding {
+    margin: 15px 16px;
+  }
+
+  .header-text-small {
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 42.19px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: $primary-text;
+    margin-left: 14px;
+  }
+  .input-search {
+    width: 120px;
+    height: 36px;
+    padding: 0px 12px;
+    border: 3px solid #d1d8ff;
+    border-radius: 5px;
+    margin-right: 14px;
+  }
+  .search-icon {
+    margin-right: 14px;
+  }
+}
+@media only screen and (max-width: 375px) {
+  .header-padding {
+    margin: 15px 16px;
+  }
+
+  .header-text-small {
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 42.19px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: $primary-text;
+    margin-left: 14px;
+  }
+  .input-search {
+    width: 80px;
+    height: 36px;
+    padding: 0px 12px;
+    border: 3px solid #d1d8ff;
+    border-radius: 5px;
+    margin-right: 14px;
+  }
+  .search-icon {
+    margin-right: 14px;
+  }
 }
 </style>

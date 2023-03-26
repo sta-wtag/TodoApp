@@ -27,21 +27,21 @@
           <div class="flex-gap-8 card-button">
             <div v-if="!task.done" class="flex-gap-8">
               <button value="update" @click.prevent="markDone">
-                <img src="@/assets/svg/Tick.svg" />
+                <TickIcon />
               </button>
               <button
                 v-if="showEditIcon"
                 value="edit"
                 @click.prevent="showEditIcon = false"
               >
-                <img src="@/assets/svg/Edit.svg" />
+                <EditIcon />
               </button>
               <button v-else type="submit">
                 {{ $t('Save') }}
               </button>
             </div>
             <button @click.prevent="deleteTask">
-              <img src="@/assets/svg/Delete.svg" />
+              <DeleteIcon />
             </button>
           </div>
           <div v-if="task.done" class="chip text-small">
@@ -54,10 +54,13 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import DeleteIcon from '@/assets/svg/Delete.svg';
 import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
+import EditIcon from '@/assets/svg/Edit.svg';
+import TickIcon from '@/assets/svg/Tick.svg';
 export default {
   name: 'TaskCard',
-  components: { LoadingIcon },
+  components: { LoadingIcon, EditIcon, TickIcon, DeleteIcon },
   props: {
     cardData: {
       type: Object,

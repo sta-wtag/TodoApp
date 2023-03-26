@@ -1,13 +1,13 @@
 <template>
   <div class="header">
     <div>
-      <img :src="navLogo" />
+      <NavLogo />
       <span class="header-text">Todos</span>
     </div>
 
     <div class="flex-box">
       <div id="search-icon">
-        <img :src="seachIcon" />
+        <SearchIcon />
       </div>
       <select @change="switchLanguage">
         <option value="" disabled>{{ $t('SelectLanguage') }}</option>
@@ -24,15 +24,17 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import navLogo from '@/assets/svg/navLogo.svg';
-import seachIcon from '@/assets/svg/searchIcon.svg';
+import NavLogo from '@/assets/svg/navLogo.svg';
+import SearchIcon from '@/assets/svg/searchIcon.svg';
 export default {
   name: 'TheHeader',
+  components: {
+    NavLogo,
+    SearchIcon,
+  },
   data() {
     return {
       searchTask: '',
-      navLogo,
-      seachIcon,
     };
   },
   computed: {
@@ -41,7 +43,9 @@ export default {
       currentLocale: 'lang/getCurrentLocale',
     }),
   },
-  mounted() {},
+  mounted() {
+    this.$i18n.setLocale(this.currentLocale.code);
+  },
   methods: {
     switchLanguage(event) {
       this.$store.dispatch('lang/setLocale', event.target.value);
@@ -65,7 +69,7 @@ export default {
   line-height: 42px;
   letter-spacing: 0em;
   text-align: left;
-  color: $primaryText;
+  color: $primary-text;
   margin-left: 14px;
 }
 @keyframes example {

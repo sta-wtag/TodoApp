@@ -24,14 +24,22 @@
           </div>
         </div>
       </form>
-      <div v-for="(task, index) in todoList" :key="index">
+      <div v-for="task in todoList" :key="task.id">
         <TaskCard :card-data="task" />
       </div>
     </div>
-    <div v-if="hasTask" class="wrapper">
+    <div class="center-item">
+      <button v-if="loadMoreTask" class="load-button" @click="loadMore">
+        {{ $t('load-more') }}
+      </button>
+      <button v-if="showLessTask" class="load-button" @click="showLess">
+        {{ $t('show-less') }}
+      </button>
+    </div>
+    <div v-if="hasNoTask" class="wrapper">
       <div class="content">
         <div class="center-item">
-          <img :src="noTaskLogo" />
+          <NoTaskLogo />
         </div>
         <div class="info-text margin-top-32">
           {{ $t('NoTask') }}
@@ -41,27 +49,40 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import FilterComponent from '@/components/buttons/FilterComponent.vue';
 import DeleteIcon from '@/components/buttons/DeleteIcon.vue';
-import noTaskLogo from '@/assets/svg/noTask.svg';
+import NoTaskLogo from '@/assets/svg/noTask.svg';
 export default {
   name: 'IndexPage',
-  components: { DeleteIcon, FilterComponent },
+  components: { DeleteIcon, FilterComponent, NoTaskLogo },
   data: () => ({
     titleInputError: false,
     titleErrorMsg: '',
     showAddCard: false,
-    noTaskLogo,
     taskDescription: '',
   }),
   computed: {
     ...mapGetters('todos', {
-      todoList: 'getTodoList',
+      todoList: 'getListPerPage',
+      totalPage: 'getTotalPage',
     }),
-    hasTask() {
+    ...mapState('todos', {
+      perPage: 'perPage',
+      page: 'page',
+    }),
+    hasNoTask() {
       return this.todoList && this.todoList.length <= 0;
     },
+    loadMoreTask() {
+      return !this.hasNoTask && this.page < this.totalPage;
+    },
+    showLessTask() {
+      return !this.hasNoTask && this.page >= this.totalPage && this.page !== 1;
+    },
+  },
+  mounted() {
+    this.$store.dispatch('todos/setTotalPage');
   },
   methods: {
     showAddTodoCard() {
@@ -81,6 +102,7 @@ export default {
     },
     addTask() {
       this.$store.dispatch('todos/addTask', this.taskDescription);
+      this.$store.dispatch('todos/setTotalPage');
       this.clearField();
     },
     clearField() {
@@ -88,6 +110,12 @@ export default {
       this.titleInputError = false;
       this.titleErrorMsg = '';
       this.taskDescription = '';
+    },
+    loadMore() {
+      this.$store.dispatch('todos/increaseLimit');
+    },
+    showLess() {
+      this.$store.dispatch('todos/resetLimit');
     },
   },
 };
@@ -128,5 +156,16 @@ body {
 .content {
   margin: auto;
   width: 500px;
+}
+
+.load-button {
+  background: $button-background;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 9px 20px;
+  font: inherit;
+  cursor: pointer;
+  margin: 57px 0px;
 }
 </style>

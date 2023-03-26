@@ -31,7 +31,15 @@
   letter-spacing: 0em;
   text-align: left;
 }
+.text-search {
+  font-family: Roboto;
+font-size: 16px;
+font-weight: 500;
+line-height: 19px;
+letter-spacing: 0em;
+text-align: left;
 
+}
 .text-caption {
   font-family: Roboto;
   font-size: 14px;
@@ -62,11 +70,13 @@
 }
 
 .card {
-  width: 100%;
   padding: 16px;
   border-radius: 5px;
   border: 1px solid #dde2ff;
   background-color: white;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
   z-index: -1
 }
 
@@ -79,7 +89,9 @@
   padding-top:5px;
   text-align: center;
 }
-
+.width-full {
+  width: 100%
+}
 .flex-box {
   display: flex;
 }
@@ -91,7 +103,9 @@
 .align-self-center {
   align-self: center;
 }
-
+.align-content-space-between {
+ align-content: space-between
+}
 textarea {
   width: 100%;
   border: 3px solid #d1d8ff;
@@ -102,7 +116,7 @@ textarea {
   font-family: Roboto;
   font-size: 12px;
   font-weight: 700;
-  line-height: 12px;
+  line-height: 14.06px;
   letter-spacing: 0em;
   text-align: left;
   color: white;

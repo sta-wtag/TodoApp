@@ -6,24 +6,30 @@
       </div>
     </div>
     <form @submit.prevent="submitForm">
-      <div class="card">
-        <div
-          v-if="showEditIcon && task !== null"
-          class="text-description"
-          :class="{ 'text-done': task.done }"
-        >
-          {{ task.description }}
+      <div class="card align-content-space-between">
+        <div class="margin-bottom-24">
+          <div
+            v-if="showEditIcon && task !== null"
+            class="text-description"
+            :class="{ 'text-done': task.done }"
+          >
+            {{ task.description }}
+          </div>
+          <div v-else>
+            <textarea
+              id="title"
+              v-model="taskDescription"
+              class="text-area"
+            ></textarea>
+            <label v-if="titleInputError" for="title">
+              {{ $t('validation.todo.title.required') }}
+            </label>
+          </div>
+          <div class="text-caption margin-top-9">
+            {{ formatDate }}
+          </div>
         </div>
-        <div v-else>
-          <textarea id="title" v-model="taskDescription"></textarea>
-          <label v-if="titleInputError" for="title">
-            {{ $t('validation.todo.title.required') }}
-          </label>
-        </div>
-        <div class="text-caption margin-top-9 margin-bottom-24">
-          {{ formatDate }}
-        </div>
-        <div class="space-between flex-box">
+        <div class="space-between flex-box width-full">
           <div class="flex-gap-8 card-button text-button">
             <div v-if="!task?.done" class="flex-gap-8">
               <button value="update" @click.prevent="markDone">
@@ -60,7 +66,6 @@ import LoadingIcon from '@/components/buttons/LoadingIcon.vue';
 import EditIcon from '@/assets/svg/Edit.svg';
 import TickIcon from '@/assets/svg/Tick.svg';
 import global from '@/mixins/global';
-
 
 export default {
   name: 'TaskCard',
@@ -178,6 +183,9 @@ export default {
 };
 </script>
 <style lang="scss">
+textarea {
+  height: 80px;
+}
 .load-overlay {
   width: 100%;
   height: 100%;
@@ -206,7 +214,7 @@ export default {
 }
 .flex-gap-8 {
   display: flex;
-  gap: 8px;
+  gap: 26px;
 }
 .card-button button {
   background: none;

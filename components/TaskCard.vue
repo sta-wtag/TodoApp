@@ -5,32 +5,51 @@
         <LoadingIcon />
       </div>
     </div>
-    <div class="card">
-      <div class="text-description" :class="{ 'text-done': task.done }">
-        {{ task.description }}
-      </div>
-      <div class="text-caption margin-top-9 margin-bottom-24">
-        {{ formatDate }}
-      </div>
-      <div class="space-between flex-box">
-        <div class="flex-gap-8 card-button">
-          <div v-if="!task.done" class="flex-gap-8">
-            <button @click="markDone">
-              <img src="@/assets/svg/Tick.svg" />
-            </button>
-            <button>
-              <img src="@/assets/svg/Edit.svg" />
+    <form @submit.prevent="checkForm">
+      <div class="card">
+        <div
+          v-if="showEditIcon"
+          class="text-description"
+          :class="{ 'text-done': task.done }"
+        >
+          {{ task.description }}
+        </div>
+        <div v-else>
+          <textarea id="title" v-model="taskDescription"></textarea>
+          <label v-if="titleInputError" for="title">
+            {{ $t('validation.todo.title.required') }}
+          </label>
+        </div>
+        <div class="text-caption margin-top-9 margin-bottom-24">
+          {{ formatDate }}
+        </div>
+        <div class="space-between flex-box">
+          <div class="flex-gap-8 card-button">
+            <div v-if="!task.done" class="flex-gap-8">
+              <button value="update" @click.prevent="markDone">
+                <img src="@/assets/svg/Tick.svg" />
+              </button>
+              <button
+                v-if="showEditIcon"
+                value="edit"
+                @click.prevent="showEditIcon = false"
+              >
+                <img src="@/assets/svg/Edit.svg" />
+              </button>
+              <button v-else type="submit">
+                {{ $t('Save') }}
+              </button>
+            </div>
+            <button @click.prevent="deleteTask">
+              <img src="@/assets/svg/Delete.svg" />
             </button>
           </div>
-          <button @click="deleteTask">
-            <img src="@/assets/svg/Delete.svg" />
-          </button>
-        </div>
-        <div v-if="task.done" class="chip text-small">
-          {{ duration }}
+          <div v-if="task.done" class="chip text-small">
+            {{ duration }}
+          </div>
         </div>
       </div>
-    </div>
+    </form>
   </div>
 </template>
 <script>
@@ -47,6 +66,10 @@ export default {
   },
   data: () => ({
     task: null,
+    showEditIcon: true,
+    titleInputError: false,
+    taskDescription: '',
+    titleErrorMsg: '',
     loading: false,
   }),
   computed: {
@@ -70,23 +93,69 @@ export default {
 
   created() {
     this.task = this.cardData;
+    this.taskDescription = this.task.description;
   },
   methods: {
     async markDone() {
+      if (this.taskDescription.length <= 0) {
+        this.titleInputError = true;
+
+        return;
+      }
+
+      if (!this.showEditIcon) {
+        await this.editTask();
+        this.showEditIcon = true;
+      }
+
       this.loading = true;
       await this.$store.dispatch('todos/changeTaskState', this.task);
 
-      if (!this.requestInProcess) {
-        this.loading = false;
-      }
+      if (this.requestInProcess) return;
+
+      this.loading = false;
     },
     async deleteTask() {
+      if (!this.showEditIcon) {
+        this.showEditIcon = true;
+
+        return;
+      }
+
       this.loading = true;
       await this.$store.dispatch('todos/deleteTask', this.task);
 
-      if (!this.requestInProcess) {
-        this.loading = false;
+      if (this.requestInProcess) return;
+
+      this.loading = false;
+    },
+    checkForm(e) {
+      e.preventDefault();
+
+      if (this.taskDescription.length <= 0) {
+        this.titleInputError = true;
+        this.titleErrorMsg = 'Field is empty';
+
+        return;
       }
+
+      this.editTask();
+    },
+    async editTask() {
+      this.loading = true;
+      const val = {
+        description: this.taskDescription,
+        id: this.task.id,
+      };
+
+      await this.$store.dispatch('todos/editTask', val);
+      this.titleInputError = false;
+      this.titleErrorMsg = '';
+
+      if (this.requestInProcess) return;
+
+      this.showEditIcon = true;
+      this.loading = false;
     },
   },
 };

@@ -151,3 +151,49 @@ textarea {
 .relative-position {
   position: relative;
 }
+.swal-basic {
+  position:absolute;
+  height: 55px;
+  top:90px;
+  left:0px;
+  right:0px;
+  border-radius: 5px;
+}
+ .success {
+  position:absolute;
+  height: 55px;
+  top:90px;
+  left:0px;
+  right:0px;
+  border-radius: 5px;
+  background-color: #0BC475;
+}
+.error {
+  position:absolute;
+  height: 55px;
+  top:90px;
+  left:0px;
+  right:0px;
+  border-radius: 5px;
+  background-color: #E85F5F;
+}
+.swal-text {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 21px;
+  margin:0px;
+  color:White
+}
+.swal-text:last-child {
+  margin-bottom:15px ;
+}
+
+.swal-text:first-child {
+  margin-top:15px ;
+}
+.swal-overlay {
+  background-color: transparent;
+}
+
